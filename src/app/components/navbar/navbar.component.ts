@@ -8,16 +8,19 @@ import { TranslationsService } from '../../services/translations.service';
 })
 export class NavbarComponent implements OnInit {
   public I18n = {};
+  public images = [
+    {src: "./assets/uk.png", alt: "uk"},
+    {src: "./assets/fi.png", alt: "fi"}
+  ];
+  public image = this.images[0];
 
   // TODO: fix/remove this
   @HostListener('click', ['$event.target']) clickInside(e) {
-    return
-    console.log(e)
-    if (e.tagName != 'A') return
-    Array.from(document.getElementsByTagName('a')).forEach(a => {
-      a.className = ''
+    if (e.className != 'router-link') return
+    Array.from(document.getElementsByClassName('router-link')).forEach(r => {
+      r.className = 'router-link'
     })
-    e.className = 'active';
+    e.className += ' active';
   }
 
   constructor(private translationsService: TranslationsService) { }
@@ -28,14 +31,7 @@ export class NavbarComponent implements OnInit {
 
   toggleLanguage() {
     this.translationsService.toggleLanguage();
-
-    Array.from(document.getElementsByClassName("flag")).forEach((f) => {
-      if (!f.className.split(' ')[1]) {
-        f.className += ' hide';
-      } else {
-        f.className = 'flag';
-      }
-    })
+    this.image = this.image == this.images[0] ? this.images[1] : this.images[0];
   }
 
   toggleNavbar() {

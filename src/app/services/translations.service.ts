@@ -10,7 +10,13 @@ import { BehaviorSubject } from 'rxjs';
 export class TranslationsService {
 
   private data = {};
-  private translation = new BehaviorSubject<any>(this.data);
+  private translation = new BehaviorSubject<any>({
+    home: "ETUSIVU",
+    cv: "CV",
+    gallery: "GALLERIA",
+    contact: "YHTEYSTIEDOT",
+    phone: "PUHELINNUMERO"
+    });
   cast = this.translation.asObservable();
 
   public url = "http://localhost:4201";
@@ -21,18 +27,18 @@ export class TranslationsService {
   constructor(private http: HttpClient) {
     this.data = {
     fi: {
-      home: "Etusivu",
+      home: "ETUSIVU",
       cv: "CV",
-      gallery: "Galleria",
-      contact: "Yhteystiedot",
-      phone: "Puhelinnumero"
+      gallery: "GALLERIA",
+      contact: "YHTEYSTIEDOT",
+      phone: "PUHELINNUMERO"
       },
     en: {
-      home: "Home",
+      home: "HOME",
       cv: "CV",
-      gallery: "Gallery",
-      contact: "Contact",
-      phone: "Phone number"
+      gallery: "GALLERY",
+      contact: "CONTACT",
+      phone: "PHONE NUMBER"
       }
     }
   }
