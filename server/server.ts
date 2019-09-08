@@ -19,22 +19,7 @@ app.use("/", (req, res, next) => {
 })
 
 app.get("/", (req, res, next) => {
-  res.send(
-    {
-    fi: {
-      home: "Etusivu",
-      cv: "CV",
-      gallery: "Galleria",
-      contact: "Yhteystiedot"
-      },
-    en: {
-      home: "Home",
-      cv: "CV",
-      gallery: "Gallery",
-      contact: "Contact"
-      }
-    }
-  );
+  res.redirect("/home")
 })
 
 app.listen(4201, "127.0.0.1", function() {

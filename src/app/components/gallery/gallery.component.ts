@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslationsService } from '../../services/translations.service';
 
 @Component({
   selector: 'app-gallery',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GalleryComponent implements OnInit {
 
-  constructor() { }
+  public I18n = {};
+
+  constructor(private translationsService: TranslationsService) { }
 
   ngOnInit() {
+    this.translationsService.cast.subscribe(r => this.I18n = r);
   }
 
 }

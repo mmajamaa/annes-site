@@ -1,48 +1,19 @@
-import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component } from "@angular/core";
+import { TranslationsService } from './services/translations.service';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.css"]
 })
 export class AppComponent {
-  title = 'anne';
-  public url = 'http://localhost:4201';
-  public textContent = {};
-  public language = 'fi';
-  public show = {};
+  title = "anne";
 
-  constructor(private http: HttpClient) {}
+  public I18n = {};
+
+  constructor(private translationsService: TranslationsService) { }
 
   ngOnInit() {
-    this.http.get<any[]>(this.url).subscribe(res => {
-      console.log(res)
-      this.textContent = res;
-      this.show = res['fi'];
-    });
-  }
-
-  myFunction() {
-    var x = document.getElementById("myTopnav");
-    if (x.className === "topnav") {
-      x.className += " responsive";
-    } else {
-      x.className = "topnav";
-    }
-  }
-
-  toggleLanguage() {
-    this.language = this.language == 'fi' ? 'en' : 'fi';
-    this.show = this.textContent[this.language];
-    Array.from(document.getElementsByClassName("flag")).forEach((f) => {
-      if (!f.className.split(' ')[1]) {
-        f.className += ' hide';
-      } else {
-        f.className = 'flag';
-      }
-      console.log(f.className)
-    })
-
+    this.translationsService.cast.subscribe(r => this.I18n = r);
   }
 }

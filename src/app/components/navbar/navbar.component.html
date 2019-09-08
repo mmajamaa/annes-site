@@ -1,0 +1,11 @@
+<div class="topnav" id="myTopnav">
+    <a routerLink="/home">{{I18n.home}}</a>
+    <a routerLink="/cv">{{I18n.cv}}</a>
+    <a routerLink="/gallery">{{I18n.gallery}}</a>
+    <a routerLink="/contact">{{I18n.contact}}</a>
+    <a><img src="./assets/uk.png" alt="fi" (click)="toggleLanguage()" class="flag"></a>
+    <a><img src="./assets/fi.png" alt="fi" (click)="toggleLanguage()" class="flag hide"></a>
+    <a href="javascript:void(0);" class="icon" (click)="toggleNavbar()">
+      <i class="fa fa-bars"></i>
+    </a>
+</div>
