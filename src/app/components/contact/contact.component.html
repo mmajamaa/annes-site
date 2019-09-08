@@ -1,2 +1,27 @@
-<p>contact works!</p>
-<!-- <div>{{I18n.phone}}</div> -->
+<div class="contact-wrapper">
+<br>
+
+<h1>{{I18n.contact}}</h1>
+
+<br>
+
+<p>{{I18n.phone}}</p>
+<div class="phone">
+  <p class="contact-info">123123</p>
+</div>
+<br>
+
+<p>{{I18n.email}}</p>
+<div class="clickable" (click)="mail()">
+  <i class="fa fa-envelope"></i>
+  <p class="contact-info">&nbsp;anne@jotain.fi</p>
+</div>
+
+<br>
+
+<p>{{I18n.some}}</p>
+<div class="clickable" (click)="openIg()">
+  <i class="fa fa-instagram"></i>
+  <p class="contact-info">&nbsp;Instagram</p>
+</div>
+</div>

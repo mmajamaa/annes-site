@@ -3,11 +3,11 @@ import { TranslationsService } from '../../services/translations.service';
 import { RedirectService } from '../../services/redirect.service';
 
 @Component({
-  selector: 'app-contact',
-  templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.css']
+  selector: 'app-footer',
+  templateUrl: './footer.component.html',
+  styleUrls: ['./footer.component.css']
 })
-export class ContactComponent implements OnInit {
+export class FooterComponent implements OnInit {
 
   public I18n = {};
 
@@ -17,11 +17,11 @@ export class ContactComponent implements OnInit {
     this.translationsService.cast.subscribe(r => this.I18n = r);
   }
 
-  openIg() {
-    this.redirectService.openIg();
+  redirect() {
+    this.redirectService.redirect();
   }
 
-  mail() {
-    window.location.href = 'mailto:anne';
+  openIg() {
+    this.redirectService.openIg();
   }
 }

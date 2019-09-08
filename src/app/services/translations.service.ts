@@ -15,7 +15,10 @@ export class TranslationsService {
     cv: "CV",
     gallery: "GALLERIA",
     contact: "YHTEYSTIEDOT",
-    phone: "PUHELINNUMERO"
+    phone: "Puhelinnumero",
+    implementation: "Toteutus",
+    email: "Sähköposti",
+    some: "Sosiaalinen media"
     });
   cast = this.translation.asObservable();
 
@@ -31,14 +34,20 @@ export class TranslationsService {
       cv: "CV",
       gallery: "GALLERIA",
       contact: "YHTEYSTIEDOT",
-      phone: "PUHELINNUMERO"
+      phone: "Puhelinnumero",
+      implementation: "Toteutus",
+      email: "Sähköposti",
+      some: "Sosiaalinen media"
       },
     en: {
       home: "HOME",
       cv: "CV",
       gallery: "GALLERY",
       contact: "CONTACT",
-      phone: "PHONE NUMBER"
+      phone: "Phone number",
+      implementation: "Implementation",
+      email: "Email",
+      some: "Social media"
       }
     }
   }

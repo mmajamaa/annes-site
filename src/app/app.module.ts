@@ -9,9 +9,9 @@ import { CvComponent } from "./components/cv/cv.component";
 import { GalleryComponent } from "./components/gallery/gallery.component";
 import { TranslationsService } from './services/translations.service';
 import { NavbarComponent} from "./components/navbar/navbar.component";
-
 import { HttpClientModule } from "@angular/common/http";
-import { NavbarComponent } from './navbar/navbar.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { RedirectService } from './services/redirect.service';
 
 @NgModule({
   declarations: [
@@ -20,14 +20,15 @@ import { NavbarComponent } from './navbar/navbar.component';
     ContactComponent,
     CvComponent,
     GalleryComponent,
-    NavbarComponent
+    NavbarComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [TranslationsService],
+  providers: [TranslationsService, RedirectService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

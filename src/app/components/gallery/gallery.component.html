@@ -1,1 +1,17 @@
-<p>gallery works!</p>
+<h1>{{I18n.gallery}}</h1>
+
+<br>
+
+<div class="row">
+  <div class="column" *ngFor="let img of images">
+    <img src={{img.src}} alt={{img.alt}} class="gallery-img">
+  </div>
+</div>
+
+<div class="gallery-container">
+  <div class="container">
+    <span (click)="closeImg($event.target.closest('.container'))" class="closebtn">&times;</span>
+    <img id="expanded-img">
+    <div id="img-text"></div>
+  </div>
+</div>

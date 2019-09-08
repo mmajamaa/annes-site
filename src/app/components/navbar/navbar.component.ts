@@ -14,13 +14,17 @@ export class NavbarComponent implements OnInit {
   ];
   public image = this.images[0];
 
-  // TODO: fix/remove this
   @HostListener('click', ['$event.target']) clickInside(e) {
     if (e.className != 'router-link') return
     Array.from(document.getElementsByClassName('router-link')).forEach(r => {
       r.className = 'router-link'
     })
     e.className += ' active';
+
+    let x = document.getElementById("myTopnav");
+    if (x.className === "topnav responsive") {
+      x.className = "topnav";
+    }
   }
 
   constructor(private translationsService: TranslationsService) { }
