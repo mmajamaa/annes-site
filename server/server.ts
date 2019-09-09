@@ -6,6 +6,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+const fileRoutes = require("./routes/image-upload");
+
 app.use("/", (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -18,10 +20,8 @@ app.use("/", (req, res, next) => {
   }
 })
 
-app.get("/", (req, res, next) => {
-  res.redirect("/home")
-})
+app.use("/image-upload", fileRoutes)
 
-app.listen(4201, "127.0.0.1", function() {
+app.listen(4201, "127.0.0.1", () => {
   console.log("listening");
 });
