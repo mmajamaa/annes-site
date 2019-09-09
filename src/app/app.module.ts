@@ -12,6 +12,8 @@ import { NavbarComponent} from "./components/navbar/navbar.component";
 import { HttpClientModule } from "@angular/common/http";
 import { FooterComponent } from './components/footer/footer.component';
 import { RedirectService } from './services/redirect.service';
+import { ImageUploadComponent } from './components/image-upload/image-upload.component';
+import { AdminComponent } from './components/admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { RedirectService } from './services/redirect.service';
     CvComponent,
     GalleryComponent,
     NavbarComponent,
-    FooterComponent
+    FooterComponent,
+    ImageUploadComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,
