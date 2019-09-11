@@ -7,6 +7,7 @@ app.use(express.json());
 app.use(cors());
 
 const fileRoutes = require("./routes/image-upload");
+const apiRoutes = require("./routes/api")
 
 app.use("/", (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -20,7 +21,9 @@ app.use("/", (req, res, next) => {
   }
 })
 
-app.use("/image-upload", fileRoutes)
+app.use("/image-upload", fileRoutes);
+
+app.use("/api", apiRoutes);
 
 app.listen(4201, "127.0.0.1", () => {
   console.log("listening");
