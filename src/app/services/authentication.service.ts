@@ -10,7 +10,7 @@ interface myData {
   providedIn: 'root'
 })
 export class AuthenticationService {
-  public loggedInStatus = true;
+  public loggedInStatus = false;
 
   constructor(private http: HttpClient) { }
 
@@ -18,12 +18,14 @@ export class AuthenticationService {
     return this.loggedInStatus;
   }
 
+  setLoggedIn(value: boolean) {
+    this.loggedInStatus = value;
+  }
+
   getUserDetails(username, password) {
     return this.http.post('/api/login', {
       username,
       password
-    }).subscribe(data => {
-      console.log(data, " is what we got from the server");
     });
   }
 }

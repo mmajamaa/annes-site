@@ -32,7 +32,7 @@ export class GalleryComponent implements OnInit {
     // Get the image text
     var imgText = document.getElementById("img-text");
     // Use the same src in the expanded image as the image being clicked on from the grid
-    expandImg.src = e.src;
+    (<HTMLImageElement>expandImg).src = e.src;
     // Use the value of the alt attribute of the clickable image as text inside the expanded image
     imgText.innerHTML = e.alt;
     // Show the container element (hidden with CSS)

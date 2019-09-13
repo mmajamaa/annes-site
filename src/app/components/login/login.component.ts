@@ -18,13 +18,14 @@ export class LoginComponent implements OnInit {
   loginUser(form: NgForm) {
     const username = form.value.username;
     const password = form.value.password;
-    console.log(username, password);
 
-    this.authenticationService.getUserDetails(username, password).subscribe(data => {
+    this.authenticationService.getUserDetails(username, password).subscribe((data: any) => {
       if (data.success) {
-        this.router.navigate['admin'];
+        console.log(data)
+        this.router.navigate(['admin']);
+        this.authenticationService.setLoggedIn(true);
       } else {
-        window.alert(data.message);
+        window.alert('bad credentials, ' + data.message);
       }
     });
   }

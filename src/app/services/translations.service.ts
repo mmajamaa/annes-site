@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject } from 'rxjs';
+import { of, BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TranslationsService {
 
-  private data = {};
+  private data: any = {};
   private translation = new BehaviorSubject<any>({
     home: "ETUSIVU",
     cv: "CV",
@@ -59,7 +58,7 @@ export class TranslationsService {
   }
 
   getTranslations() : Observable<any[]> {
-    return this.http.get<any[]>(this.url).subscribe(res => {
+    return this.http.get<any[]>(this.url).subscribe((res: any) => {
       this.textContent = res;
       this.I18n = res["fi"];
       console.log(res)
