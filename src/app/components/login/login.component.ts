@@ -19,15 +19,16 @@ export class LoginComponent implements OnInit {
     const username = form.value.username;
     const password = form.value.password;
 
-    this.authenticationService.getUserDetails(username, password).subscribe((data: any) => {
-      if (data.success) {
+    this.authenticationService.getUserDetails(username, password).subscribe(
+      (data: any) => {
         console.log(data)
         this.router.navigate(['admin']);
         this.authenticationService.setLoggedIn(true);
-      } else {
-        window.alert('bad credentials, ' + data.message);
+        localStorage.setItem('token', data.toString());
+      },
+      error => {
+        window.alert('Wrong username or password');
       }
-    });
+    );
   }
-
 }

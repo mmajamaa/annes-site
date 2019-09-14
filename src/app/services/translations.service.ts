@@ -58,7 +58,7 @@ export class TranslationsService {
   }
 
   getTranslations() : Observable<any[]> {
-    return this.http.get<any[]>(this.url).subscribe((res: any) => {
+    return this.http.get<any[]>(this.url).subscribe((res) => {
       this.textContent = res;
       this.I18n = res["fi"];
       console.log(res)

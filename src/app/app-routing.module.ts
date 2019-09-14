@@ -44,7 +44,6 @@ const routes: Routes = [
   {
     path: "admin",
     component: AdminComponent,
-    canActivate: [AuthenticationGuard]
   },
   {
     path: "login",
@@ -55,8 +54,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [
-    AuthenticationGuard
-  ],
+  providers: [],
 })
 export class AppRoutingModule { }

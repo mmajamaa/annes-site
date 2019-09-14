@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 
 interface myData {
   success: boolean;
@@ -12,9 +12,18 @@ interface myData {
 export class AuthenticationService {
   public loggedInStatus = false;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.http.get('api/authenticated', {
+      observe: 'body',
+      params: new HttpParams().append('token', localStorage.getItem('token'))
+    }).subscribe(
+      data => (this.loggedInStatus = true, console.log('auth ' + this.loggedInStatus)),
+      error => this.loggedInStatus = false
+    )
+  }
 
   get isLoggedIn() {
+    console.log(this.loggedInStatus)
     return this.loggedInStatus;
   }
 
@@ -22,8 +31,15 @@ export class AuthenticationService {
     this.loggedInStatus = value;
   }
 
+  getUserName() {
+    return this.http.get('api/username', {
+      observe: 'body',
+      params: new HttpParams().append('token', localStorage.getItem('token'))
+    })
+  }
+
   getUserDetails(username, password) {
-    return this.http.post('/api/login', {
+    return this.http.post<myData>('/api/login', {
       username,
       password
     });
