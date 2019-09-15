@@ -11,7 +11,7 @@ export class ImagesService {
   constructor(private http: HttpClient) { }
 
   uploadImage(fd: FormData) {
-    return this.http.post('/image-upload', fd);
+    return this.http.post('/api/image-upload', fd);
   }
 
   public getImages(): Observable<Image[]> {

@@ -8,7 +8,6 @@ app.use(express.json());
 app.use(cors());
 
 // routes
-const fileRoutes = require("./routes/image-upload");
 const apiRoutes = require("./routes/api")
 
 // mongoose
@@ -33,8 +32,6 @@ app.use("/", (req, res, next) => {
     next();
   }
 })
-
-app.use("/image-upload", fileRoutes);
 
 app.use("/api", apiRoutes);
 

@@ -16,18 +16,18 @@ import { Image } from '../../interfaces/image';
 export class AdminComponent implements OnInit {
   username = '';
   file: File = null;
+  previewUrl: String = null;
   public images: Image[];
 
   constructor(private router: Router,
               private auth: AuthenticationService,
               private img: ImagesService) {
     this.auth.getUserName().subscribe(
-      data => {this.username = data.toString(), console.log(data.toString())},
+      data => this.username = data.toString(),
       error => this.router.navigate(['/login'])
     )
 
     this.img.getImages().subscribe(res => {
-      console.log(res)
       this.images = res;
     })
   }
@@ -41,6 +41,10 @@ export class AdminComponent implements OnInit {
 
   onFileSelected(event) {
     this.file = <File>event.target.files[0];
+
+    let reader = new FileReader();
+    reader.readAsDataURL(<File>event.target.files[0])
+    reader.onload = () => {this.previewUrl = reader.result; console.log(reader.result)}
   }
 
   uploadFile(form: NgForm) {
@@ -48,10 +52,14 @@ export class AdminComponent implements OnInit {
     fd.append('image', this.file);
     fd.append('alt', form.value.alt);
     this.img.uploadImage(fd).subscribe(
-      res => {
+      (res:any) => {
         // add image to list
-        let image: Image = {_id: res.id, url: res.url, alt: res.alt, so: res.so};
+        let image: Image = {_id: res._id, url: res.url, alt: res.alt, so: res.so};
         this.images.push(image);
+        // empty form
+        form.reset();
+        this.file = null;
+        this.previewUrl = null;
       },
       error => {
         console.log(error)
