@@ -14,16 +14,18 @@
   <form #uploadForm="ngForm" (ngSubmit)="uploadFile(uploadForm)" ngNativeValidate>
     <!-- <legend>Lisää kuva</legend> -->
     <div class="imgcontainer">
-      <img src="previewUrl" alt="Esikatselu ei ole käytettävissä." *ngIf="previewUrl" class="preview">
-      <label for="file-upload" class="custom-file-upload">
-        <i class="fa fa-cloud-upload"></i> Valitse tiedosto
-      </label>
+      <img [src]="imgUrl" class="preview" *ngIf="imgUrl">
     </div>
 
-    <input id="file-upload" type="file" name="file" (change)="onFileSelected($event)"/>
-    <input type="file" name="file" (change)="onFileSelected($event)" required ngModel>
+    <div class="container">
+    <label for="file-upload" class="custom-file-upload">
+      <i class="fa fa-cloud-upload"></i> Valitse tiedosto
+    </label>
+
+    <input id="file-upload" #file type="file" accept='image/*' (change)="onFileSelected(file.files)" />
     <input type="text" name="alt" placeholder="Kuvateksti" required ngModel>
     <input type="submit">
+    </div>
   </form>
   <button (click)="logout()">Kirjaudu ulos</button>
 </ng-container>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms'
+import { DomSanitizer } from '@angular/platform-browser';
 
 import { AuthenticationService } from '../../services/authentication.service';
 import { ImagesService } from '../../services/images.service';
@@ -16,12 +17,13 @@ import { Image } from '../../interfaces/image';
 export class AdminComponent implements OnInit {
   username = '';
   file: File = null;
-  previewUrl: String = null;
+  imgUrl: any;
   public images: Image[];
 
   constructor(private router: Router,
               private auth: AuthenticationService,
-              private img: ImagesService) {
+              private img: ImagesService,
+              private domSanitizer: DomSanitizer) {
     this.auth.getUserName().subscribe(
       data => this.username = data.toString(),
       error => this.router.navigate(['/login'])
@@ -39,12 +41,14 @@ export class AdminComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  onFileSelected(event) {
-    this.file = <File>event.target.files[0];
+  onFileSelected(files) {
+    this.file = files[0];
 
-    let reader = new FileReader();
-    reader.readAsDataURL(<File>event.target.files[0])
-    reader.onload = () => {this.previewUrl = reader.result; console.log(reader.result)}
+    var reader = new FileReader();
+    reader.readAsDataURL(files[0]);
+    reader.onload = (_event) => {
+      this.imgUrl = reader.result;
+    }
   }
 
   uploadFile(form: NgForm) {
@@ -59,7 +63,7 @@ export class AdminComponent implements OnInit {
         // empty form
         form.reset();
         this.file = null;
-        this.previewUrl = null;
+        this.imgUrl = null;
       },
       error => {
         console.log(error)
