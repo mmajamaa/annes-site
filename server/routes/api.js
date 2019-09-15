@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const User = require('../models/users');
 const jwt = require('jsonwebtoken');
 
+// models
+const User = require('../models/users');
+const Image = require('../models/images');
 
 router.post('/login', (req, res, next) => {
   const username = req.body.username;
@@ -71,5 +73,16 @@ function verifyToken(req, res, next) {
   })
 }
 
+router.get('/images', (req, res, next) => {
+  let promise = Image.find().sort({so: 1});
+
+  promise.then(docs => {
+    return res.status(200).json(docs);
+  });
+
+  promise.catch(err => {
+    return res.status(501).json({message: 'Error getting images'});
+  })
+});
 
 module.exports = router;

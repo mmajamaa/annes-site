@@ -20,6 +20,7 @@ import { FormsModule } from '@angular/forms';
 import { TranslationsService } from './services/translations.service';
 import { RedirectService } from './services/redirect.service';
 import { AuthenticationService } from './services/authentication.service';
+import { ImagesService } from './services/images.service';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { AuthenticationService } from './services/authentication.service';
   providers: [
     TranslationsService,
     RedirectService,
-    AuthenticationService
+    AuthenticationService,
+    ImagesService
   ],
   bootstrap: [AppComponent]
 })

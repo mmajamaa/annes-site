@@ -1,5 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { TranslationsService } from '../../services/translations.service';
+import { ImagesService } from '../../services/images.service';
 
 @Component({
   selector: 'app-gallery',
@@ -16,13 +17,17 @@ export class GalleryComponent implements OnInit {
     {src: './assets/pics/19.jpeg', alt: '39'},
     {src: './assets/pics/19.jpeg', alt: '49'},
     {src: './assets/pics/19.jpeg', alt: '59'},
-
   ]
 
-  constructor(private translationsService: TranslationsService) { }
+  constructor(private translationsService: TranslationsService,
+              private imagesService: ImagesService) { }
 
   ngOnInit() {
     this.translationsService.cast.subscribe(r => this.I18n = r);
+
+    this.imagesService.getImages().subscribe(r => {
+      console.log(r);
+    })
   }
 
   @HostListener('click', ['$event.target']) clickInside(e) {

@@ -1,4 +1,9 @@
 <ng-container *ngIf="username">
   <h1>TOP SECRET</h1>
+  <form #uploadForm="ngForm" (ngSubmit)="uploadFile(uploadForm)">
+    <input type="file" name="file" (change)="onFileSelected($event)" ngModel>
+    <input type="text" name="alt" placeholder="Kuvateksti" ngModel>
+    <input type="submit">
+  </form>
   <button (click)="logout()">Kirjaudu ulos</button>
 </ng-container>
