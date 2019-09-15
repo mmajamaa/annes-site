@@ -5,6 +5,8 @@ import { NgForm } from '@angular/forms'
 import { AuthenticationService } from '../../services/authentication.service';
 import { ImagesService } from '../../services/images.service';
 
+import { Image } from '../../interfaces/image';
+
 
 @Component({
   selector: 'app-admin',
@@ -14,6 +16,7 @@ import { ImagesService } from '../../services/images.service';
 export class AdminComponent implements OnInit {
   username = '';
   file: File = null;
+  public images: Image[];
 
   constructor(private router: Router,
               private auth: AuthenticationService,
@@ -22,6 +25,11 @@ export class AdminComponent implements OnInit {
       data => {this.username = data.toString(), console.log(data.toString())},
       error => this.router.navigate(['/login'])
     )
+
+    this.img.getImages().subscribe(res => {
+      console.log(res)
+      this.images = res;
+    })
   }
 
   ngOnInit() {}
@@ -41,15 +49,29 @@ export class AdminComponent implements OnInit {
     fd.append('alt', form.value.alt);
     this.img.uploadImage(fd).subscribe(
       res => {
-        console.log('file uploaded');
-        console.log(res)
+        // add image to list
+        let image: Image = {_id: res.id, url: res.url, alt: res.alt, so: res.so};
+        this.images.push(image);
       },
       error => {
-        console.log('error res')
         console.log(error)
       }
     );
   }
 
-
+  deleteImage(id:String) {
+    this.img.deleteImage(id).subscribe(
+      res => {
+        // delete image from list
+        let img = this.images.find(i => i._id == id);
+        const index: number = this.images.indexOf(img);
+        if (index !== -1) {
+          this.images.splice(index, 1);
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
 }

@@ -85,4 +85,17 @@ router.get('/images', (req, res, next) => {
   })
 });
 
+router.delete('/delete-image/:id', verifyToken, (req, res) => {
+  // TODO: delete image from S3
+  let promise = Image.deleteOne({_id: req.params.id});
+
+  promise.then(doc => {
+    if (doc) {
+      return res.status(200).json({message: 'Image deleted succesfully.'});
+    } else {
+      // TODO
+    }
+  })
+});
+
 module.exports = router;

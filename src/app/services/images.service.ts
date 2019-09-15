@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Image } from '../interfaces/image';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,13 @@ export class ImagesService {
     return this.http.post('/image-upload', fd);
   }
 
-  getImages() {
-    return this.http.get('/api/images');
+  public getImages(): Observable<Image[]> {
+    return this.http.get<Image[]>('/api/images');
+  }
+  deleteImage(id) {
+    return this.http.delete('/api/delete-image/' + id, {
+      observe: 'body',
+      params: new HttpParams().append('token', localStorage.getItem('token'))
+    });
   }
 }
