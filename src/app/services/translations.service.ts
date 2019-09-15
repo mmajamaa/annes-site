@@ -57,7 +57,7 @@ export class TranslationsService {
     this.language = this.language == "fi" ? "en" : "fi";
   }
 
-  getTranslations() : Observable<any[]> {
+  getTranslations() {
     return this.http.get<any[]>(this.url).subscribe((res) => {
       this.textContent = res;
       this.I18n = res["fi"];

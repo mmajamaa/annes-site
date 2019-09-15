@@ -38,6 +38,13 @@ export class AuthenticationService {
     })
   }
 
+  getAuthStatus() {
+    return this.http.get('api/authenticated', {
+      observe: 'body',
+      params: new HttpParams().append('token', localStorage.getItem('token'))
+    })
+  }
+
   getUserDetails(username, password) {
     return this.http.post<myData>('/api/login', {
       username,

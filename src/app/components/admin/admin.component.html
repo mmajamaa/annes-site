@@ -1,2 +1,4 @@
-<h1>TOP SECRET</h1>
-<button (click)="logout()">Kirjaudu ulos</button>
+<ng-container *ngIf="username">
+  <h1>TOP SECRET</h1>
+  <button (click)="logout()">Kirjaudu ulos</button>
+</ng-container>
