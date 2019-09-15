@@ -1,0 +1,21 @@
+<table>
+  <tr *ngFor="let img of images" draggable="true">
+    <td><img src={{img.url}} alt={{img.alt}} class="image"></td>
+    <td>{{img.alt}}</td>
+    <td>
+      <button type="submit" (click)="deleteImage(img._id)" class="delete-button">
+        <i class="fa fa-trash"></i>
+      </button>
+    </td>
+  </tr>
+</table>
+
+<ng-container *ngIf="username">
+  <h1>TOP SECRET</h1>
+  <form #uploadForm="ngForm" (ngSubmit)="uploadFile(uploadForm)">
+    <input type="file" name="file" (change)="onFileSelected($event)" ngModel>
+    <input type="text" name="alt" placeholder="Kuvateksti" ngModel>
+    <input type="submit">
+  </form>
+  <button (click)="logout()">Kirjaudu ulos</button>
+</ng-container>
