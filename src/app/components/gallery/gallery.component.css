@@ -68,3 +68,26 @@
 * {
   font-family: Courier New, Courier, Lucida Sans Typewriter, Lucida Typewriter, monospace;
 }
+
+.topnav {
+  overflow: hidden;
+  text-align: center;
+}
+
+.topnav a {
+  display: inline-block;
+  color: #807c7c;
+  text-align: center;
+  text-decoration: none;
+  font-size: 17px;
+  outline: none;
+  width: 160px;
+}
+
+.topnav a:hover {
+  font-weight: bold;
+}
+
+.topnav a.active {
+  font-weight: bold;
+}

@@ -2,8 +2,13 @@
 
 <br>
 
+<div class="topnav" id="myTopnav">
+  <a routerLink="/gallery/prints" class="router-link" id="test"><h2>vedokset</h2></a>
+  <a routerLink="/gallery/paintings" class="router-link"><h2>maalaukset</h2></a>
+</div>
+
 <div class="row">
-  <div class="column" *ngFor="let img of images">
+  <div class="column" *ngFor="let img of images | myfilter:filterargs">
     <img src={{img.url}} alt={{img.alt}} class="gallery-img">
   </div>
 </div>

@@ -21,6 +21,7 @@ import { TranslationsService } from './services/translations.service';
 import { RedirectService } from './services/redirect.service';
 import { AuthenticationService } from './services/authentication.service';
 import { ImagesService } from './services/images.service';
+import { MyfilterPipe } from './myfilter.pipe';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ImagesService } from './services/images.service';
     ImageUploadComponent,
     AdminComponent,
     LayoutComponent,
-    LoginComponent
+    LoginComponent,
+    MyfilterPipe
   ],
   imports: [
     BrowserModule,

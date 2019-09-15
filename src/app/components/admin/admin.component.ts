@@ -19,6 +19,11 @@ export class AdminComponent implements OnInit {
   file: File = null;
   imgUrl: any;
   public images: Image[];
+  // todo: get values dynamically
+  values = [
+    {value: 'prints', name: 'Vedokset'},
+    {value: 'paintings', name: 'Maalaukset'}
+  ];
 
   constructor(private router: Router,
               private auth: AuthenticationService,
@@ -52,12 +57,14 @@ export class AdminComponent implements OnInit {
   }
 
   uploadFile(form: NgForm) {
+    console.log(form.value.gallery)
     if (confirm('Haluatko varmasti ladata kuvan?') == false) {
       return;
     }
     const fd = new FormData();
     fd.append('image', this.file);
     fd.append('alt', form.value.alt);
+    fd.append('gallery', form.value.gallery);
     this.img.uploadImage(fd).subscribe(
       (res:any) => {
         // add image to list

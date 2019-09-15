@@ -115,14 +115,16 @@ router.post('/image-upload', (req, res) => {
         let image = new Image({
           url: req.file.location,
           so: doc[0].so + 1,
-          alt: req.body.alt
+          alt: req.body.alt,
+          gallery: req.body.gallery
         })
         return image;
       } else {
         let image = new Image({
           url: req.file.location,
           so: 0,
-          alt: req.body.alt
+          alt: req.body.alt,
+          gallery: req.body.gallery
         })
         return image;
       }

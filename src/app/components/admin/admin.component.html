@@ -42,6 +42,9 @@
 
       <input id="file-upload" #file type="file" accept='image/*' (change)="onFileSelected(file.files)" />
       <input type="text" name="alt" placeholder="Kuvateksti" required ngModel>
+      <select name="gallery" required ngModel>
+         <option *ngFor="let value of values" value={{value.value}}>{{value.name}}</option>
+      </select>
       <input type="submit">
     </div>
   </form>

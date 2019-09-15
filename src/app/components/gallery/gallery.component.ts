@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { TranslationsService } from '../../services/translations.service';
 import { ImagesService } from '../../services/images.service';
 import { Image } from '../../interfaces/image';
+import { Router, NavigationStart } from '@angular/router';
 
 @Component({
   selector: 'app-gallery',
@@ -11,20 +12,39 @@ import { Image } from '../../interfaces/image';
 export class GalleryComponent implements OnInit {
   public I18n = {};
   public images: Image[];
+  url: string;
+  filterargs = {gallery: 'paintings'}
 
   constructor(private translationsService: TranslationsService,
-              private imagesService: ImagesService) { }
+              private imagesService: ImagesService,
+              private router: Router) {
+                router.events.subscribe((event:Event) => {
+                  if (event instanceof NavigationStart) {
+                    this.url = event.url;
+                    if (event.url == 'gallery/paintings') {}
+                  }
+                })
+              }
 
   ngOnInit() {
     this.translationsService.cast.subscribe(res => this.I18n = res);
 
     this.imagesService.getImages().subscribe(res => {
-      console.log(res)
+      console.log(res);
       this.images = res;
     })
   }
 
   @HostListener('click', ['$event.target']) clickInside(e) {
+    console.log(e.className)
+    console.log(e)
+    if (e.className == 'router-link') {
+      Array.from(document.getElementsByClassName('router-link')).forEach(r => {
+        r.className = 'router-link'
+      })
+      e.className += ' active';
+      console.log('jaa')
+    }
     if (e.id == "expanded-img" || e.className != "gallery-img") return
 
     let expandImg = document.getElementById("expanded-img");

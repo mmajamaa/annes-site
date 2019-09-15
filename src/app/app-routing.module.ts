@@ -34,7 +34,7 @@ const routes: Routes = [
         component: CvComponent
       },
       {
-        path: "gallery",
+        path: "gallery/:galleryName",
         component: GalleryComponent
       },
     ]

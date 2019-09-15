@@ -20,12 +20,13 @@
 }
 
 input[type=text] {
-  width: 100%;
+  width: 80%;
   padding: 12px 20px;
   margin: 8px 0;
   display: inline-block;
   border: 1px solid #ccc;
   box-sizing: border-box;
+  height: 45px;
 }
 
 input[type=submit] {
@@ -54,7 +55,7 @@ input[type="file"] {
 }
 .custom-file-upload {
     border: 1px solid #ccc;
-    display: inline-block;
+    display: block;
     padding: 6px 12px;
     cursor: pointer;
 }
@@ -331,4 +332,11 @@ tr:hover {
 }
 
 @media screen and (max-width: 768px) {
+}
+
+select {
+  width: calc(20% - 20px);
+  margin-left: 20px;
+  height: 45px;
+  text-align: center;
 }
