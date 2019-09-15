@@ -1,9 +1,24 @@
 <ng-container *ngIf="username">
+<div class="page-container">
+  <div class="sub-container">
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+ <!-- The Close Button -->
+ <span class="close">&times;</span>
+
+ <!-- Modal Content (The Image) -->
+ <img class="modal-content" id="img01">
+
+ <!-- Modal Caption (Image Text) -->
+ <div id="caption"></div>
+</div>
+
   <table>
     <tr *ngFor="let img of images" draggable="true">
-      <td><img src={{img.url}} alt={{img.alt}} class="image"></td>
+      <td class="img-td"><img src={{img.url}} alt={{img.alt}} id="myImg" class="image" (click)="openImage($event)"></td>
       <td>{{img.alt}}</td>
-      <td>
+      <td class="button-td">
         <button type="submit" (click)="deleteImage(img._id)" class="delete-button">
           <i class="fa fa-trash"></i>
         </button>
@@ -11,21 +26,26 @@
     </tr>
   </table>
 
+
+
   <form #uploadForm="ngForm" (ngSubmit)="uploadFile(uploadForm)" ngNativeValidate>
+    <h1>Lisää kuva</h1>
     <!-- <legend>Lisää kuva</legend> -->
     <div class="imgcontainer">
       <img [src]="imgUrl" class="preview" *ngIf="imgUrl">
     </div>
 
     <div class="container">
-    <label for="file-upload" class="custom-file-upload">
-      <i class="fa fa-cloud-upload"></i> Valitse tiedosto
-    </label>
+      <label for="file-upload" class="custom-file-upload">
+        <i class="fa fa-cloud-upload"></i> Valitse tiedosto
+      </label>
 
-    <input id="file-upload" #file type="file" accept='image/*' (change)="onFileSelected(file.files)" />
-    <input type="text" name="alt" placeholder="Kuvateksti" required ngModel>
-    <input type="submit">
+      <input id="file-upload" #file type="file" accept='image/*' (change)="onFileSelected(file.files)" />
+      <input type="text" name="alt" placeholder="Kuvateksti" required ngModel>
+      <input type="submit">
     </div>
   </form>
-  <button (click)="logout()">Kirjaudu ulos</button>
+  <button (click)="logout()" class="logout-button">Kirjaudu ulos</button>
+  </div>
+  </div>
 </ng-container>

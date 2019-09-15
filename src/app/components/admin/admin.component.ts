@@ -52,6 +52,9 @@ export class AdminComponent implements OnInit {
   }
 
   uploadFile(form: NgForm) {
+    if (confirm('Haluatko varmasti ladata kuvan?') == false) {
+      return;
+    }
     const fd = new FormData();
     fd.append('image', this.file);
     fd.append('alt', form.value.alt);
@@ -72,6 +75,10 @@ export class AdminComponent implements OnInit {
   }
 
   deleteImage(id:String) {
+    if (confirm('Haluatko varmasti poistaa kuvan?') == false) {
+      return;
+    }
+
     this.img.deleteImage(id).subscribe(
       res => {
         // delete image from list
@@ -85,5 +92,28 @@ export class AdminComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  openImage(event) {
+    // Get the modal
+    var modal = document.getElementById("myModal");
+    console.log(event.target.src)
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    var img = document.getElementById("myImg");
+    var modalImg = document.getElementById("img01");
+    var captionText = document.getElementById("caption");
+    console.log('jaa')
+    modal.style.display = "block";
+    modalImg.src = event.target.src;
+    captionText.innerHTML = event.target.alt;
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      console.log('click!')
+      modal.style.display = "none";
+    }
   }
 }
