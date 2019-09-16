@@ -15,13 +15,13 @@ import { AdminComponent } from './components/admin/admin.component';
 import { LayoutComponent } from './_layout/layout/layout.component';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule } from '@angular/forms';
+import { SubGalleryComponent } from './components/sub-gallery/sub-gallery.component';
 
 // services
 import { TranslationsService } from './services/translations.service';
 import { RedirectService } from './services/redirect.service';
 import { AuthenticationService } from './services/authentication.service';
 import { ImagesService } from './services/images.service';
-import { MyfilterPipe } from './myfilter.pipe';
 
 @NgModule({
   declarations: [
@@ -36,7 +36,7 @@ import { MyfilterPipe } from './myfilter.pipe';
     AdminComponent,
     LayoutComponent,
     LoginComponent,
-    MyfilterPipe
+    SubGalleryComponent
   ],
   imports: [
     BrowserModule,

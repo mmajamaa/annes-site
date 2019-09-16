@@ -68,7 +68,7 @@ export class AdminComponent implements OnInit {
     this.img.uploadImage(fd).subscribe(
       (res:any) => {
         // add image to list
-        let image: Image = {_id: res._id, url: res.url, alt: res.alt, so: res.so};
+        let image: Image = {_id: res._id, url: res.url, alt: res.alt, so: res.so, gallery: res.gallery};
         this.images.push(image);
         // empty form
         form.reset();
@@ -111,7 +111,7 @@ export class AdminComponent implements OnInit {
     var captionText = document.getElementById("caption");
     console.log('jaa')
     modal.style.display = "block";
-    modalImg.src = event.target.src;
+    (<HTMLImageElement>modalImg).src = event.target.src;
     captionText.innerHTML = event.target.alt;
 
     // Get the <span> element that closes the modal

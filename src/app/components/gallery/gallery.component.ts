@@ -12,18 +12,11 @@ import { Router, NavigationStart } from '@angular/router';
 export class GalleryComponent implements OnInit {
   public I18n = {};
   public images: Image[];
-  url: string;
-  filterargs = {gallery: 'paintings'}
+  gallery: string;
 
   constructor(private translationsService: TranslationsService,
               private imagesService: ImagesService,
               private router: Router) {
-                router.events.subscribe((event:Event) => {
-                  if (event instanceof NavigationStart) {
-                    this.url = event.url;
-                    if (event.url == 'gallery/paintings') {}
-                  }
-                })
               }
 
   ngOnInit() {

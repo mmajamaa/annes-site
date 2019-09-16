@@ -8,8 +8,8 @@
 </div>
 
 <div class="row">
-  <div class="column" *ngFor="let img of images | myfilter:filterargs">
-    <img src={{img.url}} alt={{img.alt}} class="gallery-img">
+  <div class="column" *ngFor="let img of images">
+    <img src={{img.url}} alt={{img.alt}} class="gallery-img" *ngIf="img.gallery == gallery">
   </div>
 </div>
 
