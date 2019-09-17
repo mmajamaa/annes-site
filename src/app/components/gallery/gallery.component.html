@@ -1,22 +1,7 @@
 <h1>{{I18n.gallery}}</h1>
 
-<br>
-
 <div class="topnav" id="myTopnav">
-  <a routerLink="/gallery/prints" class="router-link" id="test"><h2>vedokset</h2></a>
-  <a routerLink="/gallery/paintings" class="router-link"><h2>maalaukset</h2></a>
+  <a *ngFor="let gallery of gallerys" [routerLink]=gallery.id class="sub-router-link" [id]=gallery.id>{{gallery.name}}</a>
 </div>
 
-<div class="row">
-  <div class="column" *ngFor="let img of images">
-    <img src={{img.url}} alt={{img.alt}} class="gallery-img" *ngIf="img.gallery == gallery">
-  </div>
-</div>
-
-<div class="gallery-container">
-  <div class="container">
-    <span (click)="closeImg($event.target.closest('.container'))" class="closebtn">&times;</span>
-    <img id="expanded-img">
-    <div id="img-text"></div>
-  </div>
-</div>
+<router-outlet></router-outlet>

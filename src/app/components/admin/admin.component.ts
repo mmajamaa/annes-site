@@ -113,14 +113,10 @@ export class AdminComponent implements OnInit {
     modal.style.display = "block";
     (<HTMLImageElement>modalImg).src = event.target.src;
     captionText.innerHTML = event.target.alt;
+  }
 
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-      console.log('click!')
-      modal.style.display = "none";
-    }
+  closeModal() {
+    var modal = document.getElementById("myModal");
+    modal.style.display = "none";
   }
 }

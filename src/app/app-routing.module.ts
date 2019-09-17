@@ -5,6 +5,7 @@ import { HomeComponent } from "./components/home/home.component";
 import { ContactComponent } from "./components/contact/contact.component";
 import { CvComponent } from "./components/cv/cv.component";
 import { GalleryComponent } from "./components/gallery/gallery.component";
+import { SubGalleryComponent } from "./components/sub-gallery/sub-gallery.component";
 import { AdminComponent } from "./components/admin/admin.component";
 import { LayoutComponent } from "./_layout/layout/layout.component"
 import { LoginComponent } from "./components/login/login.component";
@@ -34,9 +35,15 @@ const routes: Routes = [
         component: CvComponent
       },
       {
-        path: "gallery/:galleryName",
-        component: GalleryComponent
-      },
+        path: "gallery",
+        component: GalleryComponent,
+        children: [
+          {
+            path: ":galleryName",
+            component: SubGalleryComponent
+          }
+        ]
+      }
     ]
   },
 
