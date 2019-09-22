@@ -35,6 +35,6 @@ app.use("/", (req, res, next) => {
 
 app.use("/api", apiRoutes);
 
-app.listen(4201, "127.0.0.1", () => {
+app.listen(process.env.PORT || 4201, "127.0.0.1", () => {
   console.log("listening");
 });

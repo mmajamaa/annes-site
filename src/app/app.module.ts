@@ -10,7 +10,6 @@ import { GalleryComponent } from "./components/gallery/gallery.component";
 import { NavbarComponent} from "./_layout/navbar/navbar.component";
 import { HttpClientModule } from "@angular/common/http";
 import { FooterComponent } from './_layout/footer/footer.component';
-import { ImageUploadComponent } from './components/image-upload/image-upload.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { LayoutComponent } from './_layout/layout/layout.component';
 import { LoginComponent } from './components/login/login.component';
@@ -32,7 +31,6 @@ import { ImagesService } from './services/images.service';
     GalleryComponent,
     NavbarComponent,
     FooterComponent,
-    ImageUploadComponent,
     AdminComponent,
     LayoutComponent,
     LoginComponent,

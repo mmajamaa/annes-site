@@ -7,7 +7,7 @@ import { TranslationsService } from '../../services/translations.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  public I18n = {};
+  public I18n:any;
   public images = [
     {src: "./assets/uk.png", alt: "uk"},
     {src: "./assets/fi.png", alt: "fi"}

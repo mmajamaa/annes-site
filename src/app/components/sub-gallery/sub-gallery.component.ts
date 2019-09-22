@@ -33,7 +33,6 @@ export class SubGalleryComponent implements OnInit {
   }
 
   openModal() {
-    console.log('ju')
     document.getElementById("myModal").style.display = "block";
   }
 

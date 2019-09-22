@@ -8,7 +8,7 @@ import { TranslationsService } from '../../services/translations.service';
 })
 export class HomeComponent implements OnInit {
 
-  public I18n = {};
+  public I18n:any;
 
   constructor(private translationsService: TranslationsService) { }
 

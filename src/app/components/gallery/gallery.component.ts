@@ -10,7 +10,7 @@ import { SubGalleryComponent } from '../sub-gallery/sub-gallery.component';
   styleUrls: ['./gallery.component.css']
 })
 export class GalleryComponent implements OnInit {
-  public I18n = {};
+  public I18n:any;
 
   // todo: change to dynamic
   gallerys: any = [{id: 'prints', name: 'Vedokset'}, {id: 'paintings', name: 'Maalaukset'}]
