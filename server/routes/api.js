@@ -17,7 +17,7 @@ router.post('/login', (req, res, next) => {
     if (doc) {
       if (doc.isValid(password)) {
         // generate token
-        let token = jwt.sign({username}, 'secret', {expiresIn : '3d'});
+        let token = jwt.sign({username}, process.env.secret || 'secret', {expiresIn : '3d'});
         console.log('succesful login')
         return res.status(200).json(token);
       } else {
@@ -64,7 +64,7 @@ router.get('/authenticated', verifyToken, (req, res, next) => {
 
 function verifyToken(req, res, next) {
   let token = req.query.token;
-  jwt.verify(token, 'secret', (err, tokendata) => {
+  jwt.verify(token, process.env.secret || 'secret', (err, tokendata) => {
     if (err) {
       return res.status(400).json({message: 'Unauthorized request'});
     }

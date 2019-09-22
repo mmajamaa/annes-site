@@ -12,7 +12,7 @@ const apiRoutes = require("./routes/api")
 
 // mongoose
 const mongoose = require('mongoose');
-let mongoDB = 'mongodb://127.0.0.1/my_database';
+let mongoDB = process.env.MONGODB_URI || 'mongodb://127.0.0.1/my_database';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // configure the app to use bodyParser()
