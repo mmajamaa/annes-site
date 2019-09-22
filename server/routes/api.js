@@ -100,7 +100,7 @@ router.delete('/delete-image/:id', verifyToken, (req, res) => {
   })
 });
 
-router.post('/image-upload', (req, res) => {
+router.post('/image-upload', verifyToken, (req, res) => {
   singleUpload(req, res, (err) => {
     if (err) {
       return res.status(422).send({errors: [{title: 'File upload error', details: err.message}]});
@@ -111,7 +111,7 @@ router.post('/image-upload', (req, res) => {
 
     // set new image's sort order based on highest sort order on database
     promise.then(doc => {
-      if (doc) {
+      if (doc[0]) {
         let image = new Image({
           url: req.file.location,
           so: doc[0].so + 1,

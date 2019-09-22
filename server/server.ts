@@ -1,8 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const path = require('path');
 
 const app = express();
+
+app.use(express.static(path.join(__dirname, 'dist/anne/')));
 
 app.use(express.json());
 app.use(cors());
@@ -35,6 +38,10 @@ app.use("/", (req, res, next) => {
 
 app.use("/api", apiRoutes);
 
-app.listen(process.env.PORT || 4201, "127.0.0.1", () => {
+app.get(["/home", "/cv/", "/gallery", "/gallery/*", "/contact", "/login","/admin"], (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist/anne/index.html'));
+})
+
+app.listen(process.env.PORT || 4201, () => {
   console.log("listening");
 });
