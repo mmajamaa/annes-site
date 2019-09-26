@@ -38,7 +38,7 @@ app.use("/", (req, res, next) => {
 
 app.use("/api", apiRoutes);
 
-app.get(["/home", "/cv/", "/gallery", "/gallery/*", "/contact", "/login","/admin"], (req, res) => {
+app.get(["/home", "/cv/", "/gallery", "/gallery/*", "/contact", "/login", "/admin"], (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/anne/index.html'));
 })
 

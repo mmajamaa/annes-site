@@ -7,6 +7,37 @@ const singleUpload = upload.single('image');
 // models
 const User = require('../models/users');
 const Image = require('../models/images');
+const Gallery = require('../models/gallerys');
+
+router.post('/new-gallery', verifyToken, (req, res, next) => {
+  let gallery = new Gallery({
+    en: req.body.en,
+    fi: req.body.fi
+  });
+
+  let promise = gallery.save();
+
+  promise.then((doc) => {
+    return res.status(201).json(doc);
+  })
+
+  promise.catch((err) => {
+    return res.status(501).json({message: 'Error creating gallery.'});
+  });
+
+});
+
+router.get('/gallerys', (req, res, next) => {
+  let promise = Gallery.find();
+
+  promise.then(docs => {
+    return res.status(200).json(docs);
+  })
+
+  promise.catch(err => {
+    return res.status(501).json({message: 'Error getting gallerys.'})
+  })
+});
 
 router.post('/login', (req, res, next) => {
   const username = req.body.username;
