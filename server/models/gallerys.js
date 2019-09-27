@@ -3,7 +3,11 @@ const Schema = mongoose.Schema;
 
 let schema = new Schema({
   en: {type: String, require: true}, // also used as a path
-  fi: {type: String, require: true}
+  fi: {type: String, require: true},
+  images: [{
+    type: Schema.Types.ObjectId,
+    ref: 'image'
+  }]
 });
 
 module.exports = mongoose.model('Gallery', schema);
