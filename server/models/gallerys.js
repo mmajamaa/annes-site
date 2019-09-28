@@ -6,8 +6,7 @@ let schema = new Schema({
   fi: {type: String, require: true},
   images: [{
     type: Schema.Types.ObjectId,
-    ref: 'image'
-  }]
+    ref: 'Image'}]
 });
 
 module.exports = mongoose.model('Gallery', schema);

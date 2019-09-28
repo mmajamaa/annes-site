@@ -5,9 +5,9 @@ let schema = new Schema({
   url: {type: String, require: true},
   alt: {type: String, require: true},
   so : {type: Number, require: true},
-  ref: {
+  gallery: {
     type: Schema.Types.ObjectId,
-    ref: 'gallery'
+    ref: 'Gallery'
   }
 });
 

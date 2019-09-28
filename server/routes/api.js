@@ -3,6 +3,9 @@ const router = express.Router();
 
 const helpers = require('../controllers/helpers');
 
+const upload = require('../services/image-upload')
+const singleUpload = upload.single('image');
+
 // controllers
 const ImagesController = require('../controllers/images.js');
 const GallerysController = require('../controllers/gallerys.js');
@@ -10,7 +13,9 @@ const AuthenticationController = require('../controllers/authentication.js');
 
 router.route('/images')
   .get(ImagesController.index)
-  .post(helpers.verifyToken, ImagesController.newImage)
+
+router.route('/images/:galleryId')
+  .post(helpers.verifyToken, singleUpload, ImagesController.newImage)
 
 router.route('/image/:id')
   .delete(helpers.verifyToken, ImagesController.deleteImage);
