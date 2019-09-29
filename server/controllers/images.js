@@ -1,9 +1,11 @@
 const Image = require('../models/images');
 const Gallery = require('../models/gallerys');
+const deleteImage = require('../services/images').deleteImage;
 
 module.exports = {
   index:  async (req, res, next) => {
     let images = await Image.find().sort({so: 1});
+
     try {
       return res.status(200).json(images);
     } catch (error) {
@@ -15,6 +17,7 @@ module.exports = {
     try {
       // create new image
       const newImage = await new Image({
+        key: req.file.key,
         url: req.file.location,
         alt: req.body.alt,
         so: 1
@@ -24,7 +27,6 @@ module.exports = {
       // set new image's gallery
       newImage.gallery = gallery;
       await newImage.save();
-      console.log(gallery.images);
       // push new image to gallery
       gallery.images.push(newImage);
       await gallery.save();
@@ -34,16 +36,16 @@ module.exports = {
     }
   },
 
-  deleteImage: async (req, res) => {
-    // TODO: delete image from S3
-    let promise = Image.deleteOne({_id: req.params.id});
+  deleteImage: async (req, res, next) => {
+    // delete image from S3
+    await deleteImage(req.params.key);
+    // delete image's data from DB
+    await Image.deleteOne({key: req.params.key});
 
-    promise.then(doc => {
-      if (doc) {
-        return res.status(200).json({message: 'Image deleted succesfully.'});
-      } else {
-        return res.status(501).json({message: 'Error deleting image.'})
-      }
-    });
+    try {
+      return res.status(200).json({message: 'Image deleted succesfully.'});
+    } catch (error) {
+      return res.status(501).json({message: 'Error deleting image.'})
+    }
   }
 }

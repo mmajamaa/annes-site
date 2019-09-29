@@ -35,4 +35,15 @@ const upload = multer({
   })
 })
 
-module.exports = upload;
+const deleteImage = file => {
+  s3.deleteObject(
+    {
+      Bucket: 'annes-gallery',
+      Key: file
+    }, (error, data) => {
+      console.log(data)
+    }
+  );
+}
+
+module.exports = {upload, deleteImage};
