@@ -1,8 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const deleteImage = require('../services/images').deleteImage;
+
 let schema = new Schema({
-  key: String, // used as a common id in S3 and DB
+  Key: String, // used as a common id in S3 and DB
   url: {type: String, require: true},
   alt: {type: String, require: true},
   so : {type: Number, require: true},
@@ -10,6 +12,12 @@ let schema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Gallery'
   }
+});
+
+schema.pre('remove', async function(next) {
+  // remove from S3
+  await deleteImage(this.Key);
+  next()
 });
 
 module.exports = mongoose.model('Image', schema);

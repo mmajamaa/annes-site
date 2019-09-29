@@ -41,9 +41,23 @@ const deleteImage = file => {
       Bucket: 'annes-gallery',
       Key: file
     }, (error, data) => {
-      console.log(data)
+      if (error) console.log(error, error.stack);
     }
   );
 }
 
-module.exports = {upload, deleteImage};
+const deleteImages = files => {
+  s3.deleteObjects(
+    {
+      Bucket: 'annes-gallery',
+      Delete: {
+        Objects: files,
+      }
+  },
+  function(error, data) {
+    if (error) console.log(error, error.stack);
+    else console.log('delete', data);
+});
+}
+
+module.exports = {upload, deleteImage, deleteImages};

@@ -16,8 +16,8 @@ module.exports = {
   newImage: async (req, res, next) => {
     try {
       // create new image
-      const newImage = await new Image({
-        key: req.file.key,
+      const newImage = new Image({
+        Key: req.file.key,
         url: req.file.location,
         alt: req.body.alt,
         so: 1
@@ -28,7 +28,7 @@ module.exports = {
       newImage.gallery = gallery;
       await newImage.save();
       // push new image to gallery
-      gallery.images.push(newImage);
+      gallery.images.push(newImage._id);
       await gallery.save();
       res.status(201).json(newImage);
     } catch (error) {
@@ -37,12 +37,9 @@ module.exports = {
   },
 
   deleteImage: async (req, res, next) => {
-    // delete image from S3
-    await deleteImage(req.params.key);
-    // delete image's data from DB
-    await Image.deleteOne({key: req.params.key});
-
     try {
+      const image = await Image.findOne({Key: req.params.key});
+      await image.remove();
       return res.status(200).json({message: 'Image deleted succesfully.'});
     } catch (error) {
       return res.status(501).json({message: 'Error deleting image.'})
