@@ -4,7 +4,7 @@ const deleteImage = require('../services/images').deleteImage;
 
 module.exports = {
   index:  async (req, res, next) => {
-    let images = await Image.find().sort({so: 1});
+    let images = await Image.find().sort({so: 0}).populate('gallery');
 
     try {
       return res.status(200).json(images);

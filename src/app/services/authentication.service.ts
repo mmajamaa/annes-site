@@ -12,41 +12,24 @@ interface myData {
 export class AuthenticationService {
   public loggedInStatus = false;
 
-  constructor(private http: HttpClient) {
-    this.http.get('api/authenticated', {
-      observe: 'body',
-      params: new HttpParams().append('token', localStorage.getItem('token'))
-    }).subscribe(
-      data => (this.loggedInStatus = true, console.log('auth ' + this.loggedInStatus)),
-      error => this.loggedInStatus = false
-    )
-  }
-
-  get isLoggedIn() {
-    console.log(this.loggedInStatus)
-    return this.loggedInStatus;
-  }
-
-  setLoggedIn(value: boolean) {
-    this.loggedInStatus = value;
-  }
+  constructor(private http: HttpClient) {}
 
   getUserName() {
-    return this.http.get('api/username', {
+    return this.http.get('api/auth/username', {
       observe: 'body',
       params: new HttpParams().append('token', localStorage.getItem('token'))
     })
   }
 
   getAuthStatus() {
-    return this.http.get('api/authenticated', {
+    return this.http.get('api/auth/status', {
       observe: 'body',
       params: new HttpParams().append('token', localStorage.getItem('token'))
     })
   }
 
   getUserDetails(username, password) {
-    return this.http.post<myData>('/api/login', {
+    return this.http.post<myData>('/api/auth/login', {
       username,
       password
     });

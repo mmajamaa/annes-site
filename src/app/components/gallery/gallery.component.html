@@ -1,7 +1,7 @@
 <h1>{{I18n.gallery}}</h1>
 
 <div class="topnav" id="myTopnav">
-  <a *ngFor="let gallery of gallerys" [routerLink]=gallery.id class="sub-router-link" [id]=gallery.id>{{gallery.name}}</a>
+  <a *ngFor="let gallery of gallerys" [routerLink]=gallery.en class="sub-router-link" [id]=gallery._id>{{gallery.fi}}</a>
 </div>
 
 <router-outlet></router-outlet>

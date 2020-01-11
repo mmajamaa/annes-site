@@ -4,6 +4,9 @@ import { Image } from '../../interfaces/image';
 import { Router, NavigationStart } from '@angular/router';
 import { SubGalleryComponent } from '../sub-gallery/sub-gallery.component';
 
+// services
+import { ImagesService } from '../../services/images.service';
+
 @Component({
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
@@ -11,16 +14,20 @@ import { SubGalleryComponent } from '../sub-gallery/sub-gallery.component';
 })
 export class GalleryComponent implements OnInit {
   public I18n:any;
-
-  // todo: change to dynamic
-  gallerys: any = [{id: 'prints', name: 'Vedokset'}, {id: 'paintings', name: 'Maalaukset'}]
+  public gallerys:any;
 
   constructor(private translationsService: TranslationsService,
-              private router: Router) {
-              }
+              private router: Router,
+              private imagesService: ImagesService
+            ) {}
 
   ngOnInit() {
     this.translationsService.cast.subscribe(res => this.I18n = res);
+
+    this.imagesService.getGallerys().subscribe(res => {
+      this.gallerys = res;
+      console.log(res);
+    });
   }
 
   @HostListener('click', ['$event.target']) clickInside(e) {

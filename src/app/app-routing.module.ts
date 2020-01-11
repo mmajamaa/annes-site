@@ -9,7 +9,6 @@ import { SubGalleryComponent } from "./components/sub-gallery/sub-gallery.compon
 import { AdminComponent } from "./components/admin/admin.component";
 import { LayoutComponent } from "./_layout/layout/layout.component"
 import { LoginComponent } from "./components/login/login.component";
-import { AuthenticationGuard } from './authentication.guard';
 
 const routes: Routes = [
   // site routes

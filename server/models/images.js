@@ -15,7 +15,6 @@ let schema = new Schema({
 });
 
 schema.pre('remove', async function(next) {
-  // remove from S3
   await deleteImage(this.Key);
   next()
 });

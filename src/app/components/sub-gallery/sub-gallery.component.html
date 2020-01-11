@@ -3,30 +3,19 @@
 <!-- Images used to open the lightbox -->
 <div class="row">
  <div class="column" *ngFor="let image of images; let i = index">
-   <img src={{image.url}} (click)="openModal();currentSlide(i+1)" class="hover-shadow" alt={{image.alt}}>
+   <img src={{image.url}} (click)="openImage($event)" class="hover-shadow" alt={{image.alt}}>
  </div>
 </div>
 
-<!-- The Modal/Lightbox -->
+<!-- The Modal -->
 <div id="myModal" class="modal">
- <span class="close cursor" (click)="closeModal()">&times;</span>
- <div class="modal-content">
 
-   <div class="mySlides" *ngFor="let image of images; let i = index">
-     <div class="numbertext">{{i+1}} / {{images.length}}</div>
-     <img src={{image.url}} alt={{image.alt}} style="width:100%">
-   </div>
+ <!-- The Close Button -->
+ <span class="close" (click)="closeModal()">&times;</span>
 
-   <!-- Next/previous controls -->
-   <div style="text-align:left">
-     <a class="prev" (click)="plusSlides(-1)">&#10094;</a>
-     <a class="next" (click)="plusSlides(1)">&#10095;</a>
-   </div>
+ <!-- Modal Content (The Image) -->
+ <img class="modal-content" id="img01">
 
-   <!-- Caption text -->
-   <div class="caption-container">
-     <p id="caption"></p>
-   </div>
-
- </div>
+ <!-- Modal Caption (Image Text) -->
+ <div id="caption"></div>
 </div>

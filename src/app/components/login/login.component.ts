@@ -21,9 +21,7 @@ export class LoginComponent implements OnInit {
 
     this.authenticationService.getUserDetails(username, password).subscribe(
       (data: any) => {
-        console.log(data)
         this.router.navigate(['admin']);
-        this.authenticationService.setLoggedIn(true);
         localStorage.setItem('token', data.toString());
       },
       error => {

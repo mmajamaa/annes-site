@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 const Image = require('./images');
 
 let schema = new Schema({
-  en: {type: String, require: true}, // also used as a path
-  fi: {type: String, require: true},
+  en: {type: String, require: true, unique: true}, // also used as a path
+  fi: {type: String, require: true, unique: true},
   images: [{
     type: Schema.Types.ObjectId,
     ref: 'Image'}]

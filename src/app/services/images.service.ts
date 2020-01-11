@@ -10,18 +10,40 @@ export class ImagesService {
 
   constructor(private http: HttpClient) { }
 
-  uploadImage(fd: FormData) {
-    return this.http.post('/api/image-upload', fd, {
+  uploadImage(fd: FormData, galleryId) {
+    return this.http.post('/api/images/' + galleryId, fd, {
       observe: 'body',
       params: new HttpParams().append('token', localStorage.getItem('token'))
     });
   }
 
   public getImages(): Observable<Image[]> {
-    return this.http.get<Image[]>('/api/images');
+    return this.http.get<Image[]>('/api/images/');
   }
-  deleteImage(id) {
-    return this.http.delete('/api/delete-image/' + id, {
+
+  deleteImage(key) {
+    return this.http.delete('/api/image/' + key, {
+      observe: 'body',
+      params: new HttpParams().append('token', localStorage.getItem('token'))
+    });
+  }
+
+  getGallerys() {
+    return this.http.get('/api/gallerys');
+  }
+
+  createGallery(fi, en) {
+    return this.http.post('/api/gallerys', {
+      en,
+      fi
+    }, {
+      observe: 'body',
+      params: new HttpParams().append('token', localStorage.getItem('token'))
+    });
+  }
+
+  deleteGallery(id) {
+    return this.http.delete('/api/gallery/' + id, {
       observe: 'body',
       params: new HttpParams().append('token', localStorage.getItem('token'))
     });

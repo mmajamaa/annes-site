@@ -19,24 +19,37 @@ export class AdminComponent implements OnInit {
   file: File = null;
   imgUrl: any;
   public images: Image[];
+  selectedGallery: any = null;
   // todo: get values dynamically
   values = [
     {value: 'prints', name: 'Vedokset'},
     {value: 'paintings', name: 'Maalaukset'}
   ];
 
+  public gallerys;
+
   constructor(private router: Router,
               private auth: AuthenticationService,
               private img: ImagesService,
               private domSanitizer: DomSanitizer) {
-    this.auth.getUserName().subscribe(
-      data => this.username = data.toString(),
+    this.auth.getAuthStatus().subscribe(
+      data => {this.username = 'test'
+              console.log('moi')},
       error => this.router.navigate(['/login'])
     )
 
-    this.img.getImages().subscribe(res => {
-      this.images = res;
+    this.img.getGallerys().subscribe(res => {
+      this.gallerys = res;
+      this.selectedGallery = this.gallerys[0]._id;
+      console.log(this.selectedGallery)
     })
+
+    this.img.getImages().subscribe(res => {
+      console.log(res)
+      this.images = res.filter(i => i.gallery);
+    });
+
+
   }
 
   ngOnInit() {}
@@ -57,19 +70,18 @@ export class AdminComponent implements OnInit {
   }
 
   uploadFile(form: NgForm) {
-    console.log(form.value.gallery)
     if (confirm('Haluatko varmasti ladata kuvan?') == false) {
       return;
     }
     const fd = new FormData();
     fd.append('image', this.file);
     fd.append('alt', form.value.alt);
-    fd.append('gallery', form.value.gallery);
-    this.img.uploadImage(fd).subscribe(
+    this.img.uploadImage(fd, form.value.gallery).subscribe(
       (res:any) => {
         // add image to list
-        let image: Image = {_id: res._id, url: res.url, alt: res.alt, so: res.so, gallery: res.gallery};
+        let image: Image = {Key: res.Key, _id: res._id, url: res.url, alt: res.alt, so: res.so, gallery: res.gallery};
         this.images.push(image);
+        console.log(this.images)
         // empty form
         form.reset();
         this.file = null;
@@ -81,19 +93,20 @@ export class AdminComponent implements OnInit {
     );
   }
 
-  deleteImage(id:String) {
+  deleteImage(key:String) {
     if (confirm('Haluatko varmasti poistaa kuvan?') == false) {
       return;
     }
 
-    this.img.deleteImage(id).subscribe(
+    this.img.deleteImage(key).subscribe(
       res => {
         // delete image from list
-        let img = this.images.find(i => i._id == id);
+        let img = this.images.find(i => i.Key == key);
         const index: number = this.images.indexOf(img);
         if (index !== -1) {
           this.images.splice(index, 1);
         }
+        console.log(res)
       },
       err => {
         console.log(err);
@@ -118,5 +131,75 @@ export class AdminComponent implements OnInit {
   closeModal() {
     var modal = document.getElementById("myModal");
     modal.style.display = "none";
+  }
+
+  // todo: alot
+  moveRow(direction, i) {
+    if (i == 0 && direction == 1) {
+
+    } else if (i == this.images.length - 1 && direction == -1) {
+
+    } else if (direction == 1) {
+      let a = this.images[i]
+      this.images[i] = this.images[i-1];
+      this.images[i-1] = a;
+      //[this.images[i], this.images[i-1] = [this.images[i-1], this.images[i]]]
+    } else if (direction == -1) {
+      let a = this.images[i]
+      this.images[i] = this.images[i+1];
+      this.images[i+1] = a;
+      //[this.images[i-1], this.images[i] = [this.images[i], this.images[i-1]]]
+    }
+
+    console.log(this.images)
+  }
+
+  gallerySelected(gallery) {
+    //this.selectedGallery = this.gallerys.find(g => g._id == gallery);
+    this.selectedGallery = gallery;
+    console.log(gallery)
+  }
+
+  createGallery(form: NgForm) {
+    if (confirm('Haluatko varmasti luoda alagallerian?') == false) {
+      console.log(form.value.fi)
+      console.log(form.value.en)
+      return;
+    }
+    const fd = new FormData();
+    fd.append('fi', form.value.fi);
+    fd.append('en', form.value.en);
+
+    this.img.createGallery(form.value.fi, form.value.en).subscribe(
+      (res:any) => {
+        this.gallerys.push(res);
+        console.log(res);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
+  deleteGallery(form: NgForm) {
+    console.log(form.value)
+    console.log(this.selectedGallery._id)
+    if (confirm('Haluatko varmasti poistaa gallerian?') == false) {
+      return;
+    }
+    this.img.deleteGallery(form.value.gallery).subscribe(
+      res => {
+        console.log(res);
+        // delete gallery from list
+        let gallery = this.gallerys.find(i => i._id == form.value.gallery);
+        const index: number = this.gallerys.indexOf(gallery);
+        if (index !== -1) {
+          this.gallerys.splice(index, 1);
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    )
   }
 }

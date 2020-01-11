@@ -14,6 +14,7 @@ export class SubGalleryComponent implements OnInit {
   public images: Image[];
   public gallery: any;
   public slideIndex;
+  public gallerys;
 
   constructor(private activatedRoute: ActivatedRoute,
               private imagesService: ImagesService) { }
@@ -23,13 +24,31 @@ export class SubGalleryComponent implements OnInit {
     // filter images based on gallery's name
     this.gallery = this.activatedRoute.params.subscribe(params => {
       this.imagesService.getImages().subscribe(res => {
-        this.images = res.filter(e => e.gallery == params['galleryName']);
+        this.images = res.filter(e => {
+          if (e.gallery) {
+            //console.log(e.gallery)
+            return e.gallery.en == params['galleryName']
+          }
+        });
       })
     })
   }
 
-  closeImg(e) {
-    e.style.display = "none";
+  openImage(event) {
+    // Get the modal
+    var modal = document.getElementById("myModal");
+    // Get the image and insert it inside the modal - use its "alt" text as a caption
+    var img = document.getElementById("myImg");
+    var modalImg = document.getElementById("img01");
+    var captionText = document.getElementById("caption");
+    modal.style.display = "block";
+    (<HTMLImageElement>modalImg).src = event.target.src;
+    captionText.innerHTML = event.target.alt;
+  }
+
+  closeModal() {
+    var modal = document.getElementById("myModal");
+    modal.style.display = "none";
   }
 
   openModal() {
