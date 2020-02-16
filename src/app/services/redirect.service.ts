@@ -1,17 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class RedirectService {
-
-  constructor() { }
+  constructor() {}
 
   redirect() {
-    window.open('http://www.mmajamaa.fi', '_blank');
+    //window.open('http://www.mmajamaa.fi', '_blank');
+    window.location = "mailto:mikko.majamaa@outlook.com";
   }
 
   openIg() {
-    window.open('https://www.instagram.com', '_blank');
+    window.open("https://www.instagram.com", "_blank");
   }
 }

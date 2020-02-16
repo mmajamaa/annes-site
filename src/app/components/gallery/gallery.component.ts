@@ -31,10 +31,13 @@ export class GalleryComponent implements OnInit {
     //console.log(res);
     //});
 
-    this.imagesService.getImages().subscribe(res => {
+    this.images = [{ url: "../../assets/fi.png", alt: "fin" }];
+
+    /*this.imagesService.getImages().subscribe(res => {
       this.images = res;
       console.log(res);
     });
+    */
   }
 
   @HostListener("click", ["$event.target"]) clickInside(e) {

@@ -34,7 +34,7 @@ module.exports = {
     }
   },
 
-  register: async (req, res, next) => {
+  /*register: async (req, res, next) => {
     console.log(req.body);
     let user = new User({
       username: req.body.username,
@@ -48,7 +48,7 @@ module.exports = {
     } catch (error) {
       return res.status(501).json({ message: "Error registering user." });
     }
-  },
+  },*/
 
   authenticated: async (req, res, next) => {
     // TODO: do something to this...

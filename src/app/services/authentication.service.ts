@@ -15,7 +15,6 @@ export class AuthenticationService {
   constructor(private http: HttpClient) {}
 
   getUserName() {
-    console.log("perkele");
     return this.http.get("api/auth/username", {
       observe: "body",
       params: new HttpParams().append("token", localStorage.getItem("token"))
