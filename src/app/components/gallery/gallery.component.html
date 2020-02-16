@@ -6,19 +6,14 @@
 
 <router-outlet></router-outlet>
 
-<!-- <div class="image-container">
-  <ng-container *ngFor="let image of images" class="hover-shadow">
-    <img
-      src="{{ image.url }}"
-      (click)="openImage($event)"
-      class=""
-      alt="{{ image.alt }}"
-    />
-  </ng-container>
-</div> -->
-
-<div fxLayout="column">
-  <div fxFlex>1</div>
-  <div fxFlex>2</div>
+<div fxLayout="row wrap" fxLayoutAlign="center column" style="width: 100%;">
+  <div
+    *ngFor="let image of images"
+    fxFlex.xs="75%"
+    fxFlex.gt-xs="45%"
+    [ngClass.gt-xs]="'wide'"
+    fxFlex.gt-md="30"
+  >
+    <img src="{{ image.url }}" class="img" alt="{{ image.alt }}" />
+  </div>
 </div>
-mitä vittua saatana
