@@ -1,11 +1,11 @@
 const aws = require("aws-sdk");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
+let config = "";
 
 if (process.env.NODE_ENV !== "production") {
-  const config = require("../config.json");
+  config = require("../config.json");
 }
-
 aws.config.update({
   secretAccessKey: process.env.AWS_SECRET_ACCESS || config.AWS_SECRET_ACCESS,
   accessKeyId: process.env.AWS_ACCESS_KEY || config.AWS_ACCESS_KEY,
