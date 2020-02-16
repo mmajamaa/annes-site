@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 
 interface myData {
@@ -7,7 +7,7 @@ interface myData {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class AuthenticationService {
   public loggedInStatus = false;
@@ -15,21 +15,23 @@ export class AuthenticationService {
   constructor(private http: HttpClient) {}
 
   getUserName() {
-    return this.http.get('api/auth/username', {
-      observe: 'body',
-      params: new HttpParams().append('token', localStorage.getItem('token'))
-    })
+    console.log("perkele");
+    return this.http.get("api/auth/username", {
+      observe: "body",
+      params: new HttpParams().append("token", localStorage.getItem("token"))
+    });
   }
 
   getAuthStatus() {
-    return this.http.get('api/auth/status', {
-      observe: 'body',
-      params: new HttpParams().append('token', localStorage.getItem('token'))
-    })
+    return this.http.get("api/auth/status", {
+      observe: "body",
+      params: new HttpParams().append("token", localStorage.getItem("token"))
+    });
   }
 
   getUserDetails(username, password) {
-    return this.http.post<myData>('/api/auth/login', {
+    console.log("perkele");
+    return this.http.post<myData>("/api/auth/login", {
       username,
       password
     });

@@ -1,10 +1,20 @@
 <div class="topnav" id="myTopnav">
-    <a routerLink="/home" class="router-link" id="home">{{I18n.home}}</a>
-    <a routerLink="/cv" class="router-link" id="cv">{{I18n.cv}}</a>
-    <a routerLink="/gallery/paintings" class="router-link" id="gallery">{{I18n.gallery}}</a>
-    <a routerLink="/contact" class="router-link" id="contact">{{I18n.contact}}</a>
-    <a><img src={{image.src}} alt={{image.alt}} (click)="toggleLanguage()" class="flag"></a>
-    <a href="javascript:void(0);" class="icon" (click)="toggleNavbar()">
-      <i class="fa fa-bars" style="float:right"></i>
-    </a>
+  <a routerLink="/home" class="router-link" id="home">{{ I18n.home }}</a>
+  <a routerLink="/cv" class="router-link" id="cv">{{ I18n.cv }}</a>
+  <a routerLink="/gallery" class="router-link" id="gallery">{{
+    I18n.gallery
+  }}</a>
+  <a routerLink="/contact" class="router-link" id="contact">{{
+    I18n.contact
+  }}</a>
+  <a
+    ><img
+      src="{{ image.src }}"
+      alt="{{ image.alt }}"
+      (click)="toggleLanguage()"
+      class="flag"
+  /></a>
+  <a href="javascript:void(0);" class="icon" (click)="toggleNavbar()">
+    <i class="fa fa-bars" style="float:right"></i>
+  </a>
 </div>

@@ -1,5 +1,6 @@
 * {
-  font-family: Courier New, Courier, Lucida Sans Typewriter, Lucida Typewriter, monospace;
+  font-family: Courier New, Courier, Lucida Sans Typewriter, Lucida Typewriter,
+    monospace;
 }
 
 .topnav {
@@ -23,4 +24,37 @@
 
 .topnav a.active {
   font-weight: bold;
+}
+
+.image-container {
+  display: flex;
+
+  /* width: 50%; */
+  /* height: 200px; */
+}
+
+.hover-shadow {
+  margin: auto;
+  width: 100px;
+  height: 100px;
+  background-color: red;
+}
+
+image {
+  width: 100%;
+  width: 100px !important;
+}
+
+.parent {
+  display: flex;
+  background-color: DodgerBlue;
+}
+
+.flex-container > div {
+  background-color: #f1f1f1;
+  width: 100px;
+  margin: 10px;
+  text-align: center;
+  line-height: 75px;
+  font-size: 30px;
 }

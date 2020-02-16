@@ -1,14 +1,14 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Image } from '../../interfaces/image';
+import { Component, OnInit, HostListener } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { Image } from "../../interfaces/image";
 
 // services
-import { ImagesService } from '../../services/images.service';
+import { ImagesService } from "../../services/images.service";
 
 @Component({
-  selector: 'app-sub-gallery',
-  templateUrl: './sub-gallery.component.html',
-  styleUrls: ['./sub-gallery.component.css']
+  selector: "app-sub-gallery",
+  templateUrl: "./sub-gallery.component.html",
+  styleUrls: ["./sub-gallery.component.css"]
 })
 export class SubGalleryComponent implements OnInit {
   public images: Image[];
@@ -16,8 +16,10 @@ export class SubGalleryComponent implements OnInit {
   public slideIndex;
   public gallerys;
 
-  constructor(private activatedRoute: ActivatedRoute,
-              private imagesService: ImagesService) { }
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private imagesService: ImagesService
+  ) {}
 
   ngOnInit() {
     this.slideIndex = 1;
@@ -27,11 +29,11 @@ export class SubGalleryComponent implements OnInit {
         this.images = res.filter(e => {
           if (e.gallery) {
             //console.log(e.gallery)
-            return e.gallery.en == params['galleryName']
+            //return e.gallery.en == params["galleryName"];
           }
         });
-      })
-    })
+      });
+    });
   }
 
   openImage(event) {
@@ -55,16 +57,16 @@ export class SubGalleryComponent implements OnInit {
     document.getElementById("myModal").style.display = "block";
   }
 
-  closeModal() {
+  /*closeModal() {
     document.getElementById("myModal").style.display = "none";
-  }
+  }*/
 
   plusSlides(n) {
-    this.showSlides(this.slideIndex += n);
+    this.showSlides((this.slideIndex += n));
   }
 
   currentSlide(n) {
-    this.showSlides(this.slideIndex = n);
+    this.showSlides((this.slideIndex = n));
   }
 
   showSlides(n) {
@@ -72,21 +74,25 @@ export class SubGalleryComponent implements OnInit {
     var slides = document.getElementsByClassName("mySlides");
     var dots = document.getElementsByClassName("demo");
     var captionText = document.getElementById("caption");
-    if (n > slides.length) {this.slideIndex = 1}
-    if (n < 1) {this.slideIndex = slides.length}
+    if (n > slides.length) {
+      this.slideIndex = 1;
+    }
+    if (n < 1) {
+      this.slideIndex = slides.length;
+    }
     for (i = 0; i < slides.length; i++) {
       (<HTMLElement>slides[i]).style.display = "none";
     }
     for (i = 0; i < dots.length; i++) {
       dots[i].className = dots[i].className.replace(" active", "");
     }
-    (<HTMLElement>slides[this.slideIndex-1]).style.display = "block";
-    dots[this.slideIndex-1].className += " active";
-    captionText.innerHTML = (<HTMLImageElement>dots[this.slideIndex-1]).alt;
+    (<HTMLElement>slides[this.slideIndex - 1]).style.display = "block";
+    dots[this.slideIndex - 1].className += " active";
+    captionText.innerHTML = (<HTMLImageElement>dots[this.slideIndex - 1]).alt;
   }
 
-  @HostListener('click', ['$event.target']) clickInside(e) {
-    if (e.id == "expanded-img" || e.className != "gallery-img") return
+  @HostListener("click", ["$event.target"]) clickInside(e) {
+    if (e.id == "expanded-img" || e.className != "gallery-img") return;
 
     let expandImg = <HTMLElement>document.getElementById("expanded-img");
     // get the image text

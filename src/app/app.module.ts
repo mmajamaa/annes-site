@@ -7,20 +7,21 @@ import { HomeComponent } from "./components/home/home.component";
 import { ContactComponent } from "./components/contact/contact.component";
 import { CvComponent } from "./components/cv/cv.component";
 import { GalleryComponent } from "./components/gallery/gallery.component";
-import { NavbarComponent} from "./_layout/navbar/navbar.component";
+import { NavbarComponent } from "./_layout/navbar/navbar.component";
 import { HttpClientModule } from "@angular/common/http";
-import { FooterComponent } from './_layout/footer/footer.component';
-import { AdminComponent } from './components/admin/admin.component';
-import { LayoutComponent } from './_layout/layout/layout.component';
-import { LoginComponent } from './components/login/login.component';
-import { FormsModule } from '@angular/forms';
-import { SubGalleryComponent } from './components/sub-gallery/sub-gallery.component';
+import { FooterComponent } from "./_layout/footer/footer.component";
+import { AdminComponent } from "./components/admin/admin.component";
+import { LayoutComponent } from "./_layout/layout/layout.component";
+import { LoginComponent } from "./components/login/login.component";
+import { FormsModule } from "@angular/forms";
+import { SubGalleryComponent } from "./components/sub-gallery/sub-gallery.component";
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 // services
-import { TranslationsService } from './services/translations.service';
-import { RedirectService } from './services/redirect.service';
-import { AuthenticationService } from './services/authentication.service';
-import { ImagesService } from './services/images.service';
+import { TranslationsService } from "./services/translations.service";
+import { RedirectService } from "./services/redirect.service";
+import { AuthenticationService } from "./services/authentication.service";
+import { ImagesService } from "./services/images.service";
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { ImagesService } from './services/images.service';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    FlexLayoutModule
   ],
   providers: [
     TranslationsService,
@@ -50,4 +52,4 @@ import { ImagesService } from './services/images.service';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

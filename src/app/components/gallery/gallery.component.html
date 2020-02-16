@@ -1,7 +1,24 @@
-<h1>{{I18n.gallery}}</h1>
+<h1>{{ I18n.gallery }}</h1>
 
-<div class="topnav" id="myTopnav">
+<!-- <div class="topnav" id="myTopnav">
   <a *ngFor="let gallery of gallerys" [routerLink]=gallery.en class="sub-router-link" [id]=gallery._id>{{gallery.fi}}</a>
-</div>
+</div> -->
 
 <router-outlet></router-outlet>
+
+<!-- <div class="image-container">
+  <ng-container *ngFor="let image of images" class="hover-shadow">
+    <img
+      src="{{ image.url }}"
+      (click)="openImage($event)"
+      class=""
+      alt="{{ image.alt }}"
+    />
+  </ng-container>
+</div> -->
+
+<div fxLayout="column">
+  <div fxFlex>1</div>
+  <div fxFlex>2</div>
+</div>
+mitä vittua saatana

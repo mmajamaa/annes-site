@@ -1,18 +1,21 @@
 .contact-wrapper {
   text-align: center;
+  overflow: hidden;
 }
 
-.clickable, .phone {
+.clickable,
+.phone {
   border-radius: 2px;
   font-size: 20px;
   line-height: 35px;
-  transition:all .25s;
+  transition: all 0.25s;
   font-weight: bold;
 }
 
-.clickable:hover, .phone:hover {
-  transform:scale(1.1);
-  -webkit-transform:scale(1.1);
+.clickable:hover,
+.phone:hover {
+  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
   cursor: pointer;
 }
 
@@ -21,7 +24,7 @@
 }
 
 .contact-info {
-  font-weight:bold;
+  font-weight: bold;
   font-size: 20px;
   display: inline;
 }

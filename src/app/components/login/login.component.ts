@@ -1,19 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { AuthenticationService } from '../../services/authentication.service';
-import { Router } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { NgForm } from "@angular/forms";
+import { AuthenticationService } from "../../services/authentication.service";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: "app-login",
+  templateUrl: "./login.component.html",
+  styleUrls: ["./login.component.css"]
 })
 export class LoginComponent implements OnInit {
+  constructor(
+    private authenticationService: AuthenticationService,
+    private router: Router
+  ) {}
 
-  constructor(private authenticationService: AuthenticationService, private router: Router) { }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   loginUser(form: NgForm) {
     const username = form.value.username;
@@ -21,11 +22,12 @@ export class LoginComponent implements OnInit {
 
     this.authenticationService.getUserDetails(username, password).subscribe(
       (data: any) => {
-        this.router.navigate(['admin']);
-        localStorage.setItem('token', data.toString());
+        this.router.navigate(["admin"]);
+        localStorage.setItem("token", data.toString());
       },
       error => {
-        window.alert('Wrong username or password');
+        console.log(error);
+        window.alert("Wrong username or password");
       }
     );
   }
