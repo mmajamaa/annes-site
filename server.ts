@@ -15,14 +15,14 @@ const apiRoutes = require("./routes/api");
 
 // mongoose
 const mongoose = require("mongoose");
-let mongoDB = process.env.MONGODB_URI || "mongodb://127.0.0.1/my_database";
+/*let mongoDB = process.env.MONGODB_URI || "mongodb://127.0.0.1/my_database";
 mongoose.connect(
   mongoDB,
   { useNewUrlParser: true, useUnifiedTopology: true },
   err => {
     console.log(err);
   }
-);
+);*/
 
 // configure the app to use bodyParser()
 app.use(
