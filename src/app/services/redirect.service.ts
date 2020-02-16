@@ -8,7 +8,6 @@ export class RedirectService {
 
   redirect() {
     //window.open('http://www.mmajamaa.fi', '_blank');
-    window.location = "mailto:mikko.majamaa@outlook.com";
   }
 
   openIg() {
