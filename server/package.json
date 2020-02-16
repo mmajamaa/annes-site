@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "ts-node-dev server.ts"
+    "serve": "ts-node-dev server.ts",
+    "start": "node server.ts"
   },
   "author": "",
   "license": "ISC",
@@ -23,5 +24,9 @@
     "ts-node": "^8.3.0",
     "ts-node-dev": "^1.0.0-pre.42",
     "typescript": "^3.6.2"
+  },
+  "engines": {
+    "node": "~10.16.2",
+    "npm": "~6.9.0"
   }
 }
