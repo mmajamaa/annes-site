@@ -1,13 +1,12 @@
-import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { Injectable } from "@angular/core";
+import { map } from "rxjs/operators";
 import { HttpClient } from "@angular/common/http";
-import { of, BehaviorSubject, Observable } from 'rxjs';
+import { of, BehaviorSubject, Observable } from "rxjs";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class TranslationsService {
-
   private data: any = {};
   private translation = new BehaviorSubject<any>({
     home: "ETUSIVU",
@@ -17,8 +16,10 @@ export class TranslationsService {
     phone: "Puhelinnumero",
     implementation: "Toteutus",
     email: "Sähköposti",
-    some: "Sosiaalinen media"
-    });
+    some: "Sosiaalinen media",
+    cv_content: "Päivitetään pian...",
+    home_content: "Päivitetään pian..."
+  });
   cast = this.translation.asObservable();
 
   public url = "http://localhost:4201";
@@ -28,29 +29,32 @@ export class TranslationsService {
 
   constructor(private http: HttpClient) {
     this.data = {
-    fi: {
-      home: "ETUSIVU",
-      cv: "CV",
-      gallery: "GALLERIA",
-      contact: "YHTEYSTIEDOT",
-      phone: "Puhelinnumero",
-      implementation: "Toteutus",
-      email: "Sähköposti",
-      some: "Sosiaalinen media"
+      fi: {
+        home: "ETUSIVU",
+        cv: "CV",
+        gallery: "GALLERIA",
+        contact: "YHTEYSTIEDOT",
+        phone: "Puhelinnumero",
+        implementation: "Toteutus",
+        email: "Sähköposti",
+        some: "Sosiaalinen media",
+        cv_content: "Päivitetään pian...",
+        home_content: "Päivitetään pian..."
       },
-    en: {
-      home: "HOME",
-      cv: "CV",
-      gallery: "GALLERY",
-      contact: "CONTACT",
-      phone: "Phone number",
-      implementation: "Implementation",
-      email: "Email",
-      some: "Social media"
+      en: {
+        home: "HOME",
+        cv: "CV",
+        gallery: "GALLERY",
+        contact: "CONTACT",
+        phone: "Phone",
+        implementation: "Implementation",
+        email: "Email",
+        some: "Social media",
+        cv_content: "Soon to be updated...",
+        home_content: "Soon to be updated..."
       }
-    }
+    };
   }
-
 
   toggleLanguage() {
     this.translation.next(this.language == "fi" ? this.data.en : this.data.fi);
@@ -58,11 +62,10 @@ export class TranslationsService {
   }
 
   getTranslations() {
-    return this.http.get<any[]>(this.url).subscribe((res) => {
+    return this.http.get<any[]>(this.url).subscribe(res => {
       this.textContent = res;
       this.I18n = res["fi"];
-      console.log(res)
+      console.log(res);
     });
   }
-
 }

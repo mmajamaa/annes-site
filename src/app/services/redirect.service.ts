@@ -11,6 +11,6 @@ export class RedirectService {
   }
 
   openIg() {
-    window.open("https://www.instagram.com", "_blank");
+    window.open("https://www.instagram.com/annesusanna_", "_blank");
   }
 }
