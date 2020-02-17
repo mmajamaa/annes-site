@@ -39,7 +39,8 @@ export class TranslationsService {
         email: "Sähköposti",
         some: "Sosiaalinen media",
         cv_content: "Päivitetään pian...",
-        home_content: "Päivitetään pian..."
+        home_content: "Päivitetään pian...",
+        gallery_content: "Täällä näet pian taidettani..."
       },
       en: {
         home: "HOME",
@@ -51,7 +52,8 @@ export class TranslationsService {
         email: "Email",
         some: "Social media",
         cv_content: "Soon to be updated...",
-        home_content: "Soon to be updated..."
+        home_content: "Soon to be updated...",
+        gallery_content: "Here you will see my art. Soon."
       }
     };
   }

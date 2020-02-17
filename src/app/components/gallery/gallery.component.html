@@ -6,7 +6,11 @@
 
 <router-outlet></router-outlet>
 
-<div fxLayout="row wrap" fxLayoutAlign="center column" style="width: 100%;">
+<div style="text-align: center;">
+  {{ I18n.gallery_content }}
+</div>
+
+<!-- <div fxLayout="row wrap" fxLayoutAlign="center column" style="width: 100%;">
   <div
     *ngFor="let image of images"
     fxFlex.xs="75%"
@@ -16,4 +20,4 @@
   >
     <img src="{{ image.url }}" class="img" alt="{{ image.alt }}" />
   </div>
-</div>
+</div> -->

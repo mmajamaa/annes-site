@@ -29,7 +29,6 @@ export class AuthenticationService {
   }
 
   getUserDetails(username, password) {
-    console.log("perkele");
     return this.http.post<myData>("/api/auth/login", {
       username,
       password
