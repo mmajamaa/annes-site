@@ -5,7 +5,11 @@ const path = require("path");
 
 const app = express();
 
-const config = require("./config.json");
+let config = "";
+
+if (process.env.NODE_ENV !== "production") {
+  config = require("../config.json");
+}
 
 app.use(express.static(path.join(__dirname, "dist/anne/")));
 
