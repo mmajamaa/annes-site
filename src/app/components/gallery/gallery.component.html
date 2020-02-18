@@ -6,18 +6,20 @@
 
 <router-outlet></router-outlet>
 
-<div style="text-align: center;">
+<div style="text-align: center;" *ngIf="!images2.length">
   {{ I18n.gallery_content }}
 </div>
 
-<!-- <div fxLayout="row wrap" fxLayoutAlign="center column" style="width: 100%;">
+<div fxLayout="row wrap" fxLayoutAlign="center column" style="width: 100%;">
   <div
-    *ngFor="let image of images"
+    *ngFor="let image of images2"
     fxFlex.xs="75%"
     fxFlex.gt-xs="45%"
     [ngClass.gt-xs]="'wide'"
     fxFlex.gt-md="30"
+    class="img-container"
   >
-    <img src="{{ image.url }}" class="img" alt="{{ image.alt }}" />
+    <img src="{{ image.url }}" class="img" alt="{{ image.alt_fi }}" />
+    {{ image.alt_fi }}
   </div>
-</div> -->
+</div>

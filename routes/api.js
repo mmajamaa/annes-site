@@ -18,12 +18,16 @@ router
   .post(helpers.verifyToken, singleUpload, ImagesController.newImage);
 
 router
+  .route("/images/")
+  .post(helpers.verifyToken, singleUpload, ImagesController.newImageNoGallery);
+
+router
   .route("/image/:key")
   .delete(helpers.verifyToken, ImagesController.deleteImage);
 
 router.route("/auth/login").post(AuthenticationController.index);
 
-//router.route("/auth/register").post(AuthenticationController.register);
+router.route("/auth/register").post(AuthenticationController.register);
 
 router
   .route("/auth/status")

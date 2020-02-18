@@ -3,7 +3,7 @@ export interface Image {
   _id?: string;
   url?: string;
   so?: number;
-  alt?: string;
+  alt_fi?: string;
   alt_en?: string;
   gallery?: string;
 }

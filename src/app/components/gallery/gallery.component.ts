@@ -17,6 +17,8 @@ export class GalleryComponent implements OnInit {
   public gallerys: any;
 
   public images: Image[];
+  public images2: Image[] = [];
+
   constructor(
     private translationsService: TranslationsService,
     private router: Router,
@@ -31,13 +33,11 @@ export class GalleryComponent implements OnInit {
     //console.log(res);
     //});
 
-    this.images = [{ url: "../../assets/fi.png", alt: "fin" }];
+    this.images = [{ url: "../../assets/fi.png", alt_fi: "fin" }];
 
-    /*this.imagesService.getImages().subscribe(res => {
-      this.images = res;
-      console.log(res);
+    this.imagesService.getImages().subscribe(res => {
+      this.images2 = res;
     });
-    */
   }
 
   @HostListener("click", ["$event.target"]) clickInside(e) {

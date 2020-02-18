@@ -18,7 +18,8 @@ export class TranslationsService {
     email: "Sähköposti",
     some: "Sosiaalinen media",
     cv_content: "Päivitetään pian...",
-    home_content: "Päivitetään pian..."
+    home_content: "Päivitetään pian...",
+    gallery_content: "Täällä näet pian taidettani..."
   });
   cast = this.translation.asObservable();
 

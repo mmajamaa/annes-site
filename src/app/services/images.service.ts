@@ -10,7 +10,9 @@ export class ImagesService {
   constructor(private http: HttpClient) {}
 
   uploadImage(fd: FormData, galleryId) {
-    return this.http.post("/api/images/" + galleryId, fd, {
+    const id = galleryId == null ? "" : galleryId;
+
+    return this.http.post("/api/images/" + id, fd, {
       observe: "body",
       params: new HttpParams().append("token", localStorage.getItem("token"))
     });

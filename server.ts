@@ -5,6 +5,8 @@ const path = require("path");
 
 const app = express();
 
+const config = require("./config.json");
+
 app.use(express.static(path.join(__dirname, "dist/anne/")));
 
 app.use(express.json());
@@ -15,14 +17,14 @@ const apiRoutes = require("./routes/api");
 
 // mongoose
 const mongoose = require("mongoose");
-/*let mongoDB = process.env.MONGODB_URI || "mongodb://127.0.0.1/my_database";
+let mongoDB = process.env.MONGODB_URI || config.db_uri;
 mongoose.connect(
   mongoDB,
   { useNewUrlParser: true, useUnifiedTopology: true },
   err => {
     console.log(err);
   }
-);*/
+);
 
 // configure the app to use bodyParser()
 app.use(

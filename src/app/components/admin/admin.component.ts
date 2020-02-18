@@ -1,62 +1,62 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms'
-import { DomSanitizer } from '@angular/platform-browser';
+import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+import { NgForm } from "@angular/forms";
+import { DomSanitizer } from "@angular/platform-browser";
 
-import { AuthenticationService } from '../../services/authentication.service';
-import { ImagesService } from '../../services/images.service';
+import { AuthenticationService } from "../../services/authentication.service";
+import { ImagesService } from "../../services/images.service";
 
-import { Image } from '../../interfaces/image';
-
+import { Image } from "../../interfaces/image";
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.css']
+  selector: "app-admin",
+  templateUrl: "./admin.component.html",
+  styleUrls: ["./admin.component.css"]
 })
 export class AdminComponent implements OnInit {
-  username = '';
+  username = "";
   file: File = null;
   imgUrl: any;
   public images: Image[];
   selectedGallery: any = null;
   // todo: get values dynamically
   values = [
-    {value: 'prints', name: 'Vedokset'},
-    {value: 'paintings', name: 'Maalaukset'}
+    { value: "prints", name: "Vedokset" },
+    { value: "paintings", name: "Maalaukset" }
   ];
 
   public gallerys;
 
-  constructor(private router: Router,
-              private auth: AuthenticationService,
-              private img: ImagesService,
-              private domSanitizer: DomSanitizer) {
+  constructor(
+    private router: Router,
+    private auth: AuthenticationService,
+    private img: ImagesService,
+    private domSanitizer: DomSanitizer
+  ) {
     this.auth.getAuthStatus().subscribe(
-      data => {this.username = 'test'
-              console.log('moi')},
-      error => this.router.navigate(['/login'])
-    )
+      data => {
+        this.username = "test";
+        console.log("moi");
+      },
+      error => this.router.navigate(["/login"])
+    );
 
-    this.img.getGallerys().subscribe(res => {
+    /*this.img.getGallerys().subscribe(res => {
       this.gallerys = res;
       this.selectedGallery = this.gallerys[0]._id;
-      console.log(this.selectedGallery)
-    })
+      console.log(this.selectedGallery);
+    });*/
 
     this.img.getImages().subscribe(res => {
-      console.log(res)
-      this.images = res.filter(i => i.gallery);
+      this.images = res;
     });
-
-
   }
 
   ngOnInit() {}
 
   logout() {
-    localStorage.removeItem('token');
-    this.router.navigate(['/login']);
+    localStorage.removeItem("token");
+    this.router.navigate(["/login"]);
   }
 
   onFileSelected(files) {
@@ -64,37 +64,46 @@ export class AdminComponent implements OnInit {
 
     var reader = new FileReader();
     reader.readAsDataURL(files[0]);
-    reader.onload = (_event) => {
+    reader.onload = _event => {
       this.imgUrl = reader.result;
-    }
+    };
   }
 
   uploadFile(form: NgForm) {
-    if (confirm('Haluatko varmasti ladata kuvan?') == false) {
+    if (confirm("Haluatko varmasti ladata kuvan?") == false) {
       return;
     }
     const fd = new FormData();
-    fd.append('image', this.file);
-    fd.append('alt', form.value.alt);
+    fd.append("image", this.file);
+    fd.append("alt_fi", form.value.alt_fi);
+    fd.append("alt_en", form.value.alt_en);
     this.img.uploadImage(fd, form.value.gallery).subscribe(
-      (res:any) => {
+      (res: any) => {
         // add image to list
-        let image: Image = {Key: res.Key, _id: res._id, url: res.url, alt: res.alt, so: res.so, gallery: res.gallery};
+        let image: Image = {
+          Key: res.Key,
+          _id: res._id,
+          url: res.url,
+          alt_fi: res.alt_fi,
+          alt_en: res.alt_en,
+          so: res.so,
+          gallery: res.gallery
+        };
         this.images.push(image);
-        console.log(this.images)
+        console.log(this.images);
         // empty form
         form.reset();
         this.file = null;
         this.imgUrl = null;
       },
       error => {
-        console.log(error)
+        console.log(error);
       }
     );
   }
 
-  deleteImage(key:String) {
-    if (confirm('Haluatko varmasti poistaa kuvan?') == false) {
+  deleteImage(key: String) {
+    if (confirm("Haluatko varmasti poistaa kuvan?") == false) {
       return;
     }
 
@@ -106,7 +115,7 @@ export class AdminComponent implements OnInit {
         if (index !== -1) {
           this.images.splice(index, 1);
         }
-        console.log(res)
+        console.log(res);
       },
       err => {
         console.log(err);
@@ -117,12 +126,12 @@ export class AdminComponent implements OnInit {
   openImage(event) {
     // Get the modal
     var modal = document.getElementById("myModal");
-    console.log(event.target.src)
+    console.log(event.target.src);
     // Get the image and insert it inside the modal - use its "alt" text as a caption
     var img = document.getElementById("myImg");
     var modalImg = document.getElementById("img01");
     var captionText = document.getElementById("caption");
-    console.log('jaa')
+    console.log("jaa");
     modal.style.display = "block";
     (<HTMLImageElement>modalImg).src = event.target.src;
     captionText.innerHTML = event.target.alt;
@@ -136,42 +145,40 @@ export class AdminComponent implements OnInit {
   // todo: alot
   moveRow(direction, i) {
     if (i == 0 && direction == 1) {
-
     } else if (i == this.images.length - 1 && direction == -1) {
-
     } else if (direction == 1) {
-      let a = this.images[i]
-      this.images[i] = this.images[i-1];
-      this.images[i-1] = a;
+      let a = this.images[i];
+      this.images[i] = this.images[i - 1];
+      this.images[i - 1] = a;
       //[this.images[i], this.images[i-1] = [this.images[i-1], this.images[i]]]
     } else if (direction == -1) {
-      let a = this.images[i]
-      this.images[i] = this.images[i+1];
-      this.images[i+1] = a;
+      let a = this.images[i];
+      this.images[i] = this.images[i + 1];
+      this.images[i + 1] = a;
       //[this.images[i-1], this.images[i] = [this.images[i], this.images[i-1]]]
     }
 
-    console.log(this.images)
+    console.log(this.images);
   }
 
   gallerySelected(gallery) {
     //this.selectedGallery = this.gallerys.find(g => g._id == gallery);
     this.selectedGallery = gallery;
-    console.log(gallery)
+    console.log(gallery);
   }
 
   createGallery(form: NgForm) {
-    if (confirm('Haluatko varmasti luoda alagallerian?') == false) {
-      console.log(form.value.fi)
-      console.log(form.value.en)
+    if (confirm("Haluatko varmasti luoda alagallerian?") == false) {
+      console.log(form.value.fi);
+      console.log(form.value.en);
       return;
     }
     const fd = new FormData();
-    fd.append('fi', form.value.fi);
-    fd.append('en', form.value.en);
+    fd.append("fi", form.value.fi);
+    fd.append("en", form.value.en);
 
     this.img.createGallery(form.value.fi, form.value.en).subscribe(
-      (res:any) => {
+      (res: any) => {
         this.gallerys.push(res);
         console.log(res);
       },
@@ -182,9 +189,9 @@ export class AdminComponent implements OnInit {
   }
 
   deleteGallery(form: NgForm) {
-    console.log(form.value)
-    console.log(this.selectedGallery._id)
-    if (confirm('Haluatko varmasti poistaa gallerian?') == false) {
+    console.log(form.value);
+    console.log(this.selectedGallery._id);
+    if (confirm("Haluatko varmasti poistaa gallerian?") == false) {
       return;
     }
     this.img.deleteGallery(form.value.gallery).subscribe(
@@ -200,6 +207,6 @@ export class AdminComponent implements OnInit {
       err => {
         console.log(err);
       }
-    )
+    );
   }
 }

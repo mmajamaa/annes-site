@@ -1,76 +1,128 @@
 <ng-container *ngIf="username">
-<div class="page-container">
-  <div class="sub-container">
-    <form #deleteGalleryForm="ngForm" (ngSubmit)="deleteGallery(deleteGalleryForm)" ngNativeValidate>
-      <select name="gallery" (change)="gallerySelected($event.target.value)">
-        <option *ngFor="let gallery of gallerys" value="{{gallery._id}}">{{gallery.fi}}</option>
-      </select>
-      <button type="submit" class="delete-button">
-        <i class="fa fa-trash"></i>
-      </button>
-    </form>
+  <div class="page-container">
+    <div class="sub-container">
+      <!-- <form
+        #deleteGalleryForm="ngForm"
+        (ngSubmit)="deleteGallery(deleteGalleryForm)"
+        ngNativeValidate
+      >
+        <select name="gallery" (change)="gallerySelected($event.target.value)">
+          <option *ngFor="let gallery of gallerys" value="{{ gallery._id }}">{{
+            gallery.fi
+          }}</option>
+        </select>
+        <button type="submit" class="delete-button">
+          <i class="fa fa-trash"></i>
+        </button>
+      </form> -->
 
-    <h1 *ngIf="selectedGallery">{{selectedGallery.fi}}</h1>
-<!-- The Modal -->
-<div id="myModal" class="modal">
+      <h1 *ngIf="selectedGallery">{{ selectedGallery.fi }}</h1>
+      <div id="myModal" class="modal">
+        <span class="close" (click)="closeModal()">&times;</span>
 
- <!-- The Close Button -->
- <span class="close" (click)="closeModal()">&times;</span>
+        <img class="modal-content" id="img01" />
 
- <!-- Modal Content (The Image) -->
- <img class="modal-content" id="img01">
+        <div id="caption"></div>
+      </div>
 
- <!-- Modal Caption (Image Text) -->
- <div id="caption"></div>
-</div>
+      <table id="image-table">
+        <ng-container *ngFor="let img of images; let i = index">
+          <!-- TODO: move to below tr *ngIf="img.gallery._id == selectedGallery" -->
 
-  <table id="image-table">
-    <ng-container *ngFor="let img of images; let i = index">
-      <tr *ngIf="img.gallery._id == selectedGallery" id={{i}} draggable="true">
-        <td class="img-td"><img src={{img.url}} alt={{img.alt}} id="myImg" class="image" (click)="openImage($event)"></td>
-        <td>{{img.alt}}</td>
-        <td class="button-td">
-          <button type="submit" (click)="deleteImage(img.Key)" class="delete-button">
-            <i class="fa fa-trash"></i>
-          </button>
-        </td>
-        <td>
-          <button (click)="moveRow(1, i)"><i class="fa fa-arrow-up"></i></button>
-          <button (click)="moveRow(-1, i)"><i class="fa fa-arrow-down"></i></button>
-        </td>
-      </tr>
-    </ng-container>
-  </table>
+          <tr id="{{ i }}" draggable="true">
+            <td class="img-td">
+              <img
+                src="{{ img.url }}"
+                alt="{{ img.alt }}"
+                id="myImg"
+                class="image"
+                (click)="openImage($event)"
+              />
+            </td>
+            <td>{{ img.alt }}</td>
+            <td class="button-td">
+              <button
+                type="submit"
+                (click)="deleteImage(img.Key)"
+                class="delete-button"
+              >
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+            <!-- <td>
+              <button (click)="moveRow(1, i)">
+                <i class="fa fa-arrow-up"></i>
+              </button>
+              <button (click)="moveRow(-1, i)">
+                <i class="fa fa-arrow-down"></i>
+              </button>
+            </td> -->
+          </tr>
+        </ng-container>
+      </table>
 
-  <form #subgalleryForm="ngForm" (ngSubmit)="createGallery(subgalleryForm)" ngNativeValidate>
-    <h1>Lisää alagalleria</h1>
-    <div class="container">
-      <input type="text" name="fi" placeholder="fi" required ngModel>
-      <input type="text" name="en" placeholder="en" required ngModel>
-      <input type="submit">
+      <!-- <form
+        #subgalleryForm="ngForm"
+        (ngSubmit)="createGallery(subgalleryForm)"
+        ngNativeValidate
+      >
+        <h1>Lisää alagalleria</h1>
+        <div class="container">
+          <input type="text" name="fi" placeholder="fi" required ngModel />
+          <input type="text" name="en" placeholder="en" required ngModel />
+          <input type="submit" />
+        </div>
+      </form> -->
+
+      <form
+        #uploadForm="ngForm"
+        (ngSubmit)="uploadFile(uploadForm)"
+        ngNativeValidate
+      >
+        <h1>Lisää kuva</h1>
+        <div class="imgcontainer">
+          <img [src]="imgUrl" class="preview" *ngIf="imgUrl" />
+        </div>
+
+        <div class="container">
+          <label for="file-upload" class="custom-file-upload">
+            <i class="fa fa-cloud-upload"></i> Valitse tiedosto
+          </label>
+
+          <input
+            id="file-upload"
+            #file
+            type="file"
+            accept="image/*"
+            (change)="onFileSelected(file.files)"
+          />
+          <input
+            type="text"
+            name="alt_fi"
+            placeholder="Kuvateksti"
+            required
+            ngModel
+          />
+          <input
+            type="text"
+            name="alt_en"
+            placeholder="Kuvateksti (englanninkielinen)"
+            required
+            ngModel
+          />
+
+          <!-- <select name="gallery" required ngModel>
+            <option
+              *ngFor="let gallery of gallerys"
+              value="{{ gallery._id }}"
+              >{{ gallery.fi }}</option
+            >
+          </select> -->
+
+          <input type="submit" />
+        </div>
+      </form>
+      <button (click)="logout()" class="logout-button">Kirjaudu ulos</button>
     </div>
-  </form>
-
-  <form #uploadForm="ngForm" (ngSubmit)="uploadFile(uploadForm)" ngNativeValidate>
-    <h1>Lisää kuva</h1>
-    <div class="imgcontainer">
-      <img [src]="imgUrl" class="preview" *ngIf="imgUrl">
-    </div>
-
-    <div class="container">
-      <label for="file-upload" class="custom-file-upload">
-        <i class="fa fa-cloud-upload"></i> Valitse tiedosto
-      </label>
-
-      <input id="file-upload" #file type="file" accept='image/*' (change)="onFileSelected(file.files)" />
-      <input type="text" name="alt" placeholder="Kuvateksti" required ngModel>
-      <select name="gallery" required ngModel>
-         <option *ngFor="let gallery of gallerys" value="{{gallery._id}}">{{gallery.fi}}</option>
-      </select>
-      <input type="submit">
-    </div>
-  </form>
-  <button (click)="logout()" class="logout-button">Kirjaudu ulos</button>
-  </div>
   </div>
 </ng-container>
