@@ -16,6 +16,7 @@ import { LoginComponent } from "./components/login/login.component";
 import { FormsModule } from "@angular/forms";
 import { SubGalleryComponent } from "./components/sub-gallery/sub-gallery.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { MaterialModule } from "./modules/material/material.module";
 
 // services
 import { TranslationsService } from "./services/translations.service";
@@ -42,7 +43,8 @@ import { ImagesService } from "./services/images.service";
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MaterialModule
   ],
   providers: [
     TranslationsService,

@@ -25,31 +25,32 @@
         <div id="caption"></div>
       </div>
 
-      <table id="image-table">
-        <ng-container *ngFor="let img of images; let i = index">
-          <!-- TODO: move to below tr *ngIf="img.gallery._id == selectedGallery" -->
+      <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+        <table id="image-table">
+          <ng-container *ngFor="let img of images; let i = index">
+            <!-- TODO: move to below tr *ngIf="img.gallery._id == selectedGallery" -->
 
-          <tr id="{{ i }}" draggable="true">
-            <td class="img-td">
-              <img
-                src="{{ img.url }}"
-                alt="{{ img.alt }}"
-                id="myImg"
-                class="image"
-                (click)="openImage($event)"
-              />
-            </td>
-            <td>{{ img.alt_fi }}</td>
-            <td class="button-td">
-              <button
-                type="submit"
-                (click)="deleteImage(img.Key)"
-                class="delete-button"
-              >
-                <i class="fa fa-trash"></i>
-              </button>
-            </td>
-            <!-- <td>
+            <tr id="{{ i }}" class="example-box" cdkDrag>
+              <td class="img-td">
+                <img
+                  src="{{ img.url }}"
+                  alt="{{ img.alt }}"
+                  id="myImg"
+                  class="image"
+                  (click)="openImage($event)"
+                />
+              </td>
+              <td>{{ img.alt_fi }}</td>
+              <td class="button-td">
+                <button
+                  type="submit"
+                  (click)="deleteImage(img.Key)"
+                  class="delete-button"
+                >
+                  <i class="fa fa-trash"></i>
+                </button>
+              </td>
+              <!-- <td>
               <button (click)="moveRow(1, i)">
                 <i class="fa fa-arrow-up"></i>
               </button>
@@ -57,9 +58,10 @@
                 <i class="fa fa-arrow-down"></i>
               </button>
             </td> -->
-          </tr>
-        </ng-container>
-      </table>
+            </tr>
+          </ng-container>
+        </table>
+      </div>
 
       <!-- <form
         #subgalleryForm="ngForm"

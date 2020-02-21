@@ -8,6 +8,8 @@ import { ImagesService } from "../../services/images.service";
 
 import { Image } from "../../interfaces/image";
 
+import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
+
 @Component({
   selector: "app-admin",
   templateUrl: "./admin.component.html",
@@ -208,5 +210,10 @@ export class AdminComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    console.log("test");
+    moveItemInArray(this.images, event.previousIndex, event.currentIndex);
   }
 }
