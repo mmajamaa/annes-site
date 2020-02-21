@@ -1,19 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { TranslationsService } from '../../services/translations.service';
+import { Component, OnInit } from "@angular/core";
+import { TranslationsService } from "../../services/translations.service";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: "app-home",
+  templateUrl: "./home.component.html",
+  styleUrls: ["./home.component.css"]
 })
 export class HomeComponent implements OnInit {
+  public I18n: any;
 
-  public I18n:any;
-
-  constructor(private translationsService: TranslationsService) { }
+  constructor(private translationsService: TranslationsService) {}
 
   ngOnInit() {
-    this.translationsService.cast.subscribe(r => this.I18n = r);
+    this.translationsService.cast.subscribe(r => (this.I18n = r));
   }
-
 }

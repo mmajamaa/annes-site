@@ -8,7 +8,7 @@ const app = express();
 let config = "";
 
 if (process.env.NODE_ENV !== "production") {
-  config = require("../config.json");
+  config = require("./config.json");
 }
 
 app.use(express.static(path.join(__dirname, "dist/anne/")));
@@ -59,6 +59,4 @@ app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "dist/anne/index.html"));
 });
 
-app.listen(process.env.PORT || 4201, () => {
-  console.log("listening");
-});
+app.listen(process.env.PORT || 4201);

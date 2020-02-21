@@ -10,16 +10,20 @@
   {{ I18n.gallery_content }}
 </div>
 
-<div fxLayout="row wrap" fxLayoutAlign="center column" style="width: 100%;">
+<div fxLayout="row wrap" fxLayoutAlign="center center" style="width: 100%;">
   <div
     *ngFor="let image of images2"
     fxFlex.xs="75%"
-    fxFlex.gt-xs="45%"
+    fxFlex.gt-xs="75%"
     [ngClass.gt-xs]="'wide'"
-    fxFlex.gt-md="30"
+    fxFlex.gt-md="75%"
     class="img-container"
+    fxLayout="row"
+    fxLayoutAlign="center center"
   >
-    <img src="{{ image.url }}" class="img" alt="{{ image.alt_fi }}" />
-    {{ image.alt_fi }}
+    <div fxFlex="nogrow" fxLayout="column">
+      <img src="{{ image.url }}" class="img" alt="{{ image.alt_fi }}" />
+      {{ image.alt_fi }}
+    </div>
   </div>
 </div>
