@@ -1,18 +1,12 @@
 <h1>CV</h1>
 
-<div fxLayout="row wrap" fxLayoutAlign="center" class="container">
-  <span fxFLex="15" *ngIf="language == 'en'"></span>
-  <div
-    style="text-align: center;"
-    *ngIf="language == 'en'"
-    fxFlex="70"
-    class="note"
-  >
-    {{ I18n.cv_content }}
-  </div>
-  <span fxFLex="15" *ngIf="language == 'en'"></span>
+<div *ngIf="language == 'en'" class="note">
+  {{ I18n.cv_content }}
+</div>
 
-  <table fxFlex="70%">
+<div fxLayout="row" class="container">
+  <span fxFlex></span>
+  <table fxFlex="70">
     <tr>
       <td>CV</td>
       <td>Anne Puronmaa s. 04.08.1968</td>
@@ -172,4 +166,6 @@
       <td></td>
     </tr>
   </table>
+
+  <span fxFlex></span>
 </div>

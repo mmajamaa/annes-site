@@ -32,3 +32,8 @@ table {
 .container {
   overflow: auto;
 }
+
+.note {
+  text-align: center;
+  width: 100%;
+}
