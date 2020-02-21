@@ -13,16 +13,13 @@
 <div fxLayout="row wrap" fxLayoutAlign="center center" style="width: 100%;">
   <div
     *ngFor="let image of images2"
-    fxFlex.xs="75%"
-    fxFlex.gt-xs="75%"
-    [ngClass.gt-xs]="'wide'"
-    fxFlex.gt-md="75%"
+    fxFlex="75%"
     class="img-container"
     fxLayout="row"
     fxLayoutAlign="center center"
   >
     <div fxFlex="nogrow" fxLayout="column">
-      <img src="{{ image.url }}" class="img" alt="{{ image.alt_fi }}" />
+      <img src="{{ image.url }}" class="img" alt="{{ image.alt_fi }}" fxFlex />
       {{ image.alt_fi }}
     </div>
   </div>

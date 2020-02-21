@@ -39,8 +39,8 @@
 }
 
 .img {
-  max-height: 80vh;
-  width: auto;
+  width: 30vw;
+  height: auto;
 }
 
 .wide {
@@ -49,4 +49,11 @@
 
 .img-container {
   margin-bottom: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .img {
+    width: 80vw;
+    height: auto;
+  }
 }
