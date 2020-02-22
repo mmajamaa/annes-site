@@ -26,6 +26,7 @@ import { LogoutButtonComponent } from "./components/logout-button/logout-button.
 import { ImageDialogComponent } from "./components/image-dialog/image-dialog.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { UploadComponentComponent } from "./components/upload-component/upload-component.component";
+import { OpenDialogButtonComponent } from './components/open-dialog-button/open-dialog-button.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { UploadComponentComponent } from "./components/upload-component/upload-c
     UserBarComponent,
     LogoutButtonComponent,
     ImageDialogComponent,
-    UploadComponentComponent
+    UploadComponentComponent,
+    OpenDialogButtonComponent
   ],
   imports: [
     BrowserModule,
