@@ -33,7 +33,7 @@
       fxLayoutAlign="none center"
     >
       <!-- TODO: move to below tr *ngIf="img.gallery._id == selectedGallery" -->
-      <form #editForm="ngForm" (ngSubmit)="editImages(editForm)">
+      <form #editForm="ngForm" (ngSubmit)="editImages(editForm)" id="edit-form">
         <mat-card
           *ngFor="let img of images; let i = index"
           class="image-card"
@@ -86,10 +86,12 @@
           </mat-card-content>
         </mat-card>
         <!-- <button mat-button (click)="saveOrder()">Tallenna</button> -->
-        <input type="submit" />
       </form>
     </div>
 
+    <button mat-button class="ok-button save" type="submit" form="edit-form">
+      Tallenna muutokset
+    </button>
     <!-- <form
         #subgalleryForm="ngForm"
         (ngSubmit)="createGallery(subgalleryForm)"

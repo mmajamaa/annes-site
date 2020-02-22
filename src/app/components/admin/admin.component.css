@@ -102,7 +102,7 @@ input[type="submit"]:hover {
 /* The Close Button */
 .close {
   position: absolute;
-  top: 15px;
+  top: 16px;
   right: 35px;
   color: #f1f1f1;
   font-size: 40px;
@@ -323,7 +323,7 @@ select {
 
 .image-card {
   width: 400px;
-  margin-bottom: 15px;
+  margin-bottom: 16px;
   background-color: #fefefe;
   cursor: move;
   border: 3px solid #f1f1f1;
@@ -332,20 +332,24 @@ select {
 }
 
 .image-card:first-child {
-  margin-top: 15px;
+  margin-top: 16px;
 }
 
 .card-input {
   width: calc(100% - 30px);
-  margin: 0 15px 15px 15px;
+  margin: 0 16px 16px 16px;
 }
 
 .card-input:first-child {
-  margin-top: 15px !important;
+  margin-top: 16px !important;
 }
 
 .title-label {
   padding-left: 30px;
   width: 100%;
   text-align: left;
+}
+
+.save {
+  margin-bottom: 16px;
 }
