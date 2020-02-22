@@ -38,7 +38,6 @@ export class AdminComponent implements OnInit {
     this.auth.getAuthStatus().subscribe(
       data => {
         this.username = "test";
-        console.log("moi");
       },
       error => this.router.navigate(["/login"])
     );
@@ -213,7 +212,19 @@ export class AdminComponent implements OnInit {
   }
 
   drop(event: CdkDragDrop<string[]>) {
-    console.log("test");
     moveItemInArray(this.images, event.previousIndex, event.currentIndex);
+    for (let i = 0; i < this.images.length; i++) {
+      this.images[i].so = i;
+    }
+  }
+
+  saveOrder() {
+    const fd = new FormData();
+    fd.append("images", JSON.stringify(this.images));
+
+    this.img.saveOrder(fd).subscribe(res => {
+      // TODO: if error response, render old order of images
+      console.log(res);
+    });
   }
 }

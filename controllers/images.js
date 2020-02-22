@@ -41,7 +41,8 @@ module.exports = {
     }
   },
 
-  newImageNoGallery: async (req, res, next) => {
+  saveOrder: async (req, res, next) => {
+    // TODO: reverse
     try {
       // create new image
       const newImage = new Image({
@@ -71,5 +72,21 @@ module.exports = {
     } catch (error) {
       return res.status(501).json({ message: "Error deleting image." });
     }
+  },
+
+  newImageNoGallery: async (req, res, next) => {
+    // TODO: reverse
+    const images = JSON.parse(req.body.images);
+    for (let i = 0; i < images.length; i++) {
+      Image.update({ Key: images[i].Key }, { so: images[i].so }, (err, doc) => {
+        if (err) {
+          return res
+            .status(501)
+            .json({ message: "Error on saving record to database." });
+        }
+      });
+    }
+
+    return res.status(200).json({ message: "success" });
   }
 };

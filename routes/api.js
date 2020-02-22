@@ -42,4 +42,8 @@ router
   .route("/gallery/:id")
   .delete(helpers.verifyToken, GallerysController.deleteGallery);
 
+router
+  .route("/saveorder")
+  .post(helpers.verifyToken, ImagesController.saveOrder);
+
 module.exports = router;
