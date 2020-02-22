@@ -143,25 +143,6 @@ export class AdminComponent implements OnInit {
     modal.style.display = "none";
   }
 
-  // todo: alot
-  moveRow(direction, i) {
-    if (i == 0 && direction == 1) {
-    } else if (i == this.images.length - 1 && direction == -1) {
-    } else if (direction == 1) {
-      let a = this.images[i];
-      this.images[i] = this.images[i - 1];
-      this.images[i - 1] = a;
-      //[this.images[i], this.images[i-1] = [this.images[i-1], this.images[i]]]
-    } else if (direction == -1) {
-      let a = this.images[i];
-      this.images[i] = this.images[i + 1];
-      this.images[i + 1] = a;
-      //[this.images[i-1], this.images[i] = [this.images[i], this.images[i-1]]]
-    }
-
-    console.log(this.images);
-  }
-
   gallerySelected(gallery) {
     //this.selectedGallery = this.gallerys.find(g => g._id == gallery);
     this.selectedGallery = gallery;
