@@ -4,10 +4,8 @@
 }
 
 /* Style buttons */
-.delete-button {
-  background-color: rgb(191, 0, 0); /* Blue background */
-  border: none; /* Remove borders */
-  color: white; /* White text */
+.delete-container {
+  color: rgb(191, 0, 0); /* Blue background */
   padding: 12px 16px; /* Some padding */
   font-size: 16px; /* Set a font size */
   cursor: pointer; /* Mouse pointer on hover */
@@ -15,11 +13,11 @@
 }
 
 /* Darker background on mouse-over */
-.delete-button:hover {
-  background-color: rgb(223, 128, 128);
+.delete-container:hover {
+  color: rgb(223, 128, 128);
 }
 
-input[type="text"] {
+.img-insert-input {
   width: 80%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -43,7 +41,7 @@ input[type="submit"]:hover {
   opacity: 0.8;
 }
 
-form {
+.upload-form {
   border: 3px solid #f1f1f1;
   padding: 20px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -310,26 +308,8 @@ tr:hover {
   background-color: #f5f5f5;
 }
 
-.img-td {
-  max-width: 10px !important;
-}
-
 .page-container {
   text-align: center;
-}
-
-.logout-button {
-  background-color: rgb(191, 0, 0); /* Blue background */
-  border: none; /* Remove borders */
-  color: white; /* White text */
-  padding: 12px 16px; /* Some padding */
-  font-size: 16px; /* Set a font size */
-  cursor: pointer; /* Mouse pointer on hover */
-  margin: 20px;
-}
-
-.logout-button:hover {
-  background-color: rgb(223, 128, 128);
 }
 
 @media screen and (max-width: 768px) {
@@ -344,7 +324,6 @@ select {
 
 .example-list {
   max-width: 100%;
-  border: solid 1px #ccc;
   min-height: 60px;
   display: block;
   background: white;
@@ -354,12 +333,7 @@ select {
 
 .example-box {
   padding: 20px 10px;
-  border-bottom: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
   box-sizing: border-box;
   cursor: move;
   background: white;
@@ -387,4 +361,42 @@ select {
 
 .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.image-card {
+  width: 400px;
+  margin-bottom: 15px;
+  background-color: #fefefe;
+  cursor: move;
+  border: 3px solid #f1f1f1;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 0px;
+}
+
+.image-card:first-child {
+  margin-top: 15px;
+}
+
+.card-input {
+  width: calc(100% - 30px);
+  margin: 0 15px 15px 15px;
+}
+
+.card-input:first-child {
+  margin-top: 15px !important;
+}
+
+.title-label {
+  padding-left: 30px;
+  width: 100%;
+  text-align: left;
+}
+
+.upload-card {
+  width: 400px;
+  margin-bottom: 15px;
+  background-color: #fefefe;
+  border: 3px solid #f1f1f1;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 0px;
 }

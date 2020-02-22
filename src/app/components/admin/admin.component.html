@@ -1,5 +1,6 @@
 <ng-container *ngIf="username">
   <div class="page-container">
+    <app-user-bar></app-user-bar>
     <!-- <form
         #deleteGalleryForm="ngForm"
         (ngSubmit)="deleteGallery(deleteGalleryForm)"
@@ -24,34 +25,69 @@
       <div id="caption"></div>
     </div>
 
-    <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-      <table id="image-table">
-        <ng-container *ngFor="let img of images; let i = index">
-          <!-- TODO: move to below tr *ngIf="img.gallery._id == selectedGallery" -->
-
-          <tr id="{{ i }}" class="example-box" cdkDrag>
-            <td class="img-td">
+    <div
+      cdkDropList
+      class="example-list"
+      (cdkDropListDropped)="drop($event)"
+      fxLayout="column"
+      fxLayoutAlign="none center"
+    >
+      <!-- TODO: move to below tr *ngIf="img.gallery._id == selectedGallery" -->
+      <form #editForm="ngForm" (ngSubmit)="editImages(editForm)">
+        <mat-card
+          *ngFor="let img of images; let i = index"
+          class="image-card"
+          cdkDrag
+        >
+          <mat-card-content>
+            <div
+              fxLayout="column"
+              fxLayoutAlign="none center"
+              class="top-container"
+            >
+              <div
+                fxFlex="nogrow"
+                fxLayout="row"
+                fxLayoutAlign="end"
+                style="width:100%"
+              >
+                <span class="delete-container" (click)="deleteImage(img.Key)"
+                  ><i class="fa fa-trash"></i
+                ></span>
+              </div>
               <img
+                fxFlex="nogrow"
                 src="{{ img.url }}"
                 alt="{{ img.alt }}"
                 id="myImg"
                 class="image"
                 (click)="openImage($event)"
               />
-            </td>
-            <td>{{ img.alt_fi }}</td>
-            <td class="button-td">
-              <button
-                type="submit"
-                (click)="deleteImage(img.Key)"
-                class="delete-button"
-              >
-                <i class="fa fa-trash"></i>
-              </button>
-            </td>
-          </tr>
-        </ng-container>
-      </table>
+
+              <label class="title-label">Suomenkielinen kuvateksti:</label>
+              <input
+                name="{{ img.Key + ':alt_fin' }}"
+                type="text"
+                fxFlex="nogrow"
+                class="card-input"
+                [ngModel]="img.alt_fi"
+              />
+
+              <label class="title-label">Englanninkielinen kuvateksti:</label>
+              <input
+                name="{{ img.Key + ':alt_en' }}"
+                type="text"
+                value="{{ img.alt_en }}"
+                fxFlex="nogrow"
+                class="card-input"
+                [ngModel]="img.alt_en"
+              />
+            </div>
+          </mat-card-content>
+        </mat-card>
+        <!-- <button mat-button (click)="saveOrder()">Tallenna</button> -->
+        <input type="submit" />
+      </form>
     </div>
 
     <!-- <form
@@ -67,46 +103,49 @@
         </div>
       </form> -->
 
-    <button mat-button (click)="saveOrder()">Tallenna</button>
+    <mat-card class="upload-card"
+      ><mat-card-content>
+        <form
+          #uploadForm="ngForm"
+          (ngSubmit)="uploadFile(uploadForm)"
+          class="upload-form"
+          ngNativeValidate
+        >
+          <h1>Lisää kuva</h1>
+          <div class="imgcontainer">
+            <img [src]="imgUrl" class="preview" *ngIf="imgUrl" />
+          </div>
 
-    <form
-      #uploadForm="ngForm"
-      (ngSubmit)="uploadFile(uploadForm)"
-      ngNativeValidate
-    >
-      <h1>Lisää kuva</h1>
-      <div class="imgcontainer">
-        <img [src]="imgUrl" class="preview" *ngIf="imgUrl" />
-      </div>
+          <div class="container">
+            <label for="file-upload" class="custom-file-upload">
+              <i class="fa fa-cloud-upload"></i> Valitse tiedosto
+            </label>
 
-      <div class="container">
-        <label for="file-upload" class="custom-file-upload">
-          <i class="fa fa-cloud-upload"></i> Valitse tiedosto
-        </label>
+            <input
+              id="file-upload"
+              #file
+              type="file"
+              accept="image/*"
+              (change)="onFileSelected(file.files)"
+            />
+            <input
+              class="img-insert-input"
+              type="text"
+              name="alt_fi"
+              placeholder="Kuvateksti"
+              required
+              ngModel
+            />
+            <input
+              class="img-insert-input"
+              type="text"
+              name="alt_en"
+              placeholder="Kuvateksti (englanninkielinen)"
+              required
+              ngModel
+            />
 
-        <input
-          id="file-upload"
-          #file
-          type="file"
-          accept="image/*"
-          (change)="onFileSelected(file.files)"
-        />
-        <input
-          type="text"
-          name="alt_fi"
-          placeholder="Kuvateksti"
-          required
-          ngModel
-        />
-        <input
-          type="text"
-          name="alt_en"
-          placeholder="Kuvateksti (englanninkielinen)"
-          required
-          ngModel
-        />
-
-        <!-- <select name="gallery" required ngModel>
+            <!-- <select name="gallery" required ngModel>
             <option
               *ngFor="let gallery of gallerys"
               value="{{ gallery._id }}"
@@ -114,9 +153,10 @@
             >
           </select> -->
 
-        <input type="submit" />
-      </div>
-    </form>
-    <button (click)="logout()" class="logout-button">Kirjaudu ulos</button>
+            <input type="submit" />
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
   </div>
 </ng-container>

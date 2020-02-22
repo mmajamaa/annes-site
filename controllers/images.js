@@ -78,13 +78,21 @@ module.exports = {
     // TODO: reverse
     const images = JSON.parse(req.body.images);
     for (let i = 0; i < images.length; i++) {
-      Image.update({ Key: images[i].Key }, { so: images[i].so }, (err, doc) => {
-        if (err) {
-          return res
-            .status(501)
-            .json({ message: "Error on saving record to database." });
+      Image.update(
+        { Key: images[i].Key },
+        {
+          so: images[i].so,
+          alt_fi: images[i].alt_fi,
+          alt_en: images[i].alt_en
+        },
+        (err, doc) => {
+          if (err) {
+            return res
+              .status(501)
+              .json({ message: "Error on saving record to database." });
+          }
         }
-      });
+      );
     }
 
     return res.status(200).json({ message: "success" });

@@ -23,6 +23,8 @@ import { TranslationsService } from "./services/translations.service";
 import { RedirectService } from "./services/redirect.service";
 import { AuthenticationService } from "./services/authentication.service";
 import { ImagesService } from "./services/images.service";
+import { UserBarComponent } from "./components/user-bar/user-bar.component";
+import { LogoutButtonComponent } from "./components/logout-button/logout-button.component";
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { ImagesService } from "./services/images.service";
     AdminComponent,
     LayoutComponent,
     LoginComponent,
-    SubGalleryComponent
+    SubGalleryComponent,
+    UserBarComponent,
+    LogoutButtonComponent
   ],
   imports: [
     BrowserModule,

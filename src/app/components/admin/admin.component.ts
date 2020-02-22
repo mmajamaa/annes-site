@@ -55,11 +55,6 @@ export class AdminComponent implements OnInit {
 
   ngOnInit() {}
 
-  logout() {
-    localStorage.removeItem("token");
-    this.router.navigate(["/login"]);
-  }
-
   onFileSelected(files) {
     this.file = files[0];
 
@@ -199,7 +194,21 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  saveOrder() {
+  editImages(form: NgForm) {
+    // TODO: only update changed values
+    for (let i = 0; i < this.images.length; i++) {
+      let altFi = `${this.images[i].Key}:alt_fin`;
+      let altEn = `${this.images[i].Key}:alt_en`;
+
+      if (form.value[altFi] !== this.images[i].alt_fi) {
+        this.images[i].alt_fi = form.value[altFi];
+      }
+
+      if (form.value[altEn] !== this.images[i].alt_en) {
+        this.images[i].alt_en = form.value[altEn];
+      }
+    }
+
     const fd = new FormData();
     fd.append("images", JSON.stringify(this.images));
 
