@@ -1,4 +1,6 @@
 import { Component, OnInit } from "@angular/core";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { ImageDialogComponent } from "../image-dialog/image-dialog.component";
 
 @Component({
   selector: "app-user-bar",
@@ -6,7 +8,14 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./user-bar.component.css"]
 })
 export class UserBarComponent implements OnInit {
-  constructor() {}
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {}
+
+  openDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = "custom-dialog-container";
+
+    const dialogRef = this.dialog.open(ImageDialogComponent, dialogConfig);
+  }
 }

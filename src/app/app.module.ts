@@ -17,14 +17,15 @@ import { FormsModule } from "@angular/forms";
 import { SubGalleryComponent } from "./components/sub-gallery/sub-gallery.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { MaterialModule } from "./modules/material/material.module";
-
-// services
 import { TranslationsService } from "./services/translations.service";
 import { RedirectService } from "./services/redirect.service";
 import { AuthenticationService } from "./services/authentication.service";
 import { ImagesService } from "./services/images.service";
 import { UserBarComponent } from "./components/user-bar/user-bar.component";
 import { LogoutButtonComponent } from "./components/logout-button/logout-button.component";
+import { ImageDialogComponent } from "./components/image-dialog/image-dialog.component";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { UploadComponentComponent } from "./components/upload-component/upload-component.component";
 
 @NgModule({
   declarations: [
@@ -40,7 +41,9 @@ import { LogoutButtonComponent } from "./components/logout-button/logout-button.
     LoginComponent,
     SubGalleryComponent,
     UserBarComponent,
-    LogoutButtonComponent
+    LogoutButtonComponent,
+    ImageDialogComponent,
+    UploadComponentComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +51,8 @@ import { LogoutButtonComponent } from "./components/logout-button/logout-button.
     HttpClientModule,
     FormsModule,
     FlexLayoutModule,
-    MaterialModule
+    MaterialModule,
+    BrowserAnimationsModule
   ],
   providers: [
     TranslationsService,
@@ -56,6 +60,7 @@ import { LogoutButtonComponent } from "./components/logout-button/logout-button.
     AuthenticationService,
     ImagesService
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ImageDialogComponent]
 })
 export class AppModule {}

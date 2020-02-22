@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-logout-button",
@@ -6,7 +7,7 @@ import { Component, OnInit } from "@angular/core";
   styleUrls: ["./logout-button.component.css"]
 })
 export class LogoutButtonComponent implements OnInit {
-  constructor() {}
+  constructor(public router: Router) {}
 
   ngOnInit(): void {}
 

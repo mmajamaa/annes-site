@@ -17,8 +17,6 @@ import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 })
 export class AdminComponent implements OnInit {
   username = "";
-  file: File = null;
-  imgUrl: any;
   public images: Image[];
   selectedGallery: any = null;
   // todo: get values dynamically
@@ -54,49 +52,6 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnInit() {}
-
-  onFileSelected(files) {
-    this.file = files[0];
-
-    var reader = new FileReader();
-    reader.readAsDataURL(files[0]);
-    reader.onload = _event => {
-      this.imgUrl = reader.result;
-    };
-  }
-
-  uploadFile(form: NgForm) {
-    if (confirm("Haluatko varmasti ladata kuvan?") == false) {
-      return;
-    }
-    const fd = new FormData();
-    fd.append("image", this.file);
-    fd.append("alt_fi", form.value.alt_fi);
-    fd.append("alt_en", form.value.alt_en);
-    this.img.uploadImage(fd, form.value.gallery).subscribe(
-      (res: any) => {
-        // add image to list
-        let image: Image = {
-          Key: res.Key,
-          _id: res._id,
-          url: res.url,
-          alt_fi: res.alt_fi,
-          alt_en: res.alt_en,
-          so: res.so,
-          gallery: res.gallery
-        };
-        this.images.push(image);
-        console.log(this.images);
-        // empty form
-        form.reset();
-        this.file = null;
-        this.imgUrl = null;
-      },
-      error => {
-        console.log(error);
-      }
-    );
-  }
 
   deleteImage(key: String) {
     if (confirm("Haluatko varmasti poistaa kuvan?") == false) {

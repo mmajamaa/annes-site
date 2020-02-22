@@ -17,16 +17,6 @@
   color: rgb(223, 128, 128);
 }
 
-.img-insert-input {
-  width: 80%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  box-sizing: border-box;
-  height: 45px;
-}
-
 input[type="submit"] {
   background-color: #4caf50;
   color: white;
@@ -39,38 +29,6 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
   opacity: 0.8;
-}
-
-.upload-form {
-  border: 3px solid #f1f1f1;
-  padding: 20px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-input[type="file"] {
-  display: none;
-}
-.custom-file-upload {
-  border: 1px solid #ccc;
-  display: block;
-  padding: 6px 12px;
-  cursor: pointer;
-}
-
-/* Center the avatar image inside this container */
-.imgcontainer {
-  text-align: center;
-  margin: 24px 0 12px 0;
-  min-height: 132px;
-}
-
-/* Preview image */
-img.preview {
-  max-width: 100px;
-  max-height: 120px;
-  margin: 0 auto;
-  display: block;
-  padding: 6px 12px;
 }
 
 /* Add padding to containers */
@@ -390,13 +348,4 @@ select {
   padding-left: 30px;
   width: 100%;
   text-align: left;
-}
-
-.upload-card {
-  width: 400px;
-  margin-bottom: 15px;
-  background-color: #fefefe;
-  border: 3px solid #f1f1f1;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  padding: 0px;
 }
