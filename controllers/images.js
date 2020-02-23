@@ -43,13 +43,15 @@ module.exports = {
 
   newImageNoGallery: async (req, res, next) => {
     try {
+      const img = await Image.findOne().sort("-so");
+
       // create new image
       const newImage = new Image({
         Key: req.file.key,
         url: req.file.location,
         alt_fi: req.body.alt_fi,
         alt_en: req.body.alt_en,
-        so: 1
+        so: img ? img.so + 1 : 0
       });
 
       await newImage.save();
