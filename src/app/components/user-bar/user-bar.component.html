@@ -1,5 +1,8 @@
 <div class="user-bar-container" fxLayout="row">
-  <app-open-dialog-button></app-open-dialog-button>
+  <app-open-dialog-button
+    [(images)]="images"
+    *ngIf="images"
+  ></app-open-dialog-button>
   <span fxFlex></span>
   <app-logout-button></app-logout-button>
 </div>

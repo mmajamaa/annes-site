@@ -1,7 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
 import { ImagesService } from "src/app/services/images.service";
 import { NgForm } from "@angular/forms";
 import { Image } from "../../interfaces/image";
+import { MatDialogRef } from "@angular/material/dialog";
+import { ImageDialogComponent } from "../image-dialog/image-dialog.component";
 
 @Component({
   selector: "app-upload-component",
@@ -11,10 +13,14 @@ import { Image } from "../../interfaces/image";
 export class UploadComponentComponent implements OnInit {
   file: File = null;
   imgUrl: any;
-  public images: Image[];
   public image: Image;
+  @Input() images: Image[];
+  @Output() imagesChange = new EventEmitter<boolean>();
 
-  constructor(private img: ImagesService) {}
+  constructor(
+    private img: ImagesService,
+    public dialogRef: MatDialogRef<ImageDialogComponent>
+  ) {}
 
   ngOnInit(): void {}
 
@@ -49,11 +55,11 @@ export class UploadComponentComponent implements OnInit {
           gallery: res.gallery
         };
         this.images.push(image);
-        console.log(this.images);
         // empty form
         form.reset();
         this.file = null;
         this.imgUrl = null;
+        this.dialogRef.close();
       },
       error => {
         console.log(error);

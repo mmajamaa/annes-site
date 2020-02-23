@@ -3,8 +3,6 @@ const pageLoad = require("../models/page-loads");
 
 module.exports = {
   pageLoad: async (req, res, next) => {
-    console.log(req.body);
-
     try {
       const newPageLoad = new pageLoad({
         date: Date.now(),

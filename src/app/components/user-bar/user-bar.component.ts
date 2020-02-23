@@ -1,4 +1,5 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { Image } from "../../interfaces/image";
 
 @Component({
   selector: "app-user-bar",
@@ -7,6 +8,8 @@ import { Component, OnInit } from "@angular/core";
 })
 export class UserBarComponent implements OnInit {
   constructor() {}
+  @Input() images: Image[];
+  @Output() imagesChange = new EventEmitter<boolean>();
 
   ngOnInit(): void {}
 }

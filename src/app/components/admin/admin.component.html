@@ -1,6 +1,6 @@
 <ng-container *ngIf="username">
   <div class="page-container">
-    <app-user-bar></app-user-bar>
+    <app-user-bar [(images)]="images" *ngIf="images"></app-user-bar>
     <!-- <form
         #deleteGalleryForm="ngForm"
         (ngSubmit)="deleteGallery(deleteGalleryForm)"

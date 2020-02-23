@@ -48,7 +48,7 @@ module.exports = {
         Key: req.file.key,
         url: req.file.location,
         alt_fi: req.body.alt_fi,
-        alt_en: req.body.alt_fi,
+        alt_en: req.body.alt_en,
         so: 1
       });
 
