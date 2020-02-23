@@ -164,10 +164,7 @@ export class AdminComponent implements OnInit {
       }
     }
 
-    const fd = new FormData();
-    fd.append("images", JSON.stringify(this.images));
-
-    this.img.saveOrder(fd).subscribe(res => {
+    this.img.saveOrder({ images: this.images }).subscribe(res => {
       // TODO: if error response, render old order of images
       console.log(res);
     });

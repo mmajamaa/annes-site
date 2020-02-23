@@ -41,8 +41,7 @@ module.exports = {
     }
   },
 
-  saveOrder: async (req, res, next) => {
-    // TODO: reverse
+  newImageNoGallery: async (req, res, next) => {
     try {
       // create new image
       const newImage = new Image({
@@ -74,9 +73,8 @@ module.exports = {
     }
   },
 
-  newImageNoGallery: async (req, res, next) => {
-    // TODO: reverse
-    const images = JSON.parse(req.body.images);
+  saveOrder: async (req, res, next) => {
+    const images = req.body.images;
     for (let i = 0; i < images.length; i++) {
       Image.update(
         { Key: images[i].Key },

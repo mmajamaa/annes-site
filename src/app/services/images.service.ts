@@ -54,9 +54,8 @@ export class ImagesService {
     });
   }
 
-  saveOrder(images: FormData) {
-    return this.http.post("/api/images/", images, {
-      // TODO: CHANGE TO saveorder
+  saveOrder(images) {
+    return this.http.post("/api/saveorder/", images, {
       observe: "body",
       params: new HttpParams().append("token", localStorage.getItem("token"))
     });
