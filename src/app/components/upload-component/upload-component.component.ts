@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { ImageService } from "../../services/images.servivice";
 import { ImagesService } from "src/app/services/images.service";
+import { NgForm } from "@angular/forms";
+import { Image } from "../../interfaces/image";
 
 @Component({
   selector: "app-upload-component",
@@ -10,6 +11,8 @@ import { ImagesService } from "src/app/services/images.service";
 export class UploadComponentComponent implements OnInit {
   file: File = null;
   imgUrl: any;
+  public images: Image[];
+  public image: Image;
 
   constructor(private img: ImagesService) {}
 
@@ -36,7 +39,7 @@ export class UploadComponentComponent implements OnInit {
     this.img.uploadImage(fd, form.value.gallery).subscribe(
       (res: any) => {
         // add image to list
-        let image: Image = {
+        let image = {
           Key: res.Key,
           _id: res._id,
           url: res.url,
