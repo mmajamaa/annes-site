@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { TranslationsService } from "./services/translations.service";
 import { ActivatedRoute } from "@angular/router";
+import { GeneralHttpService } from "./services/general-http.service";
 
 @Component({
   selector: "app-root",
@@ -14,7 +15,8 @@ export class AppComponent {
 
   constructor(
     private translationsService: TranslationsService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private generalHttpService: GeneralHttpService
   ) {
     // todo: activate tab (and subtab) links on page load
     //console.log(activatedRoute.snapshot.url);
@@ -22,5 +24,6 @@ export class AppComponent {
 
   ngOnInit() {
     this.translationsService.cast.subscribe(r => (this.I18n = r));
+    this.generalHttpService.pageLoad().subscribe();
   }
 }

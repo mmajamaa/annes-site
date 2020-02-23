@@ -10,6 +10,7 @@ const singleUpload = upload.single("image");
 const ImagesController = require("../controllers/images.js");
 const GallerysController = require("../controllers/gallerys.js");
 const AuthenticationController = require("../controllers/authentication.js");
+const StatisticsController = require("../controllers/statistics.js");
 
 router.route("/images").get(ImagesController.index);
 
@@ -45,5 +46,7 @@ router
 router
   .route("/saveorder")
   .post(helpers.verifyToken, ImagesController.saveOrder);
+
+router.route("/page-load").post(StatisticsController.pageLoad);
 
 module.exports = router;
