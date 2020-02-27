@@ -27,7 +27,9 @@
 }
 
 @media screen and (max-width: 768px) {
-  .topnav a {display: none;}
+  .topnav a {
+    display: none;
+  }
   .topnav a.icon {
     float: right;
     display: block;
@@ -38,21 +40,23 @@
   .topnav.responsive {
     position: relative;
     background-color: #efefef;
-    transition: all .25s;
+    transition: all 0.25s;
+    padding-top: 47px;
   }
 
   .topnav.responsive .icon {
     position: absolute;
     right: 0;
     top: 0;
-    transition: all .25s;
+    transition: all 0.25s;
   }
 
   .topnav.responsive a {
     float: none;
     display: block;
     text-align: left;
-    transition: all .25s;
+    transition: all 0.25s;
+    width: 100%;
   }
 }
 

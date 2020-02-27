@@ -1,25 +1,25 @@
-import { Component, OnInit, HostListener } from '@angular/core';
-import { TranslationsService } from '../../services/translations.service';
+import { Component, OnInit, HostListener } from "@angular/core";
+import { TranslationsService } from "../../services/translations.service";
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  selector: "app-navbar",
+  templateUrl: "./navbar.component.html",
+  styleUrls: ["./navbar.component.css"]
 })
 export class NavbarComponent implements OnInit {
-  public I18n:any;
+  public I18n: any;
   public images = [
-    {src: "./assets/uk.png", alt: "uk"},
-    {src: "./assets/fi.png", alt: "fi"}
+    { src: "./assets/uk.png", alt: "uk" },
+    { src: "./assets/fi.png", alt: "fi" }
   ];
   public image = this.images[0];
 
-  @HostListener('click', ['$event.target']) clickInside(e) {
-    if (e.className != 'router-link') return
-    Array.from(document.getElementsByClassName('router-link')).forEach(r => {
-      r.className = 'router-link'
-    })
-    e.className += ' active';
+  @HostListener("click", ["$event.target"]) clickInside(e) {
+    if (e.className != "router-link") return;
+    Array.from(document.getElementsByClassName("router-link")).forEach(r => {
+      r.className = "router-link";
+    });
+    e.className += " active";
 
     let x = document.getElementById("myTopnav");
     if (x.className === "topnav responsive") {
@@ -27,10 +27,10 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  constructor(private translationsService: TranslationsService) { }
+  constructor(private translationsService: TranslationsService) {}
 
   ngOnInit() {
-    this.translationsService.cast.subscribe(r => this.I18n = r);
+    this.translationsService.cast.subscribe(r => (this.I18n = r));
   }
 
   toggleLanguage() {
@@ -45,9 +45,5 @@ export class NavbarComponent implements OnInit {
     } else {
       x.className = "topnav";
     }
-  }
-
-  activate(e) {
-    console.log(document.getElementById(e.target.id).className)
   }
 }
