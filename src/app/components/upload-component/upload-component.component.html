@@ -12,8 +12,12 @@
         <img [src]="imgUrl" class="preview" *ngIf="imgUrl" />
       </div>
 
-      <div class="container">
-        <label for="file-upload" class="custom-file-upload">
+      <div class="container" fxLayout="column" fxLayoutAlign="center center">
+        <label
+          for="file-upload"
+          class="custom-file-upload max-width"
+          fxFlex="nogrow"
+        >
           <i class="fa fa-cloud-upload"></i> Valitse tiedosto
         </label>
 
@@ -23,22 +27,25 @@
           type="file"
           accept="image/*"
           (change)="onFileSelected(file.files)"
+          fxFlex="nogrow"
         />
         <input
-          class="img-insert-input"
+          class="img-insert-input max-width"
           type="text"
           name="alt_fi"
           placeholder="Kuvateksti"
           required
           ngModel
+          fxFlex="nogrow"
         />
         <input
-          class="img-insert-input"
+          class="img-insert-input max-width"
           type="text"
           name="alt_en"
           placeholder="Kuvateksti (englanninkielinen)"
           required
           ngModel
+          fxFlex="nogrow"
         />
 
         <!-- <select name="gallery" required ngModel>
@@ -49,7 +56,14 @@
             >
           </select> -->
 
-        <button mat-button class="ok-button" form="upload-form">Lataa</button>
+        <button
+          mat-button
+          class="ok-button upload-button max-width"
+          form="upload-form"
+          [disabled]="disabled"
+        >
+          Lataa
+        </button>
       </div>
     </form>
   </mat-card-content>

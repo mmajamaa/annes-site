@@ -16,6 +16,7 @@ export class UploadComponentComponent implements OnInit {
   public image: Image;
   @Input() images: Image[];
   @Output() imagesChange = new EventEmitter<boolean>();
+  public disabled = true;
 
   constructor(
     private img: ImagesService,
@@ -31,6 +32,7 @@ export class UploadComponentComponent implements OnInit {
     reader.readAsDataURL(files[0]);
     reader.onload = event => {
       this.imgUrl = reader.result;
+      this.disabled = false;
     };
   }
 
