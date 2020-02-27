@@ -5,7 +5,7 @@ const path = require("path");
 
 const app = express();
 
-let config = "";
+let config = { db_uri: "" };
 
 if (process.env.NODE_ENV !== "production") {
   config = require("./config.json");
@@ -44,28 +44,12 @@ mongoose.connect(
   }
 );
 
-// configure the app to use bodyParser()
 app.use(
   bodyParser.urlencoded({
     extended: true
   })
 );
 app.use(bodyParser.json());
-
-app.use("/", (req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.header("Access-Control-Allow-Methods", "OPTIONS, GET");
-  if ("OPTIONS" == req.method) {
-    res.sendStatus(200);
-  } else {
-    console.log(`${req.ip} ${req.method} ${req.url}`);
-    next();
-  }
-});
 
 app.use("/api", apiRoutes);
 
