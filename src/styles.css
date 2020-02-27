@@ -36,3 +36,11 @@ h1 {
 .warn-button:hover {
   opacity: 0.8;
 }
+
+.max-width {
+  width: 100%;
+}
+
+.max-height {
+  height: 100%;
+}

@@ -32,7 +32,6 @@
       fxLayout="column"
       fxLayoutAlign="none center"
     >
-      <!-- TODO: move to below tr *ngIf="img.gallery._id == selectedGallery" -->
       <form #editForm="ngForm" (ngSubmit)="editImages(editForm)" id="edit-form">
         <mat-card
           *ngFor="let img of images; let i = index"
@@ -45,15 +44,14 @@
               fxLayoutAlign="none center"
               class="top-container"
             >
-              <div
-                fxFlex="nogrow"
-                fxLayout="row"
-                fxLayoutAlign="end"
-                style="width:100%"
-              >
+              <div fxFlex="nogrow" fxLayout="row" class="max-width">
                 <span class="delete-container" (click)="deleteImage(img.Key)"
                   ><i class="fa fa-trash"></i
                 ></span>
+                <span fxFlex></span>
+                <span class="drag-container" cdkDragHandle>
+                  <i class="fa fa-arrows-alt"></i>
+                </span>
               </div>
               <img
                 fxFlex="nogrow"
