@@ -9,7 +9,8 @@ form {
   width: 50%;
 }
 
-input[type=text], input[type=password] {
+input[type="text"],
+input[type="password"] {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -18,22 +19,13 @@ input[type=text], input[type=password] {
   box-sizing: border-box;
 }
 
-input[type=submit] {
-  background-color: #4CAF50;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 100%;
-}
-
-input[type=submit]:hover {
-  opacity: 0.8;
-}
-
 @media screen and (max-width: 600px) {
   form {
-    width: 90%;
+    width: 80%;
   }
+}
+
+.ok-button {
+  margin-top: 8px;
+  width: 100%;
 }

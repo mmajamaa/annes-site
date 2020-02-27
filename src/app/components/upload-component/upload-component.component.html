@@ -4,6 +4,7 @@
       #uploadForm="ngForm"
       (ngSubmit)="uploadFile(uploadForm)"
       class="upload-form"
+      id="upload-form"
       ngNativeValidate
     >
       <h1>Lisää kuva</h1>
@@ -48,7 +49,7 @@
             >
           </select> -->
 
-        <input type="submit" />
+        <button mat-button class="ok-button" form="upload-form">Lataa</button>
       </div>
     </form>
   </mat-card-content>

@@ -1,5 +1,17 @@
-<form #loginForm="ngForm" (ngSubmit)="loginUser(loginForm)">
-  <input type="text" name="username" id="username" placeholder="Käyttäjänimi" ngModel>
-  <input type="password" name="password" id="password" placeholder="Salasana" ngModel>
-  <input type="submit">
+<form #loginForm="ngForm" (ngSubmit)="loginUser(loginForm)" id="login-form">
+  <input
+    type="text"
+    name="username"
+    id="username"
+    placeholder="Käyttäjänimi"
+    ngModel
+  />
+  <input
+    type="password"
+    name="password"
+    id="password"
+    placeholder="Salasana"
+    ngModel
+  />
+  <button mat-button class="ok-button" form="login-form">Login</button>
 </form>
