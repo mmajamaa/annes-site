@@ -56,14 +56,26 @@
             >
           </select> -->
 
-        <button
-          mat-button
-          class="ok-button upload-button max-width"
-          form="upload-form"
-          [disabled]="disabled"
-        >
-          Lataa
-        </button>
+        <div class="button-container max-width" fxFlex="nogrow" fxLayout="row">
+          <button
+            mat-button
+            class="warn-button cancel-button"
+            (click)="cancelUpload()"
+            fxFlex
+          >
+            Peruuta
+          </button>
+          <span fxFlex="16px"></span>
+          <button
+            mat-button
+            class="ok-button upload-button"
+            form="upload-form"
+            [disabled]="disabled"
+            fxFlex
+          >
+            Lataa
+          </button>
+        </div>
       </div>
     </form>
   </mat-card-content>

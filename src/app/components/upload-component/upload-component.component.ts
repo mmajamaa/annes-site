@@ -68,4 +68,8 @@ export class UploadComponentComponent implements OnInit {
       }
     );
   }
+
+  public cancelUpload() {
+    this.dialogRef.close();
+  }
 }

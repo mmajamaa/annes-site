@@ -52,6 +52,7 @@ img.preview {
   padding: 6px 12px;
 }
 
-.upload-button {
+.upload-button,
+.cancel-button {
   margin-top: 16px;
 }
