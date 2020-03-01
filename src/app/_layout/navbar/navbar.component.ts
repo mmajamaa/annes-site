@@ -13,6 +13,8 @@ export class NavbarComponent implements OnInit {
     { src: "./assets/fi.png", alt: "fi" }
   ];
   public image = this.images[0];
+  public open: boolean = false;
+  public myClass = "topnav";
 
   @HostListener("click", ["$event.target"]) clickInside(e) {
     if (e.className != "router-link") return;
@@ -39,11 +41,7 @@ export class NavbarComponent implements OnInit {
   }
 
   toggleNavbar() {
-    let x = document.getElementById("myTopnav");
-    if (x.className === "topnav") {
-      x.className += " responsive";
-    } else {
-      x.className = "topnav";
-    }
+    this.open = this.open === true ? false : true;
+    this.myClass = this.myClass === "topnav" ? "topnav responsive" : "topnav";
   }
 }

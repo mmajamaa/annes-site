@@ -1,4 +1,4 @@
-<div class="topnav" id="myTopnav">
+<div [class]="myClass">
   <a routerLink="/home" class="router-link" id="home">{{ I18n.home }}</a>
   <a routerLink="/cv" class="router-link" id="cv">{{ I18n.cv }}</a>
   <a routerLink="/gallery" class="router-link" id="gallery">{{
@@ -15,6 +15,7 @@
       class="flag"
   /></a>
   <a href="javascript:void(0);" class="icon" (click)="toggleNavbar()">
-    <i class="fa fa-bars" style="float:right"></i>
+    <mat-icon style="float:right" *ngIf="!open">menu</mat-icon>
+    <mat-icon style="float:right" *ngIf="open">close</mat-icon>
   </a>
 </div>
