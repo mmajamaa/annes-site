@@ -22,11 +22,6 @@ export class NavbarComponent implements OnInit {
       r.className = "router-link";
     });
     e.className += " active";
-
-    let x = document.getElementById("myTopnav");
-    if (x.className === "topnav responsive") {
-      x.className = "topnav";
-    }
   }
 
   constructor(private translationsService: TranslationsService) {}

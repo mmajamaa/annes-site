@@ -58,6 +58,10 @@
     transition: all 0.25s;
     width: 100%;
   }
+
+  .topnav.responsive a:hover {
+    font-weight: bold;
+  }
 }
 
 .flag {
