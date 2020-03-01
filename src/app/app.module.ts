@@ -30,6 +30,7 @@ import { OpenDialogButtonComponent } from "./components/open-dialog-button/open-
 import { LayoutModule } from "@angular/cdk/layout";
 import { NgxImageCompressService } from "ngx-image-compress";
 import { SpinnerOverlayComponent } from "./components/spinner-overlay/spinner-overlay.component";
+import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { SpinnerOverlayComponent } from "./components/spinner-overlay/spinner-ov
     ImageDialogComponent,
     UploadComponentComponent,
     OpenDialogButtonComponent,
-    SpinnerOverlayComponent
+    SpinnerOverlayComponent,
+    SnackBarComponent
   ],
   imports: [
     BrowserModule,

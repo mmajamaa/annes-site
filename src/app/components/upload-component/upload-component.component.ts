@@ -5,6 +5,8 @@ import { Image } from "../../interfaces/image";
 import { MatDialogRef } from "@angular/material/dialog";
 import { ImageDialogComponent } from "../image-dialog/image-dialog.component";
 import { NgxImageCompressService } from "ngx-image-compress";
+import { MatSnackBar, MatSnackBarConfig } from "@angular/material/snack-bar";
+import { SnackBarComponent } from "../snack-bar/snack-bar.component";
 
 @Component({
   selector: "app-upload-component",
@@ -23,7 +25,8 @@ export class UploadComponentComponent implements OnInit {
   constructor(
     private img: ImagesService,
     public dialogRef: MatDialogRef<ImageDialogComponent>,
-    private imageCompress: NgxImageCompressService
+    private imageCompress: NgxImageCompressService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {}
@@ -59,9 +62,16 @@ export class UploadComponentComponent implements OnInit {
         this.file = null;
         this.imgUrl = null;
         this.dialogRef.close();
+
+        this.openSnackBar("Kuva ladattiin onnistuneesti.", "ok-snackbar");
       },
       error => {
         console.log(error);
+
+        this.openSnackBar(
+          "Virhe kuvan lataamisessa. Yritä uudestaan.",
+          "warn-snackbar"
+        );
       }
     );
   }
@@ -88,5 +98,14 @@ export class UploadComponentComponent implements OnInit {
           this.loading = false;
         });
     });
+  }
+
+  openSnackBar(message, panelClass) {
+    const config = new MatSnackBarConfig();
+    config.duration = 2000;
+    config.panelClass = [panelClass];
+    config.data = message;
+
+    this.snackBar.openFromComponent(SnackBarComponent, config);
   }
 }
