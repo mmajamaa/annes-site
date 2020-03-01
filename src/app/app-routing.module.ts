@@ -7,7 +7,7 @@ import { CvComponent } from "./components/cv/cv.component";
 import { GalleryComponent } from "./components/gallery/gallery.component";
 import { SubGalleryComponent } from "./components/sub-gallery/sub-gallery.component";
 import { AdminComponent } from "./components/admin/admin.component";
-import { LayoutComponent } from "./_layout/layout/layout.component"
+import { LayoutComponent } from "./_layout/layout/layout.component";
 import { LoginComponent } from "./components/login/login.component";
 
 const routes: Routes = [
@@ -42,14 +42,15 @@ const routes: Routes = [
             component: SubGalleryComponent
           }
         ]
-      }
+      },
+      { path: "**", redirectTo: "home" }
     ]
   },
 
   // no layout routes
   {
     path: "admin",
-    component: AdminComponent,
+    component: AdminComponent
   },
   {
     path: "login",
@@ -60,6 +61,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [],
+  providers: []
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
