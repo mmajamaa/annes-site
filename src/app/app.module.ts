@@ -29,6 +29,7 @@ import { UploadComponentComponent } from "./components/upload-component/upload-c
 import { OpenDialogButtonComponent } from "./components/open-dialog-button/open-dialog-button.component";
 import { LayoutModule } from "@angular/cdk/layout";
 import { NgxImageCompressService } from "ngx-image-compress";
+import { SpinnerOverlayComponent } from "./components/spinner-overlay/spinner-overlay.component";
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { NgxImageCompressService } from "ngx-image-compress";
     LogoutButtonComponent,
     ImageDialogComponent,
     UploadComponentComponent,
-    OpenDialogButtonComponent
+    OpenDialogButtonComponent,
+    SpinnerOverlayComponent
   ],
   imports: [
     BrowserModule,
@@ -67,6 +69,6 @@ import { NgxImageCompressService } from "ngx-image-compress";
     NgxImageCompressService
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ImageDialogComponent]
+  entryComponents: [ImageDialogComponent, SpinnerOverlayComponent]
 })
 export class AppModule {}

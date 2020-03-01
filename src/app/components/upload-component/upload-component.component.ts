@@ -18,6 +18,7 @@ export class UploadComponentComponent implements OnInit {
   @Input() images: Image[];
   @Output() imagesChange = new EventEmitter<boolean>();
   public disabled = true;
+  public loading = false;
 
   constructor(
     private img: ImagesService,
@@ -31,6 +32,8 @@ export class UploadComponentComponent implements OnInit {
     if (confirm("Haluatko varmasti ladata kuvan?") == false) {
       return;
     }
+
+    this.loading = true;
 
     const uploadObject = {
       alt_fi: form.value.alt_fi,
@@ -69,6 +72,8 @@ export class UploadComponentComponent implements OnInit {
 
   compressFile() {
     this.imageCompress.uploadFile().then(({ image, orientation }) => {
+      this.loading = true;
+
       const quality =
         this.imageCompress.byteCount(image) > 1500000
           ? (1500000 / this.imageCompress.byteCount(image)) * 100
@@ -79,6 +84,8 @@ export class UploadComponentComponent implements OnInit {
         .then(result => {
           this.imgUrl = result;
           this.disabled = false;
+
+          this.loading = false;
         });
     });
   }
