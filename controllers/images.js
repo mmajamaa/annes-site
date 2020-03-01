@@ -47,10 +47,10 @@ module.exports = {
 
       // create new image
       const newImage = new Image({
-        Key: req.file.key,
-        url: req.file.location,
-        alt_fi: req.body.alt_fi,
-        alt_en: req.body.alt_en,
+        Key: res.locals.key, // TODO: remove?
+        url: res.locals.url,
+        alt_fi: res.locals.alt_fi,
+        alt_en: res.locals.alt_en,
         so: img ? img.so + 1 : 0
       });
 

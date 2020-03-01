@@ -22,6 +22,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+// not used right now, replaced with upload below to apply compression of images
 const upload = multer({
   fileFilter,
   storage: multerS3({
@@ -36,6 +37,40 @@ const upload = multer({
     }
   })
 });
+
+const singleUpload = (req, res, next) => {
+  const body = JSON.parse(req.body);
+
+  buf = new Buffer(
+    body.image.replace(/^data:image\/\w+;base64,/, ""),
+    "base64"
+  );
+
+  const key = Date.now().toString();
+  const bucket = "annes-gallery";
+
+  var data = {
+    Bucket: bucket,
+    Key: key,
+    Body: buf,
+    ContentEncoding: "base64",
+    ContentType: "image/jpeg",
+    ACL: "public-read"
+  };
+  s3.putObject(data, function(err, data) {
+    if (err) {
+      console.log(err);
+      console.log("Error uploading data: ", data);
+    } else {
+      console.log("succesfully uploaded the image!");
+      res.locals.url = `https://${bucket}.s3.eu-north-1.amazonaws.com/${key}`; // TODO: change to more dynamic;
+      res.locals.key = key;
+      res.locals.alt_fi = body.alt_fi;
+      res.locals.alt_en = body.alt_en;
+      next();
+    }
+  });
+};
 
 const deleteImage = file => {
   s3.deleteObject(
@@ -64,4 +99,4 @@ const deleteImages = files => {
   );
 };
 
-module.exports = { upload, deleteImage, deleteImages };
+module.exports = { upload, deleteImage, deleteImages, singleUpload };

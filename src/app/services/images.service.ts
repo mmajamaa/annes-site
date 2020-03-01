@@ -9,10 +9,10 @@ import { Observable } from "rxjs";
 export class ImagesService {
   constructor(private http: HttpClient) {}
 
-  uploadImage(fd: FormData, galleryId) {
+  uploadImage(uploadObject, galleryId) {
     const id = galleryId == null ? "" : galleryId;
 
-    return this.http.post("/api/images/" + id, fd, {
+    return this.http.post("/api/images/" + id, JSON.stringify(uploadObject), {
       observe: "body",
       params: new HttpParams().append("token", localStorage.getItem("token"))
     });

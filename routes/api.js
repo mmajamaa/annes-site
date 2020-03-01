@@ -3,8 +3,7 @@ const router = express.Router();
 
 const helpers = require("../controllers/helpers");
 
-const upload = require("../services/images").upload;
-const singleUpload = upload.single("image");
+const singleUpload = require("../services/images").singleUpload;
 
 // controllers
 const ImagesController = require("../controllers/images.js");

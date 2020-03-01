@@ -4,6 +4,7 @@ import { NgForm } from "@angular/forms";
 import { Image } from "../../interfaces/image";
 import { MatDialogRef } from "@angular/material/dialog";
 import { ImageDialogComponent } from "../image-dialog/image-dialog.component";
+import { NgxImageCompressService } from "ngx-image-compress";
 
 @Component({
   selector: "app-upload-component",
@@ -20,31 +21,24 @@ export class UploadComponentComponent implements OnInit {
 
   constructor(
     private img: ImagesService,
-    public dialogRef: MatDialogRef<ImageDialogComponent>
+    public dialogRef: MatDialogRef<ImageDialogComponent>,
+    private imageCompress: NgxImageCompressService
   ) {}
 
   ngOnInit(): void {}
-
-  onFileSelected(files) {
-    this.file = files[0];
-
-    const reader = new FileReader();
-    reader.readAsDataURL(files[0]);
-    reader.onload = event => {
-      this.imgUrl = reader.result;
-      this.disabled = false;
-    };
-  }
 
   uploadFile(form: NgForm) {
     if (confirm("Haluatko varmasti ladata kuvan?") == false) {
       return;
     }
-    const fd = new FormData();
-    fd.append("image", this.file);
-    fd.append("alt_fi", form.value.alt_fi);
-    fd.append("alt_en", form.value.alt_en);
-    this.img.uploadImage(fd, form.value.gallery).subscribe(
+
+    const uploadObject = {
+      alt_fi: form.value.alt_fi,
+      alt_en: form.value.alt_en,
+      image: this.imgUrl
+    };
+
+    this.img.uploadImage(uploadObject, form.value.gallery).subscribe(
       (res: any) => {
         // add image to list
         let image = {
@@ -71,5 +65,21 @@ export class UploadComponentComponent implements OnInit {
 
   public cancelUpload() {
     this.dialogRef.close();
+  }
+
+  compressFile() {
+    this.imageCompress.uploadFile().then(({ image, orientation }) => {
+      const quality =
+        this.imageCompress.byteCount(image) > 1500000
+          ? (1500000 / this.imageCompress.byteCount(image)) * 100
+          : 100;
+
+      this.imageCompress
+        .compressFile(image, orientation, 100, quality)
+        .then(result => {
+          this.imgUrl = result;
+          this.disabled = false;
+        });
+    });
   }
 }

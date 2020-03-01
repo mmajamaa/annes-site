@@ -28,6 +28,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { UploadComponentComponent } from "./components/upload-component/upload-component.component";
 import { OpenDialogButtonComponent } from "./components/open-dialog-button/open-dialog-button.component";
 import { LayoutModule } from "@angular/cdk/layout";
+import { NgxImageCompressService } from "ngx-image-compress";
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { LayoutModule } from "@angular/cdk/layout";
     TranslationsService,
     RedirectService,
     AuthenticationService,
-    ImagesService
+    ImagesService,
+    NgxImageCompressService
   ],
   bootstrap: [AppComponent],
   entryComponents: [ImageDialogComponent]
