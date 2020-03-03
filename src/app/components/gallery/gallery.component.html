@@ -19,8 +19,13 @@
     fxLayoutAlign="center center"
   >
     <div fxFlex="nogrow" fxLayout="column">
-      <img src="{{ image.url }}" class="img" alt="{{ image.alt_fi }}" fxFlex />
-      {{ image.alt_fi }}
+      <img
+        src="{{ image.url }}"
+        class="img"
+        alt="{{ language == 'fi' ? image.alt_fi : image.alt_en }}"
+        fxFlex
+      />
+      {{ language == "fi" ? image.alt_fi : image.alt_en }}
     </div>
   </div>
 </div>

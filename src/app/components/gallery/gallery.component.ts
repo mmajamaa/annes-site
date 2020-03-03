@@ -18,6 +18,7 @@ export class GalleryComponent implements OnInit {
 
   public images: Image[];
   public images2: Image[] = [];
+  public language: string;
 
   constructor(
     private translationsService: TranslationsService,
@@ -38,6 +39,8 @@ export class GalleryComponent implements OnInit {
     this.imagesService.getImages().subscribe(res => {
       this.images2 = res;
     });
+
+    this.translationsService.languageCast.subscribe(r => (this.language = r));
   }
 
   @HostListener("click", ["$event.target"]) clickInside(e) {
