@@ -9,6 +9,8 @@ import { ImagesService } from "../../services/images.service";
 import { Image } from "../../interfaces/image";
 
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
+import { MatSnackBar, MatSnackBarConfig } from "@angular/material/snack-bar";
+import { SnackBarComponent } from "../snack-bar/snack-bar.component";
 
 @Component({
   selector: "app-admin",
@@ -31,7 +33,8 @@ export class AdminComponent implements OnInit {
     private router: Router,
     private auth: AuthenticationService,
     private img: ImagesService,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    private snackBar: MatSnackBar
   ) {
     this.auth.getAuthStatus().subscribe(
       data => {
@@ -66,10 +69,13 @@ export class AdminComponent implements OnInit {
         if (index !== -1) {
           this.images.splice(index, 1);
         }
-        console.log(res);
+        this.openSnackBar("Kuva poistettiin onnistuneesti.", "ok-snackbar");
       },
       err => {
-        console.log(err);
+        this.openSnackBar(
+          "Virhe kuvan poistamisessa. Yritä uudelleen.",
+          "warn-snackbar"
+        );
       }
     );
   }
@@ -164,9 +170,25 @@ export class AdminComponent implements OnInit {
       }
     }
 
-    this.img.saveOrder({ images: this.images }).subscribe(res => {
-      // TODO: if error response, render old order of images
-      console.log(res);
-    });
+    this.img.saveOrder({ images: this.images }).subscribe(
+      res => {
+        this.openSnackBar("Tallennettiin muutokset.", "ok-snackbar");
+      },
+      err => {
+        this.openSnackBar(
+          "Virhe muutoksien tallentamisessa. Yritä uudelleen.",
+          "warn-snackbar"
+        );
+      }
+    );
+  }
+
+  openSnackBar(message, panelClass) {
+    const config = new MatSnackBarConfig();
+    config.duration = 2000;
+    config.panelClass = [panelClass];
+    config.data = message;
+
+    this.snackBar.openFromComponent(SnackBarComponent, config);
   }
 }

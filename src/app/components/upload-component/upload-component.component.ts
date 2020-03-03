@@ -66,7 +66,7 @@ export class UploadComponentComponent implements OnInit {
         this.openSnackBar("Kuva ladattiin onnistuneesti.", "ok-snackbar");
       },
       error => {
-        console.log(error);
+        this.loading = false;
 
         this.openSnackBar(
           "Virhe kuvan lataamisessa. Yritä uudestaan.",
