@@ -62,6 +62,10 @@
   .topnav.responsive a:hover {
     font-weight: bold;
   }
+
+  .topnav a {
+    width: 100%;
+  }
 }
 
 .flag {
