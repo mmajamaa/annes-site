@@ -1,5 +1,6 @@
-import { Component, OnInit, HostListener } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { TranslationsService } from "../../services/translations.service";
+import { Router, NavigationEnd } from "@angular/router";
 
 @Component({
   selector: "app-navbar",
@@ -15,16 +16,18 @@ export class NavbarComponent implements OnInit {
   public image = this.images[0];
   public open: boolean = false;
   public myClass = "topnav";
+  public currentRoute: string;
 
-  @HostListener("click", ["$event.target"]) clickInside(e) {
-    if (e.className != "router-link") return;
-    Array.from(document.getElementsByClassName("router-link")).forEach(r => {
-      r.className = "router-link";
+  constructor(
+    private translationsService: TranslationsService,
+    private router: Router
+  ) {
+    this.router.events.subscribe(val => {
+      if (val instanceof NavigationEnd) {
+        this.currentRoute = val.url;
+      }
     });
-    e.className += " active";
   }
-
-  constructor(private translationsService: TranslationsService) {}
 
   ngOnInit() {
     this.translationsService.cast.subscribe(r => (this.I18n = r));

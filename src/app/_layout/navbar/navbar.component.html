@@ -1,12 +1,28 @@
 <div [class]="myClass">
-  <a routerLink="/home" class="router-link" id="home">{{ I18n.home }}</a>
-  <a routerLink="/cv" class="router-link" id="cv">{{ I18n.cv }}</a>
-  <a routerLink="/gallery" class="router-link" id="gallery">{{
-    I18n.gallery
-  }}</a>
-  <a routerLink="/contact" class="router-link" id="contact">{{
-    I18n.contact
-  }}</a>
+  <a
+    routerLink="/home"
+    [ngClass]="currentRoute === '/home' ? 'router-link active' : 'router-link'"
+    >{{ I18n.home }}</a
+  >
+  <a
+    routerLink="/cv"
+    [ngClass]="currentRoute === '/cv' ? 'router-link active' : 'router-link'"
+    >{{ I18n.cv }}</a
+  >
+  <a
+    routerLink="/gallery"
+    [ngClass]="
+      currentRoute === '/gallery' ? 'router-link active' : 'router-link'
+    "
+    >{{ I18n.gallery }}</a
+  >
+  <a
+    routerLink="/contact"
+    [ngClass]="
+      currentRoute === '/contact' ? 'router-link active' : 'router-link'
+    "
+    >{{ I18n.contact }}</a
+  >
   <a
     ><img
       src="{{ image.src }}"

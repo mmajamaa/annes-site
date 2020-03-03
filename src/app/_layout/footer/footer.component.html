@@ -10,8 +10,12 @@
     <p class="footer-links">
       <a class="link-1" href="">www.annepuronmaa.fi</a>
     </p>
-    <p class="link" (click)="redirect()">
-      {{ I18n.implementation }}: mikko.majamaa@outlook.com &copy; 2020
+    <p (click)="redirect()">
+      {{ I18n.implementation }}:
+      <a class="mail-link" href="mailto:mikko.majamaa@outlook.com"
+        >mikko.majamaa@outlook.com</a
+      >
+      &copy; 2020
     </p>
   </div>
 </footer>
