@@ -31,27 +31,6 @@ export class AuthenticationService {
     );
   }
 
-  autoLogin() {
-    const UserData = {token: localStorage.getItem('token')};
-
-    if (!UserData) {
-      return
-    }
-
-    const loadedUser = new User(UserData.token);
-
-    this.http.get('api/auth/status', {
-      observe: 'body',
-      params: new HttpParams().append("token", loadedUser.token),
-    }).subscribe(res => {
-      this.user.next(loadedUser);
-      if (this.router.url == '/login') {
-        this.router.navigate(['/admin'])}
-    }, error => {
-      console.log(error.message)
-    })
-  }
-
   handleError(errorRes: HttpErrorResponse) {
     return throwError(errorRes.error.message);
   }
@@ -62,4 +41,14 @@ export class AuthenticationService {
     const user = new User(token);
     this.user.next(user);
   }
+
+  authStatus() {
+    const UserData = {token: localStorage.getItem('token')};
+
+    const loadedUser = new User(UserData.token);
+
+    return this.http.get<AuthenticationResponseData>('api/auth/status', {
+      observe: 'body',
+      params: new HttpParams().append("token", loadedUser.token),
+    })}
 }
