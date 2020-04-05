@@ -1,22 +1,6 @@
-<ng-container *ngIf="username">
   <div class="page-container">
     <app-user-bar [(images)]="images" *ngIf="images"></app-user-bar>
-    <!-- <form
-        #deleteGalleryForm="ngForm"
-        (ngSubmit)="deleteGallery(deleteGalleryForm)"
-        ngNativeValidate
-      >
-        <select name="gallery" (change)="gallerySelected($event.target.value)">
-          <option *ngFor="let gallery of gallerys" value="{{ gallery._id }}">{{
-            gallery.fi
-          }}</option>
-        </select>
-        <button type="submit" class="delete-button">
-          <i class="fa fa-trash"></i>
-        </button>
-      </form> -->
 
-    <h1 *ngIf="selectedGallery">{{ selectedGallery.fi }}</h1>
     <div id="myModal" class="modal">
       <span class="close" (click)="closeModal()">&times;</span>
 
@@ -83,24 +67,10 @@
             </div>
           </mat-card-content>
         </mat-card>
-        <!-- <button mat-button (click)="saveOrder()">Tallenna</button> -->
       </form>
     </div>
 
     <button mat-button class="ok-button save" form="edit-form">
       Tallenna muutokset
     </button>
-    <!-- <form
-        #subgalleryForm="ngForm"
-        (ngSubmit)="createGallery(subgalleryForm)"
-        ngNativeValidate
-      >
-        <h1>Lisää alagalleria</h1>
-        <div class="container">
-          <input type="text" name="fi" placeholder="fi" required ngModel />
-          <input type="text" name="en" placeholder="en" required ngModel />
-          <input type="submit" />
-        </div>
-      </form> -->
   </div>
-</ng-container>

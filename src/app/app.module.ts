@@ -14,7 +14,6 @@ import { AdminComponent } from "./components/admin/admin.component";
 import { LayoutComponent } from "./_layout/layout/layout.component";
 import { LoginComponent } from "./components/login/login.component";
 import { FormsModule } from "@angular/forms";
-import { SubGalleryComponent } from "./components/sub-gallery/sub-gallery.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { MaterialModule } from "./modules/material/material.module";
 import { TranslationsService } from "./services/translations.service";
@@ -44,7 +43,6 @@ import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
     AdminComponent,
     LayoutComponent,
     LoginComponent,
-    SubGalleryComponent,
     UserBarComponent,
     LogoutButtonComponent,
     ImageDialogComponent,

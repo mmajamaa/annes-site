@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
+import { Observable } from 'rxjs';
 import { AuthenticationService } from "../../services/authentication.service";
+import { AuthenticationResponseData } from '../../interfaces/authentication-response-data';
 import { Router } from "@angular/router";
 
 @Component({
@@ -9,6 +11,8 @@ import { Router } from "@angular/router";
   styleUrls: ["./login.component.css"]
 })
 export class LoginComponent implements OnInit {
+  private authObs: Observable<AuthenticationResponseData>;
+
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router
@@ -20,14 +24,14 @@ export class LoginComponent implements OnInit {
     const username = form.value.username;
     const password = form.value.password;
 
-    this.authenticationService.getUserDetails(username, password).subscribe(
-      (data: any) => {
+    this.authObs = this.authenticationService.login(username, password)
+    
+    this.authObs.subscribe(
+      data => {
         this.router.navigate(["admin"]);
-        localStorage.setItem("token", data.toString());
       },
       error => {
-        console.log(error);
-        window.alert("Wrong username or password");
+        window.alert(error);
       }
     );
   }

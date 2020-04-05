@@ -2,7 +2,6 @@ import { Component, OnInit, HostListener } from "@angular/core";
 import { TranslationsService } from "../../services/translations.service";
 import { Image } from "../../interfaces/image";
 import { Router, NavigationStart } from "@angular/router";
-import { SubGalleryComponent } from "../sub-gallery/sub-gallery.component";
 
 // services
 import { ImagesService } from "../../services/images.service";
@@ -28,12 +27,7 @@ export class GalleryComponent implements OnInit {
 
   ngOnInit() {
     this.translationsService.cast.subscribe(res => (this.I18n = res));
-
-    //this.imagesService.getGallerys().subscribe(res => {
-    //  this.gallerys = res;
-    //console.log(res);
-    //});
-
+    
     this.images = [{ url: "../../assets/fi.png", alt_fi: "fin" }];
 
     this.imagesService.getImages().subscribe(res => {

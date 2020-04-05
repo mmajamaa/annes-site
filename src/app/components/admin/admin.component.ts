@@ -20,14 +20,6 @@ import { SnackBarComponent } from "../snack-bar/snack-bar.component";
 export class AdminComponent implements OnInit {
   username = "";
   public images: Image[];
-  selectedGallery: any = null;
-  // todo: get values dynamically
-  values = [
-    { value: "prints", name: "Vedokset" },
-    { value: "paintings", name: "Maalaukset" }
-  ];
-
-  public gallerys;
 
   constructor(
     private router: Router,
@@ -36,18 +28,6 @@ export class AdminComponent implements OnInit {
     private domSanitizer: DomSanitizer,
     private snackBar: MatSnackBar
   ) {
-    this.auth.getAuthStatus().subscribe(
-      data => {
-        this.username = "test";
-      },
-      error => this.router.navigate(["/login"])
-    );
-
-    /*this.img.getGallerys().subscribe(res => {
-      this.gallerys = res;
-      this.selectedGallery = this.gallerys[0]._id;
-      console.log(this.selectedGallery);
-    });*/
 
     this.img.getImages().subscribe(res => {
       this.images = res;
@@ -97,55 +77,6 @@ export class AdminComponent implements OnInit {
   closeModal() {
     var modal = document.getElementById("myModal");
     modal.style.display = "none";
-  }
-
-  gallerySelected(gallery) {
-    //this.selectedGallery = this.gallerys.find(g => g._id == gallery);
-    this.selectedGallery = gallery;
-    console.log(gallery);
-  }
-
-  createGallery(form: NgForm) {
-    if (confirm("Haluatko varmasti luoda alagallerian?") == false) {
-      console.log(form.value.fi);
-      console.log(form.value.en);
-      return;
-    }
-    const fd = new FormData();
-    fd.append("fi", form.value.fi);
-    fd.append("en", form.value.en);
-
-    this.img.createGallery(form.value.fi, form.value.en).subscribe(
-      (res: any) => {
-        this.gallerys.push(res);
-        console.log(res);
-      },
-      err => {
-        console.log(err);
-      }
-    );
-  }
-
-  deleteGallery(form: NgForm) {
-    console.log(form.value);
-    console.log(this.selectedGallery._id);
-    if (confirm("Haluatko varmasti poistaa gallerian?") == false) {
-      return;
-    }
-    this.img.deleteGallery(form.value.gallery).subscribe(
-      res => {
-        console.log(res);
-        // delete gallery from list
-        let gallery = this.gallerys.find(i => i._id == form.value.gallery);
-        const index: number = this.gallerys.indexOf(gallery);
-        if (index !== -1) {
-          this.gallerys.splice(index, 1);
-        }
-      },
-      err => {
-        console.log(err);
-      }
-    );
   }
 
   drop(event: CdkDragDrop<string[]>) {
