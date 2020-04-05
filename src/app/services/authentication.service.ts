@@ -12,7 +12,7 @@ import { Router,  } from '@angular/router';
 })
 export class AuthenticationService {
   public loggedInStatus = false;
-  user = new BehaviorSubject<User>(null);
+  public loggedIn = new BehaviorSubject<boolean>(false);
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -31,6 +31,12 @@ export class AuthenticationService {
     );
   }
 
+  logout() {
+    localStorage.removeItem("token");
+    this.router.navigate(['login'], {queryParams: {resolve: false}});
+    this.loggedIn.next(false);
+  }
+
   handleError(errorRes: HttpErrorResponse) {
     return throwError(errorRes.error.message);
   }
@@ -38,14 +44,13 @@ export class AuthenticationService {
   handleAuthentication(data) {
     const token = data.token;
     localStorage.setItem('token', token.toString());
-    const user = new User(token);
-    this.user.next(user);
+    this.loggedIn.next(true);
   }
 
   authStatus() {
     const UserData = {token: localStorage.getItem('token')};
-
     const loadedUser = new User(UserData.token);
+    this.loggedIn.next(true);
 
     return this.http.get<AuthenticationResponseData>('api/auth/status', {
       observe: 'body',

@@ -10,6 +10,7 @@ import { LayoutComponent } from "./_layout/layout/layout.component";
 import { LoginComponent } from "./components/login/login.component";
 import { LoginResolver } from './services/login-resolver.service';
 import { AuthGuard } from './services/auth-guard.service';
+import { DeactivateGuardService } from './services/deactivate-guard.service';
 
 const routes: Routes = [
   // site routes
@@ -45,7 +46,8 @@ const routes: Routes = [
   {
     path: "admin",
     component: AdminComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    canDeactivate: [DeactivateGuardService]
   },
   {
     path: "login",
