@@ -30,8 +30,8 @@ import { LayoutModule } from "@angular/cdk/layout";
 import { NgxImageCompressService } from "ngx-image-compress";
 import { SpinnerOverlayComponent } from "./components/spinner-overlay/spinner-overlay.component";
 import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
-import { AdminResolver } from './services/admin-resolver.service';
 import { LoginResolver } from './services/login-resolver.service';
+import { AuthGuard } from './services/auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -69,8 +69,8 @@ import { LoginResolver } from './services/login-resolver.service';
     AuthenticationService,
     ImagesService,
     NgxImageCompressService,
-    AdminResolver,
-    LoginResolver
+    LoginResolver,
+    AuthGuard
   ],
   bootstrap: [AppComponent],
   entryComponents: [ImageDialogComponent, SpinnerOverlayComponent]

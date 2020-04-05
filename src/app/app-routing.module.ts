@@ -8,8 +8,8 @@ import { GalleryComponent } from "./components/gallery/gallery.component";
 import { AdminComponent } from "./components/admin/admin.component";
 import { LayoutComponent } from "./_layout/layout/layout.component";
 import { LoginComponent } from "./components/login/login.component";
-import { AdminResolver } from './services/admin-resolver.service'
 import { LoginResolver } from './services/login-resolver.service';
+import { AuthGuard } from './services/auth-guard.service';
 
 const routes: Routes = [
   // site routes
@@ -45,7 +45,7 @@ const routes: Routes = [
   {
     path: "admin",
     component: AdminComponent,
-    resolve: {authResolver: AdminResolver}
+    canActivate: [AuthGuard]
   },
   {
     path: "login",
