@@ -1,35 +1,43 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy, ViewChild } from "@angular/core";
 import { ImagesService } from "src/app/services/images.service";
 import { NgForm } from "@angular/forms";
 import { Image } from "../../interfaces/image";
 import { MatDialogRef } from "@angular/material/dialog";
 import { ImageDialogComponent } from "../image-dialog/image-dialog.component";
 import { NgxImageCompressService } from "ngx-image-compress";
-import { MatSnackBar, MatSnackBarConfig } from "@angular/material/snack-bar";
-import { SnackBarComponent } from "../snack-bar/snack-bar.component";
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: "app-upload-component",
   templateUrl: "./upload-component.component.html",
   styleUrls: ["./upload-component.component.css"]
 })
-export class UploadComponentComponent implements OnInit {
+export class UploadComponentComponent implements OnInit, OnDestroy {
   file: File = null;
   imgUrl: any;
-  public image: Image;
-  @Input() images: Image[];
-  @Output() imagesChange = new EventEmitter<boolean>();
   public disabled = true;
   public loading = false;
+  private uploadStatus: Subscription;
+  @ViewChild('uploadForm') uploadForm;
 
   constructor(
     private img: ImagesService,
     public dialogRef: MatDialogRef<ImageDialogComponent>,
     private imageCompress: NgxImageCompressService,
-    private snackBar: MatSnackBar
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.uploadStatus = this.img.uploadSuccesful.subscribe((status: string) => {
+      if (status === 'completed') {
+        this.uploadForm.reset();
+        this.file = null;
+        this.imgUrl = null;
+        this.dialogRef.close();
+      } else if (status === 'cancelled') {
+        this.loading = false;
+      }
+    })
+  }
 
   uploadFile(form: NgForm) {
     if (confirm("Haluatko varmasti ladata kuvan?") == false) {
@@ -44,36 +52,7 @@ export class UploadComponentComponent implements OnInit {
       image: this.imgUrl
     };
 
-    this.img.uploadImage(uploadObject, form.value.gallery).subscribe(
-      (res: any) => {
-        // add image to list
-        let image = {
-          Key: res.Key,
-          _id: res._id,
-          url: res.url,
-          alt_fi: res.alt_fi,
-          alt_en: res.alt_en,
-          so: res.so,
-          gallery: res.gallery
-        };
-        this.images.push(image);
-        // empty form
-        form.reset();
-        this.file = null;
-        this.imgUrl = null;
-        this.dialogRef.close();
-
-        this.openSnackBar("Kuva ladattiin onnistuneesti.", "ok-snackbar");
-      },
-      error => {
-        this.loading = false;
-
-        this.openSnackBar(
-          "Virhe kuvan lataamisessa. Yritä uudestaan.",
-          "warn-snackbar"
-        );
-      }
-    );
+    this.img.uploadImage(uploadObject, form.value.gallery); 
   }
 
   public cancelUpload() {
@@ -100,12 +79,7 @@ export class UploadComponentComponent implements OnInit {
     });
   }
 
-  openSnackBar(message, panelClass) {
-    const config = new MatSnackBarConfig();
-    config.duration = 2000;
-    config.panelClass = [panelClass];
-    config.data = message;
-
-    this.snackBar.openFromComponent(SnackBarComponent, config);
+  ngOnDestroy() {
+    this.uploadStatus.unsubscribe();
   }
 }

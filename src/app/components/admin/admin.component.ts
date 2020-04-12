@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
 import { DomSanitizer } from "@angular/platform-browser";
@@ -9,32 +9,34 @@ import { ImagesService } from "../../services/images.service";
 import { Image } from "../../interfaces/image";
 
 import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
-import { MatSnackBar, MatSnackBarConfig } from "@angular/material/snack-bar";
-import { SnackBarComponent } from "../snack-bar/snack-bar.component";
+import { SnackBarService } from 'src/app/services/snack-bar.service';
+import { Subscription } from 'rxjs';
+
 
 @Component({
   selector: "app-admin",
   templateUrl: "./admin.component.html",
   styleUrls: ["./admin.component.css"]
 })
-export class AdminComponent implements OnInit {
+export class AdminComponent implements OnInit, OnDestroy {
   username = "";
   public images: Image[];
+  private imageSubscription: Subscription;
 
   constructor(
     private router: Router,
     private auth: AuthenticationService,
     private img: ImagesService,
     private domSanitizer: DomSanitizer,
-    private snackBar: MatSnackBar
-  ) {
+    private snackBarService: SnackBarService
+  ) { }
 
-    this.img.getImages().subscribe(res => {
-      this.images = res;
+  ngOnInit() {
+    this.images = this.img.getImages();
+    this.imageSubscription = this.img.imagesChange.subscribe((images: Image[]) => {
+      this.images = images;
     });
   }
-
-  ngOnInit() {}
 
   deleteImage(key: String) {
     if (confirm("Haluatko varmasti poistaa kuvan?") == false) {
@@ -49,10 +51,10 @@ export class AdminComponent implements OnInit {
         if (index !== -1) {
           this.images.splice(index, 1);
         }
-        this.openSnackBar("Kuva poistettiin onnistuneesti.", "ok-snackbar");
+        this.snackBarService.openSnackBar("Kuva poistettiin onnistuneesti.", "ok-snackbar");
       },
       err => {
-        this.openSnackBar(
+        this.snackBarService.openSnackBar(
           "Virhe kuvan poistamisessa. Yritä uudelleen.",
           "warn-snackbar"
         );
@@ -103,10 +105,10 @@ export class AdminComponent implements OnInit {
 
     this.img.saveOrder({ images: this.images }).subscribe(
       res => {
-        this.openSnackBar("Tallennettiin muutokset.", "ok-snackbar");
+        this.snackBarService.openSnackBar("Tallennettiin muutokset.", "ok-snackbar");
       },
       err => {
-        this.openSnackBar(
+        this.snackBarService.openSnackBar(
           "Virhe muutoksien tallentamisessa. Yritä uudelleen.",
           "warn-snackbar"
         );
@@ -114,12 +116,7 @@ export class AdminComponent implements OnInit {
     );
   }
 
-  openSnackBar(message, panelClass) {
-    const config = new MatSnackBarConfig();
-    config.duration = 2000;
-    config.panelClass = [panelClass];
-    config.data = message;
-
-    this.snackBar.openFromComponent(SnackBarComponent, config);
+  ngOnDestroy() {
+    this.imageSubscription.unsubscribe();
   }
 }
