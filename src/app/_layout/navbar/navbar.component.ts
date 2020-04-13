@@ -1,13 +1,14 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { TranslationsService } from "../../services/translations.service";
 import { Router, NavigationEnd } from "@angular/router";
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: "app-navbar",
   templateUrl: "./navbar.component.html",
   styleUrls: ["./navbar.component.css"]
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   public I18n: any;
   public images = [
     { src: "./assets/uk.png", alt: "uk" },
@@ -17,6 +18,7 @@ export class NavbarComponent implements OnInit {
   public open: boolean = false;
   public myClass = "topnav";
   public currentRoute: string;
+  private I18nSubscription: Subscription;
 
   constructor(
     private translationsService: TranslationsService,
@@ -30,7 +32,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.translationsService.cast.subscribe(r => (this.I18n = r));
+    this.I18nSubscription = this.translationsService.I18n.subscribe(r => {this.I18n = r});
   }
 
   toggleLanguage() {
@@ -41,5 +43,9 @@ export class NavbarComponent implements OnInit {
   toggleNavbar() {
     this.open = this.open === true ? false : true;
     this.myClass = this.myClass === "topnav" ? "topnav responsive" : "topnav";
+  }
+
+  ngOnDestroy() {
+    this.I18nSubscription.unsubscribe();
   }
 }

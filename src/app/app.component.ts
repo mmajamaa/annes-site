@@ -8,8 +8,7 @@ import { GeneralHttpService } from "./services/general-http.service";
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent {
-  title = "Taiteilija Anne Puronmaa";
-
+  public title = "Taiteilija Anne Puronmaa";
   public I18n = {};
 
   constructor(
@@ -18,7 +17,7 @@ export class AppComponent {
   ) {}
 
   ngOnInit() {
-    this.translationsService.cast.subscribe(r => (this.I18n = r));
+    this.translationsService.I18n.subscribe(r => {this.I18n = r});
     this.generalHttpService.pageLoad().subscribe();
   }
 }

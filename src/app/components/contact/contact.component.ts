@@ -1,20 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TranslationsService } from '../../services/translations.service';
 import { RedirectService } from '../../services/redirect.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css']
 })
-export class ContactComponent implements OnInit {
-
+export class ContactComponent implements OnInit, OnDestroy {
   public I18n:any;
+  private I18nSubscription: Subscription;
 
   constructor(private translationsService: TranslationsService, private redirectService: RedirectService) { }
 
   ngOnInit() {
-    this.translationsService.cast.subscribe(r => this.I18n = r);
+    this.I18nSubscription = this.translationsService.I18n.subscribe(r => {this.I18n = r});
   }
 
   openIg() {
@@ -23,5 +24,9 @@ export class ContactComponent implements OnInit {
 
   mail() {
     window.location.href = 'mailto:anne';
+  }
+
+  ngOnDestroy() {
+    this.I18nSubscription.unsubscribe();
   }
 }
