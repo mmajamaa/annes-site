@@ -72,7 +72,8 @@ import { DeactivateGuardService } from './services/deactivate-guard.service'
     NgxImageCompressService,
     LoginResolver,
     AuthGuard,
-    DeactivateGuardService
+    DeactivateGuardService,
+    {provide: Window, useValue: window}
   ],
   bootstrap: [AppComponent],
   entryComponents: [ImageDialogComponent, SpinnerOverlayComponent]

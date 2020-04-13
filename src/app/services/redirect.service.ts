@@ -1,16 +1,15 @@
 import { Injectable } from "@angular/core";
+import { instagramLink } from '../data/variables';
 
 @Injectable({
   providedIn: "root"
 })
 export class RedirectService {
+  private instagramLink: string = instagramLink;
+
   constructor() {}
-
-  redirect() {
-    //window.open('http://www.mmajamaa.fi', '_blank');
-  }
-
+  
   openIg() {
-    window.open("https://www.instagram.com/annesusanna_", "_blank");
+    window.open(instagramLink, '_blank');
   }
 }

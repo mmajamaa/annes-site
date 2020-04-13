@@ -3,17 +3,17 @@
     <a href="javascript:void(0)" (click)="openIg()"
       ><i class="fa fa-instagram"></i
     ></a>
-    <a href="mailto:annehyvonen@hotmail.com"><i class="fa fa-envelope"></i></a>
+    <a href="mailto:{{ mainEmail }}"><i class="fa fa-envelope"></i></a>
   </div>
 
   <div class="footer-left">
     <p class="footer-links">
-      <a class="link-1" href="">www.annepuronmaa.fi</a>
+      <a class="link-1" href="">{{ this.url }}</a>
     </p>
-    <p (click)="redirect()">
+    <p>
       {{ I18n.implementation }}:
-      <a class="mail-link" href="mailto:mikko.majamaa@outlook.com"
-        >mikko.majamaa@outlook.com</a
+      <a class="mail-link" href="mailto:{{ devEmail }}"
+        >{{ devEmail }}</a
       >
       &copy; 2020
     </p>
