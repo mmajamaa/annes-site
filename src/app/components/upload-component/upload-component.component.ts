@@ -13,8 +13,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ["./upload-component.component.css"]
 })
 export class UploadComponentComponent implements OnInit, OnDestroy {
-  file: File = null;
-  imgUrl: any;
+  public file: File = null;
+  public imgUrl: string;
   public disabled = true;
   public loading = false;
   private uploadStatus: Subscription;
