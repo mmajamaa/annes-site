@@ -61,10 +61,21 @@ export class ImagesService {
   }
 
   deleteImage(key) {
-    return this.http.delete("/api/image/" + key, {
+    this.http.delete("/api/image/" + key, {
       observe: "body",
       params: new HttpParams().append("token", localStorage.getItem("token"))
-    });
+    }).subscribe((deletedImage: Image) => {
+      this.images = this.images.filter(image => image._id !== deletedImage._id);
+      this.imagesChange.next(this.images);
+      this.snackBarService.openSnackBar("Kuva poistettiin onnistuneesti.", "ok-snackbar");
+    }, 
+      error => {
+        this.snackBarService.openSnackBar(
+          "Virhe kuvan poistamisessa. Yritä uudelleen.",
+          "warn-snackbar"
+        );
+    }
+    );
   }
 
   getGallerys() {

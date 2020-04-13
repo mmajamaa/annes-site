@@ -2,15 +2,16 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
 import { DomSanitizer } from "@angular/platform-browser";
+import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
+
+import { Subscription } from 'rxjs';
 
 import { AuthenticationService } from "../../services/authentication.service";
 import { ImagesService } from "../../services/images.service";
-
 import { Image } from "../../interfaces/image";
-
-import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
 import { SnackBarService } from 'src/app/services/snack-bar.service';
-import { Subscription } from 'rxjs';
+
+
 
 
 @Component({
@@ -43,23 +44,7 @@ export class AdminComponent implements OnInit, OnDestroy {
       return;
     }
 
-    this.img.deleteImage(key).subscribe(
-      res => {
-        // delete image from list
-        let img = this.images.find(i => i.Key == key);
-        const index: number = this.images.indexOf(img);
-        if (index !== -1) {
-          this.images.splice(index, 1);
-        }
-        this.snackBarService.openSnackBar("Kuva poistettiin onnistuneesti.", "ok-snackbar");
-      },
-      err => {
-        this.snackBarService.openSnackBar(
-          "Virhe kuvan poistamisessa. Yritä uudelleen.",
-          "warn-snackbar"
-        );
-      }
-    );
+    this.img.deleteImage(key);
   }
 
   openImage(event) {

@@ -69,7 +69,7 @@ module.exports = {
     try {
       const image = await Image.findOne({ Key: req.params.key });
       await image.remove();
-      return res.status(200).json({ message: "Image deleted succesfully." });
+      return res.status(200).json(image);
     } catch (error) {
       return res.status(501).json({ message: "Error deleting image." });
     }
