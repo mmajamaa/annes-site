@@ -11,6 +11,7 @@ import { LoginComponent } from "./components/login/login.component";
 import { LoginResolver } from './services/login-resolver.service';
 import { AuthGuard } from './services/auth-guard.service';
 import { DeactivateGuardService } from './services/deactivate-guard.service';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 const routes: Routes = [
   // site routes
@@ -38,6 +39,10 @@ const routes: Routes = [
       {
         path: "gallery",
         component: GalleryComponent,
+      },
+      {
+        path: 'page-not-found',
+        component: NotFoundComponent
       }
     ]
   },
@@ -54,7 +59,7 @@ const routes: Routes = [
     component: LoginComponent,
     resolve: {authResolver: LoginResolver}
   },
-  { path: "**", redirectTo: "home" }
+  { path: "**", redirectTo: 'page-not-found' }
 ];
 
 @NgModule({

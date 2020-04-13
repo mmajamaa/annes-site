@@ -32,7 +32,8 @@ import { SpinnerOverlayComponent } from "./components/spinner-overlay/spinner-ov
 import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
 import { LoginResolver } from './services/login-resolver.service';
 import { AuthGuard } from './services/auth-guard.service';
-import { DeactivateGuardService } from './services/deactivate-guard.service'
+import { DeactivateGuardService } from './services/deactivate-guard.service';
+import { NotFoundComponent } from './components/not-found/not-found.component'
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { DeactivateGuardService } from './services/deactivate-guard.service'
     UploadComponentComponent,
     OpenDialogButtonComponent,
     SpinnerOverlayComponent,
-    SnackBarComponent
+    SnackBarComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
