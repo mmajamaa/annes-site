@@ -1,7 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy, ViewChild } from "@angular/core";
+import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { ImagesService } from "src/app/services/images.service";
 import { NgForm } from "@angular/forms";
-import { Image } from "../../interfaces/image";
 import { MatDialogRef } from "@angular/material/dialog";
 import { ImageDialogComponent } from "../image-dialog/image-dialog.component";
 import { NgxImageCompressService } from "ngx-image-compress";

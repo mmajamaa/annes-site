@@ -21,11 +21,9 @@ import { RedirectService } from "./services/redirect.service";
 import { AuthenticationService } from "./services/authentication.service";
 import { ImagesService } from "./services/images.service";
 import { UserBarComponent } from "./components/user-bar/user-bar.component";
-import { LogoutButtonComponent } from "./components/logout-button/logout-button.component";
 import { ImageDialogComponent } from "./components/image-dialog/image-dialog.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { UploadComponentComponent } from "./components/upload-component/upload-component.component";
-import { OpenDialogButtonComponent } from "./components/open-dialog-button/open-dialog-button.component";
 import { LayoutModule } from "@angular/cdk/layout";
 import { NgxImageCompressService } from "ngx-image-compress";
 import { SpinnerOverlayComponent } from "./components/spinner-overlay/spinner-overlay.component";
@@ -48,10 +46,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component'
     LayoutComponent,
     LoginComponent,
     UserBarComponent,
-    LogoutButtonComponent,
     ImageDialogComponent,
     UploadComponentComponent,
-    OpenDialogButtonComponent,
     SpinnerOverlayComponent,
     SnackBarComponent,
     NotFoundComponent

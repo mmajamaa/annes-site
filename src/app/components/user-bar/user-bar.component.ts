@@ -1,5 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import { Image } from "../../interfaces/image";
+import { Component, OnInit} from "@angular/core";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { ImageDialogComponent } from "../image-dialog/image-dialog.component";
+import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: "app-user-bar",
@@ -7,9 +9,18 @@ import { Image } from "../../interfaces/image";
   styleUrls: ["./user-bar.component.css"]
 })
 export class UserBarComponent implements OnInit {
-  constructor() {}
-  @Input() images: Image[];
-  @Output() imagesChange = new EventEmitter<boolean>();
+  constructor(public dialog: MatDialog, private authenticationService: AuthenticationService) {}
 
   ngOnInit(): void {}
+
+  openDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = "custom-dialog-container";
+
+    const dialogRef = this.dialog.open(ImageDialogComponent, dialogConfig);
+  }
+
+  logout() {
+    this.authenticationService.logout();
+  }
 }

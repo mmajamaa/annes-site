@@ -1,8 +1,9 @@
 <div class="user-bar-container" fxLayout="row">
-  <app-open-dialog-button
-    [(images)]="images"
-    *ngIf="images"
-  ></app-open-dialog-button>
+  <button mat-button (click)="openDialog()" class="ok-button">
+    Lisää kuva
+  </button>
   <span fxFlex></span>
-  <app-logout-button></app-logout-button>
+  <button mat-button (click)="logout()" class="warn-button">
+    Kirjaudu ulos
+  </button>  
 </div>

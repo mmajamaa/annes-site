@@ -1,6 +1,5 @@
-import { Component, OnInit, Inject, HostListener } from "@angular/core";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { Image } from "../../interfaces/image";
+import { Component, OnInit } from "@angular/core";
+import { MatDialogRef } from "@angular/material/dialog";
 import { BreakpointObserver, BreakpointState } from "@angular/cdk/layout";
 
 @Component({
@@ -11,7 +10,6 @@ import { BreakpointObserver, BreakpointState } from "@angular/cdk/layout";
 export class ImageDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ImageDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public images: Image[],
     public breakpointObserver: BreakpointObserver
   ) {}
 
