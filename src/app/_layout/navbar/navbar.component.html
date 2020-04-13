@@ -1,26 +1,22 @@
 <div [class]="myClass">
   <a
     routerLink="/home"
-    [ngClass]="currentRoute === '/home' ? 'router-link active' : 'router-link'"
+    routerLinkActive=active
     >{{ I18n.home }}</a
   >
   <a
     routerLink="/cv"
-    [ngClass]="currentRoute === '/cv' ? 'router-link active' : 'router-link'"
+    routerLinkActive="active"
     >{{ I18n.cv }}</a
   >
   <a
     routerLink="/gallery"
-    [ngClass]="
-      currentRoute === '/gallery' ? 'router-link active' : 'router-link'
-    "
+    routerLinkActive="active"
     >{{ I18n.gallery }}</a
   >
   <a
     routerLink="/contact"
-    [ngClass]="
-      currentRoute === '/contact' ? 'router-link active' : 'router-link'
-    "
+    routerLinkActive="active"
     >{{ I18n.contact }}</a
   >
   <a

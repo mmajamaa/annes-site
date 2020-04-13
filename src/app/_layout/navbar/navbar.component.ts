@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { TranslationsService } from "../../services/translations.service";
-import { Router, NavigationEnd } from "@angular/router";
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -21,15 +20,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   private I18nSubscription: Subscription;
 
   constructor(
-    private translationsService: TranslationsService,
-    private router: Router
-  ) {
-    this.router.events.subscribe(val => {
-      if (val instanceof NavigationEnd) {
-        this.currentRoute = val.url;
-      }
-    });
-  }
+    private translationsService: TranslationsService
+  ) { }
 
   ngOnInit() {
     this.I18nSubscription = this.translationsService.I18n.subscribe(r => {this.I18n = r});
