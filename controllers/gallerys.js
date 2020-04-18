@@ -33,7 +33,7 @@ module.exports = {
     try {
       const gallery = await Gallery.findOne({_id: req.params.id});
       await gallery.remove();
-      return res.status(200).json({message: 'Gallery deleted succesfully.'});
+      return res.status(200).json(gallery);
     } catch (error) {
       return res.status(501).json({message: 'Error deleting gallery.'})
     }

@@ -9,6 +9,20 @@
       <div id="caption"></div>
     </div>
 
+
+    <div class="sub-galleries-container">
+      <div class="sub-gallery-container" *ngFor="let subgallery of subGalleries" fxFlex="nogrow" fxLayout="row">
+        <span fxFlex="90">{{ subgallery.fi }}</span>
+        <span class="delete-container" (click)="onDeleteSubGallery(subgallery._id)" fxFlex><i class="fa fa-trash"></i></span>
+      </div>
+      <div class="new-sub-gallery-container" fxLayout="row">
+        <form #f="ngForm" fxFlex="nogrow">
+          <input type="text" name="gallery" ngModel>
+        </form>
+        <button (click)="onAddGallery(f)" fxFlex="nogrow">+</button>
+      </div>
+    </div>
+
     <div
       cdkDropList
       class="example-list"

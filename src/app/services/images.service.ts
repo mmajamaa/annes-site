@@ -1,6 +1,7 @@
 import { Injectable, } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Image } from "../interfaces/image";
+import { SubGallery } from "../interfaces/sub-gallery";
 import { Observable, Subject, BehaviorSubject } from "rxjs";
 import { SnackBarService } from './snack-bar.service';
 
@@ -9,7 +10,9 @@ import { SnackBarService } from './snack-bar.service';
 })
 export class ImagesService {
   private images: Image[] = [];
+  private subGalleries: SubGallery[] = [];
   public imagesChange: BehaviorSubject<Image[]> = new BehaviorSubject([]);
+  public subGalleriesChange: BehaviorSubject<SubGallery[]> = new BehaviorSubject([]);
   public uploadSuccesful: BehaviorSubject<string> = new BehaviorSubject('start');
   public errorLoadingImages: Subject<boolean>;
 
@@ -18,13 +21,25 @@ export class ImagesService {
   }
 
   onInit() {
+    // get images
     this.getImagesFromApi().subscribe((images: Image[]) => {
       this.images = images;
-      this.imagesChange.next(this.images);
+      this.imagesChange.next(this.images.slice());
     },
     error => {
       this.snackBarService.openSnackBar(
-        "Virhe kuvan poistamisessa. Yritä uudelleen.",
+        "Virhe kuvien lataamisessa. Päivitä sivu.",
+        "warn-snackbar"
+      );
+    })
+    // get galleries
+    this.getSubGalleriesFromApi().subscribe((subGalleries: SubGallery[]) => {
+      this.subGalleries = subGalleries;
+      this.subGalleriesChange.next(this.subGalleries.slice())
+    },
+    error => {
+      this.snackBarService.openSnackBar(
+        "Virhe alagallerioiden lataamisessa. Päivitä sivu",
         "warn-snackbar"
       );
     })
@@ -56,6 +71,10 @@ export class ImagesService {
     return this.http.get<Image[]>("/api/images/");
   }
 
+  public getSubGalleries(): SubGallery[] {
+    return this.subGalleries.slice();
+  }
+
   public getImages() {
     return this.images.slice();
   }
@@ -78,12 +97,12 @@ export class ImagesService {
     );
   }
 
-  getGallerys() {
-    return this.http.get("/api/gallerys");
+  getSubGalleriesFromApi(): Observable<SubGallery[]> {
+    return this.http.get<SubGallery[]>("/api/gallerys");
   }
 
   createGallery(fi, en) {
-    return this.http.post(
+    this.http.post(
       "/api/gallerys",
       {
         en,
@@ -93,13 +112,29 @@ export class ImagesService {
         observe: "body",
         params: new HttpParams().append("token", localStorage.getItem("token"))
       }
-    );
+    ).subscribe(
+      (newSubGallery: SubGallery) => {
+        
+        this.subGalleries.push(newSubGallery);
+        console.log(this.subGalleries)
+        this.subGalleriesChange.next(this.subGalleries.slice());
+      },
+      error => {
+        this.snackBarService.openSnackBar("Virhe gallerien luomisessa.", "warn-snackbar");
+      }
+    )
   }
 
   deleteGallery(id) {
-    return this.http.delete("/api/gallery/" + id, {
+    this.http.delete("/api/gallery/" + id, {
       observe: "body",
       params: new HttpParams().append("token", localStorage.getItem("token"))
+    }).subscribe((deletedSubGallery: SubGallery) => {
+      this.subGalleries = this.subGalleries.filter(sg => sg._id != deletedSubGallery._id);
+      this.subGalleriesChange.next(this.subGalleries.slice());
+    },
+    error => {
+      this.snackBarService.openSnackBar("Virhe gallerien poistamisessa. Yritä uudelleen.", "warn-snackbar");
     });
   }
 

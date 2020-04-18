@@ -10,7 +10,7 @@ import { AuthenticationService } from "../../services/authentication.service";
 import { ImagesService } from "../../services/images.service";
 import { Image } from "../../interfaces/image";
 import { SnackBarService } from 'src/app/services/snack-bar.service';
-
+import { SubGallery } from 'src/app/interfaces/sub-gallery';
 
 
 
@@ -22,7 +22,10 @@ import { SnackBarService } from 'src/app/services/snack-bar.service';
 export class AdminComponent implements OnInit, OnDestroy {
   username = "";
   public images: Image[];
+  public subGalleries: SubGallery[];
   private imageSubscription: Subscription;
+  private subGallerySubscription: Subscription;
+
 
   constructor(
     private router: Router,
@@ -37,6 +40,12 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.imageSubscription = this.img.imagesChange.subscribe((images: Image[]) => {
       this.images = images;
     });
+
+    this.img.getSubGalleries();
+    this.subGallerySubscription = this.img.subGalleriesChange.subscribe((subGalleries: SubGallery[]) => {
+      this.subGalleries = subGalleries;
+      console.log(this.subGalleries)
+    })
   }
 
   deleteImage(key: String) {
@@ -101,7 +110,17 @@ export class AdminComponent implements OnInit, OnDestroy {
     );
   }
 
+  onAddGallery(form: NgForm) {
+    // TODO: also, add English name for the sub-gallery!
+    this.img.createGallery(form.value.gallery, form.value.gallery);
+  }
+
+  onDeleteSubGallery(id: string) {
+    this.img.deleteGallery(id);
+  }
+
   ngOnDestroy() {
     this.imageSubscription.unsubscribe();
+    this.subGallerySubscription.unsubscribe();
   }
 }
