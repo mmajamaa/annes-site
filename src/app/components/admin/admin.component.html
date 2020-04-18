@@ -13,11 +13,11 @@
     <div class="sub-galleries-container" fxLayout="row">
       <div class="drop-list-container" cdkDropListGroup>
         <form #editForm="ngForm" (ngSubmit)="editImages(editForm)" id="edit-form">
-        <div class="sub-gallery-container" *ngFor="let subgallery of subGalleries" fxFlex="nogrow" fxLayout="column" >
+        <div class="sub-gallery-container" *ngFor="let subgallery of subGalleries" fxFlex="300px" fxLayout="column" >
           <!-- subgallery's header-->
-          <div class="sub-gallery-top-container" fxFlex="nogrow" fxLayout="row">
+          <div class="sub-gallery-top-container" fxFlex="nogrow" fxLayout="row" fxLayoutAlign="center center">
             <span fxFlex="90">{{ subgallery.fi }}</span>
-            <span class="delete-container" (click)="onDeleteSubGallery(subgallery._id)" fxFlex><i class="fa fa-trash"></i></span>
+            <span class="delete-container" (click)="onDeleteSubGallery(subgallery)" fxFlex><i class="fa fa-trash"></i></span>
           </div>
           <!-- subgallery's images-->
           <div
@@ -79,18 +79,21 @@
                 </mat-card-content>
               </mat-card>
             </div>
-            <button (click)="onAddImage(subgallery)" type="button" fxFlex="nogrow">+</button>
+            <span fxFlex="nogrow" fxLayout="row" fxLayoutAlign="center">
+              <button (click)="onAddImage(subgallery)" type="button" fxFlex="nogrow">+</button>
+            </span>
           </div>
         </form>
       </div>
-
-      <div class="new-sub-gallery-container" fxFlex="nogrow" fxLayout="column">
-        <div fxLayout="row">
+      <!-- new subgallery -->
+      <div class="new-sub-gallery-main-container" fxFlex="300px" fxLayout="column" fxLayoutAlign="start center">
+        <div class="new-sub-gallery-container" fxLayout="row" fxLayoutAlign="center center">
          <form #f="ngForm" fxFlex="nogrow">
-            <input type="text" name="gallery" ngModel>
+            <input type="text" name="gallery" placeholder="Uuden gallerian nimi" ngModel>
          </form>
          <button (click)="onAddGallery(f)" fxFlex="nogrow">+</button>
-      </div>
+        </div>
+      
       </div>
 
     </div>

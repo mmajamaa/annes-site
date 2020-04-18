@@ -1,3 +1,17 @@
+.sub-gallery-top-container {
+  background-color: antiquewhite;
+  margin: 16px;
+  border-radius: 8px;
+  height: 48px
+}
+
+.new-sub-gallery-container {
+  background-color: antiquewhite;
+  margin: 16px;
+  border-radius: 8px;
+  height: 48px;
+}
+
 .image {
   max-width: 100px;
   max-height: 120px;
