@@ -37,5 +37,19 @@ module.exports = {
     } catch (error) {
       return res.status(501).json({message: 'Error deleting gallery.'})
     }
+  },
+
+  updateGalleries: async (req, res, next) => {
+    try {
+      for (let i = 0; i < req.body.subGalleries.length; i++) {
+        const gallery = await Gallery.findOne({ _id: req.body.subGalleries[i]._id });
+        gallery.images = req.body.subGalleries[i].images;
+        let doc = await gallery.save();
+      }
+      let docs = await Gallery.find().populate('images');
+      return res.status(201).json(docs);
+    } catch (error) {
+      return res.status(501).json({message: 'Error updating changes.'})
+    }
   }
 }

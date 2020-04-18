@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
 import { DomSanitizer } from "@angular/platform-browser";
-import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
 
 import { Subscription } from 'rxjs';
 
@@ -78,39 +78,73 @@ export class AdminComponent implements OnInit, OnDestroy {
     modal.style.display = "none";
   }
 
-  drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.images, event.previousIndex, event.currentIndex);
-    for (let i = 0; i < this.images.length; i++) {
-      this.images[i].so = i;
+  drop(event: CdkDragDrop<string[]>, subGallery: SubGallery) {
+    if (event.previousContainer === event.container) {
+      for (let i = 0; i < this.subGalleries.length; i++) {
+        if (this.subGalleries[i]._id === subGallery._id) {
+          moveItemInArray(this.subGalleries[i].images, event.previousIndex, event.currentIndex);
+          for (let j = 0; j < this.subGalleries[i].images.length; j++) {
+            this.subGalleries[i].images[j].so = j;
+          }
+          break;
+        }
+      }
+    } else {
+      for (let i = 0; i < this.subGalleries.length; i++) {
+        if (this.subGalleries[i]._id === event.previousContainer.id) {
+          var fromGalleryIdx: number = i;
+          continue;
+        }
+        if (this.subGalleries[i]._id === event.container.id) {
+          var toGalleyIdx:number = i;
+          continue;
+        }
+      }
+
+      transferArrayItem(this.subGalleries[fromGalleryIdx].images, this.subGalleries[toGalleyIdx].images, event.previousIndex, event.currentIndex);
+      for (let i = 0; i < this.subGalleries[toGalleyIdx].images.length; i++) {
+        this.subGalleries[toGalleyIdx].images[i].so = i;
+        this.subGalleries[toGalleyIdx].images[i].gallery = subGallery._id;
+      }
+
+      for (let i = 0; i < this.subGalleries[fromGalleryIdx].images.length; i++) {
+        this.subGalleries[fromGalleryIdx].images[i].so = i;
+      }
+      
+
     }
   }
 
   editImages(form: NgForm) {
     // TODO: only update changed values
-    for (let i = 0; i < this.images.length; i++) {
-      let altFi = `${this.images[i].Key}:alt_fin`;
-      let altEn = `${this.images[i].Key}:alt_en`;
+    
+    for (let j = 0; j < this.subGalleries.length; j++) {
+      for (let i = 0; i < this.subGalleries[j].images.length; i++) {
+        let altFi = `${this.subGalleries[j].images[i].Key}:alt_fin`;
+        let altEn = `${this.subGalleries[j].images[i].Key}:alt_en`;
 
-      if (form.value[altFi] !== this.images[i].alt_fi) {
-        this.images[i].alt_fi = form.value[altFi];
-      }
+        if (form.value[altFi] !== this.subGalleries[j].images[i].alt_fi) {
+          this.subGalleries[j].images[i].alt_fi = form.value[altFi];
+        }
 
-      if (form.value[altEn] !== this.images[i].alt_en) {
-        this.images[i].alt_en = form.value[altEn];
+        if (form.value[altEn] !== this.subGalleries[j].images[i].alt_en) {
+          this.subGalleries[j].images[i].alt_en = form.value[altEn];
+        }
       }
     }
 
-    this.img.saveOrder({ images: this.images }).subscribe(
-      res => {
-        this.snackBarService.openSnackBar("Tallennettiin muutokset.", "ok-snackbar");
-      },
-      err => {
-        this.snackBarService.openSnackBar(
-          "Virhe muutoksien tallentamisessa. Yritä uudelleen.",
-          "warn-snackbar"
-        );
+
+    var tempImages: Image[] = [];
+
+    for (let i = 0; i < this.subGalleries.length; i++) {
+      for (let j = 0; j < this.subGalleries[i].images.length; j++) {
+        tempImages.push(this.subGalleries[i].images[j]);
       }
-    );
+    }
+
+    // TODO: handle parallel requests better somehow
+    this.img.updateSubGalleries(this.subGalleries);
+    this.img.saveOrder(tempImages);
   }
 
   onAddGallery(form: NgForm) {

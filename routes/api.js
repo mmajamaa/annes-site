@@ -46,6 +46,10 @@ router
   .route("/saveorder")
   .post(helpers.verifyToken, ImagesController.saveOrder);
 
+router
+  .route("/galleries/update")
+  .post(helpers.verifyToken, GallerysController.updateGalleries);
+
 router.route("/page-load").post(StatisticsController.pageLoad);
 
 module.exports = router;

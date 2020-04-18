@@ -52,8 +52,6 @@ export class ImagesService {
       observe: "body",
       params: new HttpParams().append("token", localStorage.getItem("token"))
     }).subscribe((newImage: Image) => {
-      this.images.push(newImage);
-      this.imagesChange.next(this.images.slice());
       this.subGalleriesChange.next(this.subGalleries.slice())
       this.snackBarService.openSnackBar("Kuva ladattiin onnistuneesti.", "ok-snackbar");
       this.uploadSuccesful.next('completed');
@@ -85,8 +83,6 @@ export class ImagesService {
       observe: "body",
       params: new HttpParams().append("token", localStorage.getItem("token"))
     }).subscribe((deletedImage: Image) => {
-      this.images = this.images.filter(image => image._id !== deletedImage._id);
-      this.imagesChange.next(this.images);
       this.snackBarService.openSnackBar("Kuva poistettiin onnistuneesti.", "ok-snackbar");
     }, 
       error => {
@@ -139,10 +135,29 @@ export class ImagesService {
     });
   }
 
-  saveOrder(images) {
-    return this.http.post("/api/saveorder/", images, {
+  saveOrder(images: Image[]) {
+    this.http.post("/api/saveorder/", {images}, {
       observe: "body",
       params: new HttpParams().append("token", localStorage.getItem("token"))
-    });
+    }).subscribe((images: Image[]) => {
+        // TODO: show snackbar
+      },
+      error => {
+        this.snackBarService.openSnackBar("Virhe muutosten tallentamisessa. Yritä uudelleen.", "warn-snackbar");
+      });
+  }
+
+  updateSubGalleries(subGalleries: SubGallery[]) {
+    this.http.post("/api/galleries/update", { subGalleries }, {
+      observe: "body",
+      params: new HttpParams().append("token", localStorage.getItem("token"))
+    }).subscribe((updatedSubGalleries: SubGallery[]) => {
+      this.subGalleries = updatedSubGalleries;
+      this.subGalleriesChange.next(this.subGalleries);
+      // TODO: show snackbar
+    },
+    error => {
+      this.snackBarService.openSnackBar("Virhe muutosten tallentamisessa. Yritä uudelleen.", "warn-snackbar");
+    })
   }
 }
