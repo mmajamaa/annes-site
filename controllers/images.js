@@ -19,10 +19,10 @@ module.exports = {
     try {
       // create new image
       const newImage = new Image({
-        Key: req.file.key,
-        url: req.file.location,
-        alt_fi: req.body.alt_fi,
-        alt_en: req.body.alt_fi,
+        Key: res.locals.key,
+        url: res.locals.url,
+        alt_fi: res.locals.alt_fi,
+        alt_en: res.locals.alt_fi,
         so: 1
       });
       // get gallery based on url parameter

@@ -8,6 +8,8 @@ import { BreakpointObserver, BreakpointState } from "@angular/cdk/layout";
   styleUrls: ["./image-dialog.component.css"]
 })
 export class ImageDialogComponent implements OnInit {
+  public galleryId: string;
+
   constructor(
     public dialogRef: MatDialogRef<ImageDialogComponent>,
     public breakpointObserver: BreakpointObserver

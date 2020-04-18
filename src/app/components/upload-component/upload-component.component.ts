@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
+import { Component, OnInit, OnDestroy, ViewChild, Input } from "@angular/core";
 import { ImagesService } from "src/app/services/images.service";
 import { NgForm } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
@@ -18,6 +18,7 @@ export class UploadComponentComponent implements OnInit, OnDestroy {
   public loading = false;
   private uploadStatus: Subscription;
   @ViewChild('uploadForm') uploadForm;
+  @Input() galleryId: string;
 
   constructor(
     private img: ImagesService,
@@ -51,7 +52,7 @@ export class UploadComponentComponent implements OnInit, OnDestroy {
       image: this.imgUrl
     };
 
-    this.img.uploadImage(uploadObject, form.value.gallery); 
+    this.img.uploadImage(uploadObject, this.galleryId); 
   }
 
   public cancelUpload() {

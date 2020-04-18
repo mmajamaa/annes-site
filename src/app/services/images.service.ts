@@ -53,7 +53,8 @@ export class ImagesService {
       params: new HttpParams().append("token", localStorage.getItem("token"))
     }).subscribe((newImage: Image) => {
       this.images.push(newImage);
-      this.imagesChange.next(this.images);
+      this.imagesChange.next(this.images.slice());
+      this.subGalleriesChange.next(this.subGalleries.slice())
       this.snackBarService.openSnackBar("Kuva ladattiin onnistuneesti.", "ok-snackbar");
       this.uploadSuccesful.next('completed');
     },

@@ -11,6 +11,8 @@ import { ImagesService } from "../../services/images.service";
 import { Image } from "../../interfaces/image";
 import { SnackBarService } from 'src/app/services/snack-bar.service';
 import { SubGallery } from 'src/app/interfaces/sub-gallery';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
 
 
 
@@ -32,7 +34,8 @@ export class AdminComponent implements OnInit, OnDestroy {
     private auth: AuthenticationService,
     private img: ImagesService,
     private domSanitizer: DomSanitizer,
-    private snackBarService: SnackBarService
+    private snackBarService: SnackBarService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -117,6 +120,14 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   onDeleteSubGallery(id: string) {
     this.img.deleteGallery(id);
+  }
+
+  onAddImage(subGallery: SubGallery) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.panelClass = "custom-dialog-container";
+
+    const dialogRef = this.dialog.open(ImageDialogComponent, dialogConfig);
+    dialogRef.componentInstance.galleryId = subGallery._id
   }
 
   ngOnDestroy() {
