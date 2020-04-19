@@ -12,7 +12,6 @@
 
     <div class="sub-galleries-container" fxLayout="row">
       <div class="drop-list-container" cdkDropListGroup>
-        <form #editForm="ngForm" (ngSubmit)="editImages(editForm)" id="edit-form">
         <div class="sub-gallery-container" *ngFor="let subgallery of subGalleries" fxFlex="300px" fxLayout="column" >
           <!-- subgallery's header-->
           <div class="sub-gallery-top-container" fxFlex="nogrow" fxLayout="row" fxLayoutAlign="center center">
@@ -28,70 +27,70 @@
             fxLayoutAlign="none center"
             [id]="subgallery._id"
           >
-              <mat-card
-                *ngFor="let img of subgallery.images; let i = index"
-                class="image-card"
-                cdkDrag
-              >
-                <mat-card-content>
-                  <div
-                    fxLayout="column"
-                    fxLayoutAlign="none center"
-                    class="top-container"
-                  >
-                    <div fxFlex="nogrow" fxLayout="row" class="max-width">
-                      <span class="delete-container" (click)="deleteImage(img.Key)"
-                        ><i class="fa fa-trash"></i
-                      ></span>
-                      <span fxFlex></span>
-                      <span class="drag-container" cdkDragHandle>
-                        <i class="fa fa-arrows-alt"></i>
-                      </span>
-                    </div>
-                    <img
-                      fxFlex="nogrow"
-                      src="{{ img.url }}"
-                      alt="{{ img.alt_fi }}"
-                      id="myImg"
-                      class="image"
-                      (click)="openImage($event)"
-                    />
-
-                    <label class="title-label">Suomenkielinen kuvateksti:</label>
-                    <input
-                      name="{{ img.Key + ':alt_fin' }}"
-                      type="text"
-                      fxFlex="nogrow"
-                      class="card-input"
-                      [ngModel]="img.alt_fi"
-                    />
-
-                    <label class="title-label">Englanninkielinen kuvateksti:</label>
-                    <input
-                      name="{{ img.Key + ':alt_en' }}"
-                      type="text"
-                      value="{{ img.alt_en }}"
-                      fxFlex="nogrow"
-                      class="card-input"
-                      [ngModel]="img.alt_en"
-                    />
+            <mat-card
+              *ngFor="let img of subgallery.images; let i = index"
+              class="image-card"
+              cdkDrag
+            >
+              <mat-card-content>
+                <div
+                  fxLayout="column"
+                  fxLayoutAlign="none center"
+                  class="top-container"
+                >
+                  <div fxFlex="nogrow" fxLayout="row" class="max-width">
+                    <span class="delete-container" (click)="deleteImage(img.Key)"
+                      ><i class="fa fa-trash"></i
+                    ></span>
+                    <span fxFlex></span>
+                    <span class="drag-container" cdkDragHandle>
+                      <i class="fa fa-arrows-alt"></i>
+                    </span>
                   </div>
-                </mat-card-content>
-              </mat-card>
-            </div>
-            <span fxFlex="nogrow" fxLayout="row" fxLayoutAlign="center">
-              <button (click)="onAddImage(subgallery)" type="button" fxFlex="nogrow">+</button>
-            </span>
+                  <img
+                    fxFlex="nogrow"
+                    src="{{ img.url }}"
+                    alt="{{ img.alt_fi }}"
+                    id="myImg"
+                    class="image"
+                    (click)="openImage($event)"
+                  />
+
+                  <label class="title-label">Suomenkielinen kuvateksti:</label>
+                  <input
+                    name="{{ img.Key + ':alt_fin' }}"
+                    type="text"
+                    fxFlex="nogrow"
+                    class="card-input"
+                    [(ngModel)]="img.alt_fi"
+                  />
+
+                  <label class="title-label">Englanninkielinen kuvateksti:</label>
+                  <input
+                    name="{{ img.Key + ':alt_en' }}"
+                    type="text"
+                    value="{{ img.alt_en }}"
+                    fxFlex="nogrow"
+                    class="card-input"
+                    [(ngModel)]="img.alt_en"
+                  />
+                </div>
+              </mat-card-content>
+            </mat-card>
           </div>
-        </form>
+          <!-- add image -->
+          <span fxFlex="nogrow" fxLayout="row" fxLayoutAlign="center">
+            <button (click)="onAddImage(subgallery)" type="button" fxFlex="nogrow">+</button>
+          </span>
+        </div>
       </div>
       <!-- new subgallery -->
       <div class="new-sub-gallery-main-container" fxFlex="300px" fxLayout="column" fxLayoutAlign="start center">
         <div class="new-sub-gallery-container" fxLayout="row" fxLayoutAlign="center center">
-         <form #f="ngForm" fxFlex="nogrow">
-            <input type="text" name="gallery" placeholder="Uuden gallerian nimi" ngModel>
+         <form #f="ngForm" fxFlex="nogrow" ngNativeValidate>
+            <input type="text" name="gallery" placeholder="Uuden gallerian nimi" ngModel required>
          </form>
-         <button (click)="onAddGallery(f)" fxFlex="nogrow">+</button>
+         <button (click)="onAddGallery(f)" fxFlex="nogrow" [disabled]="!f.valid">+</button>
         </div>
       
       </div>
@@ -99,7 +98,7 @@
     </div>
 
 
-    <button mat-button class="ok-button save" form="edit-form">
+    <button mat-button class="ok-button save" (click)="editImages()">
       Tallenna muutokset
     </button>
   </div>

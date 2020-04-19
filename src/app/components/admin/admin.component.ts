@@ -47,7 +47,6 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.img.getSubGalleries();
     this.subGallerySubscription = this.img.subGalleriesChange.subscribe((subGalleries: SubGallery[]) => {
       this.subGalleries = subGalleries;
-      console.log(this.subGalleries)
     })
   }
 
@@ -79,15 +78,12 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   drop(event: CdkDragDrop<string[]>, subGallery: SubGallery) {
+    var toGalleyIdx = this.subGalleries.indexOf(subGallery);
+
     if (event.previousContainer === event.container) {
-      for (let i = 0; i < this.subGalleries.length; i++) {
-        if (this.subGalleries[i]._id === subGallery._id) {
-          moveItemInArray(this.subGalleries[i].images, event.previousIndex, event.currentIndex);
-          for (let j = 0; j < this.subGalleries[i].images.length; j++) {
-            this.subGalleries[i].images[j].so = j;
-          }
-          break;
-        }
+      moveItemInArray(this.subGalleries[toGalleyIdx].images, event.previousIndex, event.currentIndex);
+      for (let i = 0; i < this.subGalleries[toGalleyIdx].images.length; i++) {
+        this.subGalleries[toGalleyIdx].images[i].so = i;
       }
     } else {
       for (let i = 0; i < this.subGalleries.length; i++) {
@@ -95,13 +91,10 @@ export class AdminComponent implements OnInit, OnDestroy {
           var fromGalleryIdx: number = i;
           continue;
         }
-        if (this.subGalleries[i]._id === event.container.id) {
-          var toGalleyIdx:number = i;
-          continue;
-        }
       }
 
       transferArrayItem(this.subGalleries[fromGalleryIdx].images, this.subGalleries[toGalleyIdx].images, event.previousIndex, event.currentIndex);
+      
       for (let i = 0; i < this.subGalleries[toGalleyIdx].images.length; i++) {
         this.subGalleries[toGalleyIdx].images[i].so = i;
         this.subGalleries[toGalleyIdx].images[i].gallery = subGallery._id;
@@ -115,44 +108,19 @@ export class AdminComponent implements OnInit, OnDestroy {
     }
   }
 
-  editImages(form: NgForm) {    
-    for (let j = 0; j < this.subGalleries.length; j++) {
-      for (let i = 0; i < this.subGalleries[j].images.length; i++) {
-        let altFi = `${this.subGalleries[j].images[i].Key}:alt_fin`;
-        let altEn = `${this.subGalleries[j].images[i].Key}:alt_en`;
-
-        if (form.value[altFi] !== this.subGalleries[j].images[i].alt_fi) {
-          this.subGalleries[j].images[i].alt_fi = form.value[altFi];
-        }
-
-        if (form.value[altEn] !== this.subGalleries[j].images[i].alt_en) {
-          this.subGalleries[j].images[i].alt_en = form.value[altEn];
-        }
-      }
-    }
-
-
-    var tempImages: Image[] = [];
-
-    for (let i = 0; i < this.subGalleries.length; i++) {
-      for (let j = 0; j < this.subGalleries[i].images.length; j++) {
-        tempImages.push(this.subGalleries[i].images[j]);
-      }
-    }
-
+  editImages() {
     this.img.updateSubGalleries(this.subGalleries);
   }
 
   onAddGallery(form: NgForm) {
     // TODO: also, add English name for the sub-gallery!
-    if (!form.value.gallery) return;
-    if (confirm(`Haluatko varmasti luoda gallerian nimeltä ${form.value.gallery}?`)) {
+    if (confirm(`Haluatko varmasti luoda gallerian nimeltä '${form.value.gallery}'?`)) {
       this.img.createGallery(form.value.gallery, form.value.gallery);
     }
   }
 
   onDeleteSubGallery(subGallery: SubGallery) {
-    if (confirm(`Haluatko varmasti poistaa gallerian ${subGallery.fi} ja kaikki sen sisältämät kuvat?`)) {
+    if (confirm(`Haluatko varmasti poistaa gallerian '${subGallery.fi}' ja kaikki sen sisältämät kuvat?`)) {
       this.img.deleteGallery(subGallery._id);
     }
   }
