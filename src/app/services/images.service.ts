@@ -111,10 +111,9 @@ export class ImagesService {
       }
     ).subscribe(
       (newSubGallery: SubGallery) => {
-        
         this.subGalleries.push(newSubGallery);
-        console.log(this.subGalleries)
         this.subGalleriesChange.next(this.subGalleries.slice());
+        this.snackBarService.openSnackBar("Galleria luotiin onnistuneesti.", "ok-snackbar");
       },
       error => {
         this.snackBarService.openSnackBar("Virhe gallerien luomisessa.", "warn-snackbar");
@@ -129,6 +128,7 @@ export class ImagesService {
     }).subscribe((deletedSubGallery: SubGallery) => {
       this.subGalleries = this.subGalleries.filter(sg => sg._id != deletedSubGallery._id);
       this.subGalleriesChange.next(this.subGalleries.slice());
+      this.snackBarService.openSnackBar("Galleria poistettiin onnistuneesti.", "ok-snackbar");
     },
     error => {
       this.snackBarService.openSnackBar("Virhe gallerien poistamisessa. Yritä uudelleen.", "warn-snackbar");
@@ -140,7 +140,7 @@ export class ImagesService {
       observe: "body",
       params: new HttpParams().append("token", localStorage.getItem("token"))
     }).subscribe((images: Image[]) => {
-        // TODO: show snackbar
+      this.snackBarService.openSnackBar("Muutokset tallennettiin onnistuneesti.", "ok-snackbar");
       },
       error => {
         this.snackBarService.openSnackBar("Virhe muutosten tallentamisessa. Yritä uudelleen.", "warn-snackbar");
@@ -154,7 +154,7 @@ export class ImagesService {
     }).subscribe((updatedSubGalleries: SubGallery[]) => {
       this.subGalleries = updatedSubGalleries;
       this.subGalleriesChange.next(this.subGalleries);
-      // TODO: show snackbar
+      this.snackBarService.openSnackBar("Muutokset tallennettiin onnistuneesti.", "ok-snackbar");
     },
     error => {
       this.snackBarService.openSnackBar("Virhe muutosten tallentamisessa. Yritä uudelleen.", "warn-snackbar");

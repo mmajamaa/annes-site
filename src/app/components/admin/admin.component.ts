@@ -115,9 +115,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     }
   }
 
-  editImages(form: NgForm) {
-    // TODO: only update changed values
-    
+  editImages(form: NgForm) {    
     for (let j = 0; j < this.subGalleries.length; j++) {
       for (let i = 0; i < this.subGalleries[j].images.length; i++) {
         let altFi = `${this.subGalleries[j].images[i].Key}:alt_fin`;
@@ -142,9 +140,7 @@ export class AdminComponent implements OnInit, OnDestroy {
       }
     }
 
-    // TODO: handle parallel requests better somehow
     this.img.updateSubGalleries(this.subGalleries);
-    this.img.saveOrder(tempImages);
   }
 
   onAddGallery(form: NgForm) {

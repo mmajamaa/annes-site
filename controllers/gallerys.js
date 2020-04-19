@@ -41,10 +41,31 @@ module.exports = {
 
   updateGalleries: async (req, res, next) => {
     try {
+      // iterate through subgalleries
       for (let i = 0; i < req.body.subGalleries.length; i++) {
+        // update subgallery
         const gallery = await Gallery.findOne({ _id: req.body.subGalleries[i]._id });
         gallery.images = req.body.subGalleries[i].images;
         let doc = await gallery.save();
+        // iterate through subgallery's images
+        for (let j = 0; j < req.body.subGalleries[i].images.length; j++) {
+          // update images
+          Image.update(
+            { Key: req.body.subGalleries[i].images[j].Key },
+            {
+              so: req.body.subGalleries[i].images[j].so,
+              alt_fi: req.body.subGalleries[i].images[j].alt_fi,
+              alt_en: req.body.subGalleries[i].images[j].alt_en
+            },
+            (err, doc) => {
+              if (err) {
+                return res
+                  .status(501)
+                  .json({ message: "Error on saving record to database." });
+              }
+            }
+          );
+        }
       }
       let docs = await Gallery.find().populate('images');
       return res.status(201).json(docs);
