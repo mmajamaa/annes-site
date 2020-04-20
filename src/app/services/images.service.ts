@@ -52,7 +52,13 @@ export class ImagesService {
       observe: "body",
       params: new HttpParams().append("token", localStorage.getItem("token"))
     }).subscribe((newImage: Image) => {
-      this.subGalleriesChange.next(this.subGalleries.slice())
+      for (let i = 0; i < this.subGalleries.length; i++) {
+        if (this.subGalleries[i]._id == galleryId) {
+          this.subGalleries[i].images.push(newImage);
+          break;
+        }
+      }
+      this.subGalleriesChange.next(this.subGalleries.slice());
       this.snackBarService.openSnackBar("Kuva ladattiin onnistuneesti.", "ok-snackbar");
       this.uploadSuccesful.next('completed');
     },
@@ -78,11 +84,20 @@ export class ImagesService {
     return this.images.slice();
   }
 
-  deleteImage(key) {
-    this.http.delete("/api/image/" + key, {
+  deleteImage(id: string) {
+    this.http.delete("/api/image/" + id, {
       observe: "body",
       params: new HttpParams().append("token", localStorage.getItem("token"))
     }).subscribe((deletedImage: Image) => {
+      for (let i = 0; i < this.subGalleries.length; i++) {
+        for (let j = 0; j < this.subGalleries[i].images.length; j++) {
+          if (this.subGalleries[i].images[j]._id === id) {
+            this.subGalleries[i].images = this.subGalleries[i].images.filter((image: Image) => image._id !== id);
+            break;
+          }
+        }
+      }
+      this.subGalleriesChange.next(this.subGalleries.slice());
       this.snackBarService.openSnackBar("Kuva poistettiin onnistuneesti.", "ok-snackbar");
     }, 
       error => {
