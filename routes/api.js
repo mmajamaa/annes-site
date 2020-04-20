@@ -22,7 +22,7 @@ router
   .post(helpers.verifyToken, singleUpload, ImagesController.newImageNoGallery);
 
 router
-  .route("/image/:key")
+  .route("/image/:id")
   .delete(helpers.verifyToken, ImagesController.deleteImage);
 
 router.route("/auth/login").post(AuthenticationController.index);

@@ -12,23 +12,23 @@
 
     <div class="sub-galleries-container" fxLayout="row">
       <div class="drop-list-container" cdkDropListGroup>
-        <div class="sub-gallery-container" *ngFor="let subgallery of subGalleries" fxFlex="300px" fxLayout="column" >
+        <div class="sub-gallery-container" *ngFor="let subGallery of subGalleries" fxFlex="300px" fxLayout="column">
           <!-- subgallery's header-->
           <div class="sub-gallery-top-container" fxFlex="nogrow" fxLayout="row" fxLayoutAlign="center center">
-            <span fxFlex="90">{{ subgallery.fi }}</span>
-            <span class="delete-container" (click)="onDeleteSubGallery(subgallery)" fxFlex><i class="fa fa-trash"></i></span>
+            <span fxFlex="90">{{ subGallery.fi }}</span>
+            <span class="delete-container" (click)="onDeleteSubGallery(subGallery)" fxFlex><i class="fa fa-trash"></i></span>
           </div>
           <!-- subgallery's images-->
           <div
             cdkDropList
             class="example-list"
-            (cdkDropListDropped)="drop($event, subgallery)"
+            (cdkDropListDropped)="drop($event, subGallery)"
             fxLayout="column"
             fxLayoutAlign="none center"
-            [id]="subgallery._id"
+            [id]="subGallery._id"
           >
             <mat-card
-              *ngFor="let img of subgallery.images; let i = index"
+              *ngFor="let img of subGallery.images; let i = index"
               class="image-card"
               cdkDrag
             >
@@ -39,7 +39,7 @@
                   class="top-container"
                 >
                   <div fxFlex="nogrow" fxLayout="row" class="max-width">
-                    <span class="delete-container" (click)="deleteImage(img.Key)"
+                    <span class="delete-container" (click)="deleteImage(img._id)"
                       ><i class="fa fa-trash"></i
                     ></span>
                     <span fxFlex></span>
@@ -58,7 +58,7 @@
 
                   <label class="title-label">Suomenkielinen kuvateksti:</label>
                   <input
-                    name="{{ img.Key + ':alt_fin' }}"
+                    name="{{ img._id + ':alt_fin' }}"
                     type="text"
                     fxFlex="nogrow"
                     class="card-input"
@@ -67,7 +67,7 @@
 
                   <label class="title-label">Englanninkielinen kuvateksti:</label>
                   <input
-                    name="{{ img.Key + ':alt_en' }}"
+                    name="{{ img._id + ':alt_en' }}"
                     type="text"
                     value="{{ img.alt_en }}"
                     fxFlex="nogrow"
@@ -80,7 +80,7 @@
           </div>
           <!-- add image -->
           <span fxFlex="nogrow" fxLayout="row" fxLayoutAlign="center">
-            <button (click)="onAddImage(subgallery)" type="button" fxFlex="nogrow">+</button>
+            <button (click)="onAddImage(subGallery)" type="button" fxFlex="nogrow">+</button>
           </span>
         </div>
       </div>

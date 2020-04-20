@@ -67,7 +67,7 @@ module.exports = {
 
   deleteImage: async (req, res, next) => {
     try {
-      const image = await Image.findOne({ Key: req.params.key });
+      const image = await Image.findOne({ _id: req.params.id });
       await image.remove();
       return res.status(200).json(image);
     } catch (error) {
@@ -79,7 +79,7 @@ module.exports = {
     const images = req.body.images;
     for (let i = 0; i < images.length; i++) {
       Image.update(
-        { Key: images[i].Key },
+        { _id: images[i]._id },
         {
           so: images[i].so,
           alt_fi: images[i].alt_fi,

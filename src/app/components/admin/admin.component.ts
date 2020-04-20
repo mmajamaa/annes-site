@@ -50,12 +50,12 @@ export class AdminComponent implements OnInit, OnDestroy {
     })
   }
 
-  deleteImage(key: String) {
+  deleteImage(id: string) {
     if (confirm("Haluatko varmasti poistaa kuvan?") == false) {
       return;
     }
 
-    this.img.deleteImage(key);
+    this.img.deleteImage(id);
   }
 
   openImage(event) {

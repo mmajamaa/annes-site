@@ -51,7 +51,7 @@ module.exports = {
         for (let j = 0; j < req.body.subGalleries[i].images.length; j++) {
           // update images
           Image.update(
-            { Key: req.body.subGalleries[i].images[j].Key },
+            { _id: req.body.subGalleries[i].images[j]._id },
             {
               so: req.body.subGalleries[i].images[j].so,
               alt_fi: req.body.subGalleries[i].images[j].alt_fi,
