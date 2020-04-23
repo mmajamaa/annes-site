@@ -1,4 +1,4 @@
-<div class="page-container">
+<div class="page-container" fxFill fxLayout="column">
   <!-- top bar -->
   <app-user-bar (onSaveChanges)="onSaveChanges()"></app-user-bar>
   <!-- image modal -->
@@ -8,7 +8,7 @@
     <div id="caption"></div>
   </div>
   <!-- sub galleries -->
-  <div class="sub-galleries-container" fxLayout="row">
+  <div class="sub-galleries-container" fxFlex fxLayout="row">
     <div *ngFor="let subGallery of subGalleries">
       <!-- sub gallery container-->
       <div class="sub-gallery-container" cdkDropList [cdkDropListConnectedTo]="subGalleriesDropList"
