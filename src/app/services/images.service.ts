@@ -13,7 +13,7 @@ export class ImagesService {
   private subGalleries: SubGallery[] = [];
   public imagesChange: BehaviorSubject<Image[]> = new BehaviorSubject([]);
   public subGalleriesChange: BehaviorSubject<SubGallery[]> = new BehaviorSubject([]);
-  public uploadSuccesful: BehaviorSubject<string> = new BehaviorSubject('start');
+  public uploadSuccesful: Subject<string> = new Subject();
   public errorLoadingImages: Subject<boolean>;
 
   constructor(private http: HttpClient, private snackBarService: SnackBarService) {
