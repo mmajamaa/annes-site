@@ -4,15 +4,16 @@ const Schema = mongoose.Schema;
 const Image = require('./images');
 
 let schema = new Schema({
-  en: {type: String, require: true, unique: true}, // also used as a path
-  fi: {type: String, require: true, unique: true},
-  so: {type: Number, require: true, unique: true},
+  en: { type: String, require: true, unique: true }, // also used as a path
+  fi: { type: String, require: true, unique: true },
+  so: { type: Number, require: true },
   images: [{
     type: Schema.Types.ObjectId,
-    ref: 'Image'}]
+    ref: 'Image'
+  }]
 });
 
-schema.pre('remove', async function(next) {
+schema.pre('remove', async function (next) {
   try {
     // get gallery's images
     const images = await Image.find({
@@ -27,7 +28,7 @@ schema.pre('remove', async function(next) {
     }
 
     next();
-  } catch(err) {
+  } catch (err) {
     console.log(err);
     next(err);
   }

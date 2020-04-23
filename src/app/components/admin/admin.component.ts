@@ -1,15 +1,10 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { Router } from "@angular/router";
 import { NgForm } from "@angular/forms";
-import { DomSanitizer } from "@angular/platform-browser";
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
-
 import { Subscription } from 'rxjs';
 
-import { AuthenticationService } from "../../services/authentication.service";
 import { ImagesService } from "../../services/images.service";
 import { Image } from "../../interfaces/image";
-import { SnackBarService } from 'src/app/services/snack-bar.service';
 import { SubGallery } from 'src/app/interfaces/sub-gallery';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
@@ -117,7 +112,18 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   dropSubGallery(event: CdkDragDrop<string[]>) {
-    // TODO
+    let fromId = event.previousContainer.id;
+    let toId = event.container.id;
+
+    let fromIdx = this.subGalleriesDropList.indexOf(fromId);
+    let toIdx = this.subGalleriesDropList.indexOf(toId);
+
+    moveItemInArray(this.subGalleriesDropList, fromIdx, toIdx)
+    moveItemInArray(this.subGalleries, fromIdx, toIdx)
+
+    for (let i = 0; i < this.subGalleries.length; i++) {
+      this.subGalleries[i].so = i;
+    }
   }
 
   onSaveChanges() {

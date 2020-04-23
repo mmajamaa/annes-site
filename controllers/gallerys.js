@@ -5,37 +5,39 @@ const deleteImages = require('../services/images').deleteImages;
 
 module.exports = {
   index: async (req, res, next) => {
-    let docs = await Gallery.find().populate('images');
+    let docs = await Gallery.find().sort({ so: 0 }).populate('images');
 
     try {
       return res.status(200).json(docs);
     } catch (error) {
-      return res.status(501).json({message: 'Error getting gallerys.'})
+      return res.status(501).json({ message: 'Error getting gallerys.' })
     }
   },
 
   newGallery: async (req, res, next) => {
-    let gallery = new Gallery({
-      en: req.body.en,
-      fi: req.body.fi
-    });
-
-    let doc = await gallery.save();
-
     try {
+      const gallery = await Gallery.findOne().sort("-so");
+
+      let newGallery = new Gallery({
+        en: req.body.en,
+        fi: req.body.fi,
+        so: gallery ? gallery.so + 1 : 0
+      });
+
+      let doc = await newGallery.save();
       return res.status(201).json(doc);
     } catch (error) {
-      return res.status(501).json({message: 'Error creating gallery.'});
+      return res.status(501).json({ message: 'Error creating gallery.' });
     }
   },
 
   deleteGallery: async (req, res, next) => {
     try {
-      const gallery = await Gallery.findOne({_id: req.params.id});
+      const gallery = await Gallery.findOne({ _id: req.params.id });
       await gallery.remove();
       return res.status(200).json(gallery);
     } catch (error) {
-      return res.status(501).json({message: 'Error deleting gallery.'})
+      return res.status(501).json({ message: 'Error deleting gallery.' })
     }
   },
 
@@ -45,8 +47,12 @@ module.exports = {
       for (let i = 0; i < req.body.subGalleries.length; i++) {
         // update subgallery
         const gallery = await Gallery.findOne({ _id: req.body.subGalleries[i]._id });
+
         gallery.images = req.body.subGalleries[i].images;
-        let doc = await gallery.save();
+        gallery.so = req.body.subGalleries[i].so;
+
+        await gallery.save()
+
         // iterate through subgallery's images
         for (let j = 0; j < req.body.subGalleries[i].images.length; j++) {
           // update images
@@ -55,7 +61,7 @@ module.exports = {
             {
               so: req.body.subGalleries[i].images[j].so,
               alt_fi: req.body.subGalleries[i].images[j].alt_fi,
-              alt_en: req.body.subGalleries[i].images[j].alt_en
+              alt_en: req.body.subGalleries[i].images[j].alt_en,
             },
             (err, doc) => {
               if (err) {
@@ -67,10 +73,10 @@ module.exports = {
           );
         }
       }
-      let docs = await Gallery.find().populate('images');
+      let docs = await Gallery.find().sort({ so: 0 }).populate('images');
       return res.status(201).json(docs);
     } catch (error) {
-      return res.status(501).json({message: 'Error updating changes.'})
+      return res.status(501).json({ message: 'Error updating changes.' })
     }
   }
 }
