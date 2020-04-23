@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
 import { Subscription } from 'rxjs';
@@ -21,8 +21,10 @@ export class AdminComponent implements OnInit, OnDestroy {
   public subGalleries: SubGallery[] = [];
   private imageSubscription: Subscription;
   private subGallerySubscription: Subscription;
+  private subGalleryCreationSubscription: Subscription;
   public imagesDropList = [];
   public subGalleriesDropList = [];
+  @ViewChild('f') newSubGalleryForm;
 
 
   constructor(
@@ -41,6 +43,13 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.subGallerySubscription = this.img.subGalleriesChange.subscribe((subGalleries: SubGallery[]) => {
       this.subGalleries = subGalleries;
       this.updateDropLists();
+    })
+
+    this.subGalleryCreationSubscription = this.img.subGalleryCreationSuccessful.subscribe((res: boolean) => {
+      console.log(res)
+      if (res) {
+        this.newSubGalleryForm.reset();
+      }
     })
   }
 
@@ -154,5 +163,6 @@ export class AdminComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.imageSubscription.unsubscribe();
     this.subGallerySubscription.unsubscribe();
+    this.subGalleryCreationSubscription.unsubscribe();
   }
 }

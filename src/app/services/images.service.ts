@@ -15,6 +15,7 @@ export class ImagesService {
   public subGalleriesChange: BehaviorSubject<SubGallery[]> = new BehaviorSubject([]);
   public uploadSuccesful: Subject<string> = new Subject();
   public errorLoadingImages: Subject<boolean>;
+  public subGalleryCreationSuccessful: Subject<boolean> = new Subject();
 
   constructor(private http: HttpClient, private snackBarService: SnackBarService) {
     this.onInit();
@@ -26,23 +27,23 @@ export class ImagesService {
       this.images = images;
       this.imagesChange.next(this.images.slice());
     },
-    error => {
-      this.snackBarService.openSnackBar(
-        "Virhe kuvien lataamisessa. Päivitä sivu.",
-        "warn-snackbar"
-      );
-    })
+      error => {
+        this.snackBarService.openSnackBar(
+          "Virhe kuvien lataamisessa. Päivitä sivu.",
+          "warn-snackbar"
+        );
+      })
     // get galleries
     this.getSubGalleriesFromApi().subscribe((subGalleries: SubGallery[]) => {
       this.subGalleries = subGalleries;
       this.subGalleriesChange.next(this.subGalleries.slice())
     },
-    error => {
-      this.snackBarService.openSnackBar(
-        "Virhe alagallerioiden lataamisessa. Päivitä sivu",
-        "warn-snackbar"
-      );
-    })
+      error => {
+        this.snackBarService.openSnackBar(
+          "Virhe alagallerioiden lataamisessa. Päivitä sivu",
+          "warn-snackbar"
+        );
+      })
   }
 
   uploadImage(uploadObject, galleryId) {
@@ -99,13 +100,13 @@ export class ImagesService {
       }
       this.subGalleriesChange.next(this.subGalleries.slice());
       this.snackBarService.openSnackBar("Kuva poistettiin onnistuneesti.", "ok-snackbar");
-    }, 
+    },
       error => {
         this.snackBarService.openSnackBar(
           "Virhe kuvan poistamisessa. Yritä uudelleen.",
           "warn-snackbar"
         );
-    }
+      }
     );
   }
 
@@ -114,6 +115,12 @@ export class ImagesService {
   }
 
   createGallery(fi, en) {
+    for (let i = 0; i < this.subGalleries.length; i++) {
+      if ((this.subGalleries[i].fi == fi) || (this.subGalleries[i].en == en)) {
+        this.snackBarService.openSnackBar("Virhe gallerien luomisessa. Saman niminen galleria on jo olemassa.", "warn-snackbar");
+        return;
+      }
+    }
     this.http.post(
       "/api/gallerys",
       {
@@ -128,6 +135,7 @@ export class ImagesService {
       (newSubGallery: SubGallery) => {
         this.subGalleries.push(newSubGallery);
         this.subGalleriesChange.next(this.subGalleries.slice());
+        this.subGalleryCreationSuccessful.next(true);
         this.snackBarService.openSnackBar("Galleria luotiin onnistuneesti.", "ok-snackbar");
       },
       error => {
@@ -145,18 +153,18 @@ export class ImagesService {
       this.subGalleriesChange.next(this.subGalleries.slice());
       this.snackBarService.openSnackBar("Galleria poistettiin onnistuneesti.", "ok-snackbar");
     },
-    error => {
-      this.snackBarService.openSnackBar("Virhe gallerien poistamisessa. Yritä uudelleen.", "warn-snackbar");
-    });
+      error => {
+        this.snackBarService.openSnackBar("Virhe gallerien poistamisessa. Yritä uudelleen.", "warn-snackbar");
+      });
   }
 
   saveOrder(images: Image[]) {
-    this.http.post("/api/saveorder/", {images}, {
+    this.http.post("/api/saveorder/", { images }, {
       observe: "body",
       params: new HttpParams().append("token", localStorage.getItem("token"))
     }).subscribe((images: Image[]) => {
       this.snackBarService.openSnackBar("Muutokset tallennettiin onnistuneesti.", "ok-snackbar");
-      },
+    },
       error => {
         this.snackBarService.openSnackBar("Virhe muutosten tallentamisessa. Yritä uudelleen.", "warn-snackbar");
       });
@@ -171,8 +179,8 @@ export class ImagesService {
       this.subGalleriesChange.next(this.subGalleries);
       this.snackBarService.openSnackBar("Muutokset tallennettiin onnistuneesti.", "ok-snackbar");
     },
-    error => {
-      this.snackBarService.openSnackBar("Virhe muutosten tallentamisessa. Yritä uudelleen.", "warn-snackbar");
-    })
+      error => {
+        this.snackBarService.openSnackBar("Virhe muutosten tallentamisessa. Yritä uudelleen.", "warn-snackbar");
+      })
   }
 }
