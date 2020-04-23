@@ -1,79 +1,50 @@
-  <div class="page-container">
-    <app-user-bar (onSaveChanges)="onSaveChanges()"></app-user-bar>
-
-    <div id="myModal" class="modal">
-      <span class="close" (click)="closeModal()">&times;</span>
-
-      <img class="modal-content" id="img01" />
-
-      <div id="caption"></div>
-    </div>
-
-
-    <div class="sub-galleries-container" fxLayout="row">
-      <div class="drop-list-container" cdkDropListGroup>
-        <div class="sub-gallery-container" *ngFor="let subGallery of subGalleries" fxFlex="300px" fxLayout="column">
+<div class="page-container">
+  <!-- top bar -->
+  <app-user-bar (onSaveChanges)="onSaveChanges()"></app-user-bar>
+  <!-- image modal -->
+  <div id="myModal" class="modal">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <img class="modal-content" id="img01" />
+    <div id="caption"></div>
+  </div>
+  <!-- sub galleries -->
+  <div class="sub-galleries-container" fxLayout="row">
+    <div *ngFor="let subGallery of subGalleries">
+      <!-- sub gallery container-->
+      <div class="sub-gallery-container" cdkDropList [cdkDropListConnectedTo]="subGalleriesDropList"
+        (cdkDropListDropped)="dropSubGallery($event)" [id]="subGallery.fi">
+        <div fxFlex="300px" fxLayout="column" cdkDrag>
           <!-- subgallery's header-->
-          <div class="sub-gallery-top-container" fxFlex="nogrow" fxLayout="row" fxLayoutAlign="center center">
+          <div class="sub-gallery-top-container" fxFlex="nogrow" fxLayout="row" fxLayoutAlign="center center"
+            cdkDragHandle>
             <span fxFlex="90">{{ subGallery.fi }}</span>
-            <span class="delete-container" (click)="onDeleteSubGallery(subGallery)" fxFlex><i class="fa fa-trash"></i></span>
+            <span class="delete-container" (click)="onDeleteSubGallery(subGallery)" fxFlex><i
+                class="fa fa-trash"></i></span>
           </div>
           <!-- subgallery's images-->
-          <div
-            cdkDropList
-            class="example-list"
-            (cdkDropListDropped)="drop($event, subGallery)"
-            fxLayout="column"
-            fxLayoutAlign="none center"
-            [id]="subGallery._id"
-          >
-            <mat-card
-              *ngFor="let img of subGallery.images; let i = index"
-              class="image-card"
-              cdkDrag
-            >
+          <div cdkDropList [cdkDropListConnectedTo]="imagesDropList" class="example-list"
+            (cdkDropListDropped)="drop($event, subGallery)" fxLayout="column" fxLayoutAlign="none center"
+            [id]="subGallery._id">
+            <mat-card *ngFor="let img of subGallery.images; let i = index" class="image-card" cdkDrag>
               <mat-card-content>
-                <div
-                  fxLayout="column"
-                  fxLayoutAlign="none center"
-                  class="top-container"
-                >
+                <div fxLayout="column" fxLayoutAlign="none center" class="top-container">
                   <div fxFlex="nogrow" fxLayout="row" class="max-width">
-                    <span class="delete-container" (click)="deleteImage(img._id)"
-                      ><i class="fa fa-trash"></i
-                    ></span>
+                    <span class="delete-container" (click)="deleteImage(img._id)"><i class="fa fa-trash"></i></span>
                     <span fxFlex></span>
                     <span class="drag-container" cdkDragHandle>
                       <i class="fa fa-arrows-alt"></i>
                     </span>
                   </div>
-                  <img
-                    fxFlex="nogrow"
-                    src="{{ img.url }}"
-                    alt="{{ img.alt_fi }}"
-                    id="myImg"
-                    class="image"
-                    (click)="openImage($event)"
-                  />
+                  <img fxFlex="nogrow" src="{{ img.url }}" alt="{{ img.alt_fi }}" id="myImg" class="image"
+                    (click)="openImage($event)" />
 
                   <label class="title-label">Suomenkielinen kuvateksti:</label>
-                  <input
-                    name="{{ img._id + ':alt_fin' }}"
-                    type="text"
-                    fxFlex="nogrow"
-                    class="card-input"
-                    [(ngModel)]="img.alt_fi"
-                  />
+                  <input name="{{ img._id + ':alt_fin' }}" type="text" fxFlex="nogrow" class="card-input"
+                    [(ngModel)]="img.alt_fi" />
 
                   <label class="title-label">Englanninkielinen kuvateksti:</label>
-                  <input
-                    name="{{ img._id + ':alt_en' }}"
-                    type="text"
-                    value="{{ img.alt_en }}"
-                    fxFlex="nogrow"
-                    class="card-input"
-                    [(ngModel)]="img.alt_en"
-                  />
+                  <input name="{{ img._id + ':alt_en' }}" type="text" value="{{ img.alt_en }}" fxFlex="nogrow"
+                    class="card-input" [(ngModel)]="img.alt_en" />
                 </div>
               </mat-card-content>
             </mat-card>
@@ -84,16 +55,15 @@
           </span>
         </div>
       </div>
-      <!-- new subgallery -->
-      <div class="new-sub-gallery-main-container" fxFlex="300px" fxLayout="column" fxLayoutAlign="start center">
-        <div class="new-sub-gallery-container" fxLayout="row" fxLayoutAlign="center center">
-         <form #f="ngForm" fxFlex="nogrow" ngNativeValidate>
-            <input type="text" name="gallery" placeholder="Uuden gallerian nimi" ngModel required>
-         </form>
-         <button (click)="onAddGallery(f)" fxFlex="nogrow" [disabled]="!f.valid">+</button>
-        </div>
-      
+    </div>
+    <!-- new subgallery -->
+    <div class="new-sub-gallery-main-container" fxFlex="300px" fxLayout="column" fxLayoutAlign="start center">
+      <div class="new-sub-gallery-container" fxLayout="row" fxLayoutAlign="center center">
+        <form #f="ngForm" fxFlex="nogrow" ngNativeValidate>
+          <input type="text" name="gallery" placeholder="Uuden gallerian nimi" ngModel required>
+        </form>
+        <button (click)="onAddGallery(f)" fxFlex="nogrow" [disabled]="!f.valid">+</button>
       </div>
-
     </div>
   </div>
+</div>

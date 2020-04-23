@@ -22,19 +22,16 @@ import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
   styleUrls: ["./admin.component.css"]
 })
 export class AdminComponent implements OnInit, OnDestroy {
-  username = "";
-  public images: Image[];
-  public subGalleries: SubGallery[];
+  public images: Image[] = [];
+  public subGalleries: SubGallery[] = [];
   private imageSubscription: Subscription;
   private subGallerySubscription: Subscription;
+  public imagesDropList = [];
+  public subGalleriesDropList = [];
 
 
   constructor(
-    private router: Router,
-    private auth: AuthenticationService,
     private img: ImagesService,
-    private domSanitizer: DomSanitizer,
-    private snackBarService: SnackBarService,
     private dialog: MatDialog
   ) { }
 
@@ -45,9 +42,20 @@ export class AdminComponent implements OnInit, OnDestroy {
     });
 
     this.img.getSubGalleries();
+    this.updateDropLists();
     this.subGallerySubscription = this.img.subGalleriesChange.subscribe((subGalleries: SubGallery[]) => {
       this.subGalleries = subGalleries;
+      this.updateDropLists();
     })
+  }
+
+  updateDropLists() {
+    this.imagesDropList = [];
+    this.subGalleriesDropList = [];
+    for (let subGallery of this.subGalleries) {
+      this.imagesDropList.push(subGallery._id);
+      this.subGalleriesDropList.push(subGallery.fi);
+    }
   }
 
   deleteImage(id: string) {
@@ -94,7 +102,7 @@ export class AdminComponent implements OnInit, OnDestroy {
       }
 
       transferArrayItem(this.subGalleries[fromGalleryIdx].images, this.subGalleries[toGalleyIdx].images, event.previousIndex, event.currentIndex);
-      
+
       for (let i = 0; i < this.subGalleries[toGalleyIdx].images.length; i++) {
         this.subGalleries[toGalleyIdx].images[i].so = i;
         this.subGalleries[toGalleyIdx].images[i].gallery = subGallery._id;
@@ -103,9 +111,13 @@ export class AdminComponent implements OnInit, OnDestroy {
       for (let i = 0; i < this.subGalleries[fromGalleryIdx].images.length; i++) {
         this.subGalleries[fromGalleryIdx].images[i].so = i;
       }
-      
+
 
     }
+  }
+
+  dropSubGallery(event: CdkDragDrop<string[]>) {
+    // TODO
   }
 
   onSaveChanges() {
