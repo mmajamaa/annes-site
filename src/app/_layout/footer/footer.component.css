@@ -103,6 +103,7 @@
 .mail-link {
   text-decoration: none;
   color: inherit;
+  word-wrap: break-word;
 }
 
 .mail-link:hover {

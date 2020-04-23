@@ -16,6 +16,7 @@ export class ImagesService {
   public uploadSuccesful: Subject<string> = new Subject();
   public errorLoadingImages: Subject<boolean>;
   public subGalleryCreationSuccessful: Subject<boolean> = new Subject();
+  public currentSubGallery: Subject<string> = new Subject();
 
   constructor(private http: HttpClient, private snackBarService: SnackBarService) {
     this.onInit();
@@ -182,5 +183,9 @@ export class ImagesService {
       error => {
         this.snackBarService.openSnackBar("Virhe muutosten tallentamisessa. Yritä uudelleen.", "warn-snackbar");
       })
+  }
+
+  subGallerySelected(subGallery: string) {
+    this.currentSubGallery.next(subGallery);
   }
 }

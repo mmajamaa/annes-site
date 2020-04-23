@@ -8,27 +8,23 @@
   text-align: center;
 }
 
-.topnav a {
+a {
   display: inline-block;
   color: #807c7c;
-  text-align: center;
+  padding: 7px 16px;
   text-decoration: none;
-  font-size: 17px;
+  font-size: 14px;
   outline: none;
-  width: 160px;
+  min-width: 80px;
 }
 
-.topnav a:hover {
+
+a:hover {
   font-weight: bold;
 }
 
-.topnav a.active {
+a.active {
   font-weight: bold;
-}
-
-.image-container {
-  /* width: 50%; */
-  /* height: 200px; */
 }
 
 .hover-shadow {
@@ -51,7 +47,7 @@
   margin-bottom: 20px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 600px) {
   .img {
     width: 80vw;
     height: auto;

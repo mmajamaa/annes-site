@@ -1,7 +1,7 @@
 import { Component, OnInit, HostListener, OnDestroy } from "@angular/core";
 import { TranslationsService } from "../../services/translations.service";
 import { Image } from "../../interfaces/image";
-import { Router, NavigationStart } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 
 // services
 import { ImagesService } from "../../services/images.service";
@@ -25,10 +25,12 @@ export class GalleryComponent implements OnInit, OnDestroy {
   private subGallerySubscription: Subscription;
   private I18nSubscription: Subscription;
   private langSubscription: Subscription;
+  public selectedSubGallery: string = "";
+  private selectedSubGallerySub: Subscription;
 
   constructor(
     private translationsService: TranslationsService,
-    private router: Router,
+    private route: ActivatedRoute,
     private imagesService: ImagesService
   ) { }
 
@@ -46,6 +48,10 @@ export class GalleryComponent implements OnInit, OnDestroy {
     this.subGallerySubscription = this.imagesService.subGalleriesChange.subscribe((subGalleries: SubGallery[]) => {
       this.subGalleries = subGalleries;
     })
+
+    this.selectedSubGallerySub = this.imagesService.currentSubGallery.subscribe((res) => {
+      this.selectedSubGallery = res;
+    })
   }
 
   ngOnDestroy() {
@@ -53,5 +59,6 @@ export class GalleryComponent implements OnInit, OnDestroy {
     this.imageSubscription.unsubscribe();
     this.langSubscription.unsubscribe();
     this.subGallerySubscription.unsubscribe();
+    this.selectedSubGallerySub.unsubscribe();
   }
 }

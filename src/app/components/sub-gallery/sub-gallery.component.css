@@ -7,10 +7,12 @@
     margin-bottom: 20px;
   }
   
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 600px) {
     .img {
       width: 80vw;
       height: auto;
+      padding: 32px;
+      margin: 32px;
     }
   }
   

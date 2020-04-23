@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { ImagesService } from '../../services/images.service';
 import { TranslationsService } from '../../services/translations.service';
 import { SubGallery } from '../../interfaces/sub-gallery';
+import { EventEmitter } from 'events';
 
 @Component({
   selector: 'app-sub-gallery',
@@ -17,6 +18,7 @@ export class SubGalleryComponent implements OnInit, OnDestroy {
   private langSubscription: Subscription;
   public language: string;
   public subGalleryName: string;
+  public subGallerySelected = new EventEmitter();
 
   constructor(private route: ActivatedRoute, private img: ImagesService, private translationsService: TranslationsService) { }
 
@@ -29,6 +31,7 @@ export class SubGalleryComponent implements OnInit, OnDestroy {
       this.subGalleryName = params['en'];
       this.subGallerySubscription = this.img.subGalleriesChange.subscribe((subGalleries: SubGallery[]) => {
         this.subGallery = subGalleries.filter((subGallery: SubGallery) => subGallery.en === this.route.snapshot.params['en'])[0];
+        this.img.subGallerySelected(this.subGalleryName);
       })
     })
   }

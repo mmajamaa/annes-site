@@ -1,12 +1,11 @@
 <h1>{{ I18n.gallery }}</h1>
-<div fxLayout="row">
-  <div fxFlex="20" style="position: fixed;">
+<div fxLayout="row wrap">
+  <div fxFlex="20" fxFlex.xs="100" fxLayoutAlign.xs="center">
     <div fxLayout="column">
       <a [routerLink]="subGallery.en" *ngFor="let subGallery of subGalleries"
         routerLinkActive="active">{{ subGallery.fi }}</a>
     </div>
   </div>
-  <span fxFlex></span>
   <div fxFlex=80>
     <router-outlet></router-outlet>
   </div>
