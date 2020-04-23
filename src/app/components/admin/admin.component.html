@@ -13,7 +13,7 @@
       <!-- sub gallery container-->
       <div class="sub-gallery-container" cdkDropList [cdkDropListConnectedTo]="subGalleriesDropList"
         (cdkDropListDropped)="dropSubGallery($event)" [id]="subGallery.fi">
-        <div fxFlex="300px" fxLayout="column" cdkDrag>
+        <div fxLayout="column" cdkDrag>
           <!-- subgallery's header-->
           <div class="sub-gallery-top-container" fxFlex="nogrow" fxLayout="row" fxLayoutAlign="center center"
             cdkDragHandle>
@@ -57,7 +57,7 @@
       </div>
     </div>
     <!-- new subgallery -->
-    <div class="new-sub-gallery-main-container" fxFlex="300px" fxLayout="column" fxLayoutAlign="start center">
+    <div class="new-sub-gallery-main-container" fxLayout="column" fxLayoutAlign="start center">
       <div class="new-sub-gallery-container" fxLayout="row" fxLayoutAlign="center center">
         <form #f="ngForm" fxFlex="nogrow" ngNativeValidate>
           <input type="text" name="gallery" placeholder="Uuden gallerian nimi" ngModel required>

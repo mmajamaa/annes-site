@@ -2,7 +2,8 @@
   background-color: antiquewhite;
   margin: 16px;
   border-radius: 8px;
-  height: 48px
+  height: 48px;
+  width: 250px;
 }
 
 .new-sub-gallery-container {
@@ -10,6 +11,7 @@
   margin: 16px;
   border-radius: 8px;
   height: 48px;
+  width: 250px;
 }
 
 .sub-galleries-container {
@@ -355,7 +357,7 @@ select {
 
 @media screen and (max-width: 600px) {
   .image-card {
-    width: 80vw;
+    /*width: 80vw;*/
   }
 }
 
