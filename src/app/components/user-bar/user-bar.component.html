@@ -1,6 +1,6 @@
 <div class="user-bar-container" fxLayout="row">
-  <button mat-button (click)="openDialog()" class="ok-button">
-    Lisää kuva
+  <button mat-button (click)="onSaveChanges.emit()" class="ok-button">
+    Tallenna muutokset
   </button>
   <span fxFlex></span>
   <button mat-button (click)="logout()" class="warn-button">

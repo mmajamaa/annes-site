@@ -108,7 +108,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     }
   }
 
-  editImages() {
+  onSaveChanges() {
     this.img.updateSubGalleries(this.subGalleries);
   }
 
