@@ -31,7 +31,8 @@ import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
 import { LoginResolver } from './services/login-resolver.service';
 import { AuthGuard } from './services/auth-guard.service';
 import { DeactivateGuardService } from './services/deactivate-guard.service';
-import { NotFoundComponent } from './components/not-found/not-found.component'
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { SubGalleryComponent } from './components/sub-gallery/sub-gallery.component'
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { NotFoundComponent } from './components/not-found/not-found.component'
     UploadComponentComponent,
     SpinnerOverlayComponent,
     SnackBarComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    SubGalleryComponent
   ],
   imports: [
     BrowserModule,

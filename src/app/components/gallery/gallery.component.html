@@ -1,8 +1,18 @@
 <h1>{{ I18n.gallery }}</h1>
+<div fxLayout="row">
+  <div fxFlex="20" style="position: fixed;">
+    <div fxLayout="column">
+      <a [routerLink]="subGallery.en" *ngFor="let subGallery of subGalleries"
+        routerLinkActive="active">{{ subGallery.fi }}</a>
+    </div>
+  </div>
+  <span fxFlex></span>
+  <div fxFlex=80>
+    <router-outlet></router-outlet>
+  </div>
+</div>
 
-<router-outlet></router-outlet>
-
-<div style="text-align: center;" *ngIf="!images2.length">
+<!-- <div style="text-align: center;" *ngIf="!images2.length">
   {{ I18n.gallery_content }}
 </div>
 
@@ -24,4 +34,4 @@
       {{ language == "fi" ? image.alt_fi : image.alt_en }}
     </div>
   </div>
-</div>
+</div> -->

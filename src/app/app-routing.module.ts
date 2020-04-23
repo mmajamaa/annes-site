@@ -12,6 +12,7 @@ import { LoginResolver } from './services/login-resolver.service';
 import { AuthGuard } from './services/auth-guard.service';
 import { DeactivateGuardService } from './services/deactivate-guard.service';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { SubGalleryComponent } from './components/sub-gallery/sub-gallery.component';
 
 const routes: Routes = [
   // site routes
@@ -39,6 +40,7 @@ const routes: Routes = [
       {
         path: "gallery",
         component: GalleryComponent,
+        children: [{ path: ":en", component: SubGalleryComponent }]
       },
       {
         path: 'page-not-found',
@@ -57,7 +59,7 @@ const routes: Routes = [
   {
     path: "login",
     component: LoginComponent,
-    resolve: {authResolver: LoginResolver}
+    resolve: { authResolver: LoginResolver }
   },
   { path: "**", redirectTo: 'page-not-found' }
 ];
@@ -67,4 +69,4 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: []
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

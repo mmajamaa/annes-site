@@ -1,0 +1,9 @@
+<div *ngIf="subGallery" fxLayout="row wrap" fxLayoutAlign="center center" style="width: 100%;">
+    <div *ngFor="let image of subGallery.images " fxFlex="100%" class="img-container" fxLayout="column"
+        fxLayoutAlign="center center">
+        <div fxFlex="nogrow" fxLayout="column">
+            <img src="{{ image.url }}" class="img" alt="{{ language == 'fi' ? image.alt_fi : image.alt_en }}" fxFlex />
+            {{ language == "fi" ? image.alt_fi : image.alt_en }}
+        </div>
+    </div>
+</div>

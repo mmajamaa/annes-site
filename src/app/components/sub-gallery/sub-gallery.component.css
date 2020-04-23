@@ -1,0 +1,16 @@
+.img {
+    width: 30vw;
+    height: auto;
+  }
+    
+  .img-container {
+    margin-bottom: 20px;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .img {
+      width: 80vw;
+      height: auto;
+    }
+  }
+  
