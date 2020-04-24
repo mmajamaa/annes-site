@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { TranslationsService } from "../../services/translations.service";
-import { Image } from "../../interfaces/image";
 import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
 
 // services
@@ -17,16 +16,13 @@ export class GalleryComponent implements OnInit, OnDestroy {
   public I18n: any;
   public gallerys: any;
 
-  public images = [{ url: "../../assets/fi.png", alt_fi: "fin" }];;
-  public images2: Image[] = [];
   public subGalleries: SubGallery[] = []
   public language: string;
-  private imageSubscription: Subscription;
   private subGallerySubscription: Subscription;
   private I18nSubscription: Subscription;
   private langSubscription: Subscription;
-  public selectedSubGallery: string;
   public routerSubscription: Subscription;
+  public selectedSubGallery: SubGallery;
 
   constructor(
     private translationsService: TranslationsService,
@@ -38,11 +34,6 @@ export class GalleryComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.I18nSubscription = this.translationsService.I18n.subscribe(res => { this.I18n = res });
 
-    this.imagesService.getImages();
-    this.imageSubscription = this.imagesService.imagesChange.subscribe((images: Image[]) => {
-      this.images2 = images;
-    });
-
     this.langSubscription = this.translationsService.lang.subscribe(r => { this.language = r });
 
     this.subGalleries = this.imagesService.getSubGalleries();
@@ -50,25 +41,25 @@ export class GalleryComponent implements OnInit, OnDestroy {
       this.subGalleries = subGalleries;
 
       if (this.router.routerState.snapshot.url === '/gallery' && this.subGalleries.length > 0) {
-        this.router.navigate([this.subGalleries[0].en], { relativeTo: this.route })
+        this.router.navigate([this.subGalleries[0].en.toLowerCase()], { relativeTo: this.route })
+      }
+
+      if (this.router.routerState.snapshot.url !== '/gallery' && this.subGalleries.length > 0) {
+        this.selectedSubGallery = this.imagesService.getSubGalleryByEnName(this.router.routerState.snapshot.url.split('/')[2]);
       }
     })
 
-
-    if (this.router.routerState.snapshot.url !== '/gallery') {
-      this.selectedSubGallery = this.router.routerState.snapshot.url.split('/')[2];
-    }
-
     this.routerSubscription = this.router.events.subscribe((val) => {
       if ((val instanceof NavigationEnd) && (this.router.routerState.snapshot.url !== '/gallery')) {
-        this.selectedSubGallery = this.router.routerState.snapshot.url.split('/')[2];
+        this.selectedSubGallery = this.imagesService.getSubGalleryByEnName(this.router.routerState.snapshot.url.split('/')[2]);
       }
     })
   }
 
+
+
   ngOnDestroy() {
     this.I18nSubscription.unsubscribe();
-    this.imageSubscription.unsubscribe();
     this.langSubscription.unsubscribe();
     this.subGallerySubscription.unsubscribe();
     this.routerSubscription.unsubscribe();

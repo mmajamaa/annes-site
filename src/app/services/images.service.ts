@@ -188,4 +188,12 @@ export class ImagesService {
   subGallerySelected(subGallery: string) {
     this.currentSubGallery.next(subGallery);
   }
+
+  getSubGalleryByEnName(name: string) {
+    for (let i = 0; i < this.subGalleries.length; i++) {
+      if (this.subGalleries[i].en.toLowerCase() == name.toLowerCase()) {
+        return { ...this.subGalleries[i] }
+      }
+    }
+  }
 }

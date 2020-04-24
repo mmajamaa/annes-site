@@ -4,4 +4,7 @@
         <img src="{{ image.url }}" class="img" alt="{{ language == 'fi' ? image.alt_fi : image.alt_en }}" fxFlex />
         <span fxFlex>{{ language == "fi" ? image.alt_fi : image.alt_en }}</span>
     </div>
+    <div *ngIf="subGallery.images.length === 0">
+        {{ I18n.gallery_empty }}
+    </div>
 </div>

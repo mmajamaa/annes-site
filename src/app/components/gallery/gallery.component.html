@@ -1,37 +1,13 @@
 <h1>{{ I18n.gallery }}</h1>
-<h2>{{ selectedSubGallery }}</h2>
+<h2>{{ selectedSubGallery ? selectedSubGallery[language] : "" }}</h2>
 <div fxLayout="row wrap">
   <div fxFlex.xs="100" fxLayoutAlign.xs="center" class="sub-gallery-nav">
     <div fxLayout="column">
-      <a [routerLink]="subGallery.en" *ngFor="let subGallery of subGalleries"
-        routerLinkActive="active">{{ subGallery.fi }}</a>
+      <a [routerLink]="subGallery.en.toLowerCase()" *ngFor="let subGallery of subGalleries"
+        routerLinkActive="active">{{ language === 'fi' ? subGallery.fi : subGallery.en }}</a>
     </div>
   </div>
   <div fxFlex=100>
     <router-outlet></router-outlet>
   </div>
 </div>
-
-<!-- <div style="text-align: center;" *ngIf="!images2.length">
-  {{ I18n.gallery_content }}
-</div>
-
-<div fxLayout="row wrap" fxLayoutAlign="center center" style="width: 100%;">
-  <div
-    *ngFor="let image of images2"
-    fxFlex="75%"
-    class="img-container"
-    fxLayout="row"
-    fxLayoutAlign="center center"
-  >
-    <div fxFlex="nogrow" fxLayout="column">
-      <img
-        src="{{ image.url }}"
-        class="img"
-        alt="{{ language == 'fi' ? image.alt_fi : image.alt_en }}"
-        fxFlex
-      />
-      {{ language == "fi" ? image.alt_fi : image.alt_en }}
-    </div>
-  </div>
-</div> -->

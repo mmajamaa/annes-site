@@ -19,10 +19,13 @@ export class SubGalleryComponent implements OnInit, OnDestroy {
   public language: string;
   public subGalleryName: string;
   public subGallerySelected = new EventEmitter();
+  public I18n: any;
+  public I18nSubscription: Subscription;
 
   constructor(private route: ActivatedRoute, private img: ImagesService, private translationsService: TranslationsService) { }
 
   ngOnInit(): void {
+    this.I18nSubscription = this.translationsService.I18n.subscribe(res => { this.I18n = res });
 
     this.langSubscription = this.translationsService.lang.subscribe(r => { this.language = r });
 
@@ -30,7 +33,7 @@ export class SubGalleryComponent implements OnInit, OnDestroy {
       this.subGallerySubscription.unsubscribe();
       this.subGalleryName = params['en'];
       this.subGallerySubscription = this.img.subGalleriesChange.subscribe((subGalleries: SubGallery[]) => {
-        this.subGallery = subGalleries.filter((subGallery: SubGallery) => subGallery.en === this.route.snapshot.params['en'])[0];
+        this.subGallery = subGalleries.filter((subGallery: SubGallery) => subGallery.en.toLowerCase() === this.route.snapshot.params['en'])[0];
         this.img.subGallerySelected(this.subGalleryName);
       })
     })
@@ -39,5 +42,6 @@ export class SubGalleryComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subGallerySubscription.unsubscribe();
     this.langSubscription.unsubscribe();
+    this.I18nSubscription.unsubscribe();
   }
 }

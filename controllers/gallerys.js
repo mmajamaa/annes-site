@@ -49,6 +49,8 @@ module.exports = {
         const gallery = await Gallery.findOne({ _id: req.body.subGalleries[i]._id });
 
         gallery.images = req.body.subGalleries[i].images;
+        gallery.fi = req.body.subGalleries[i].fi;
+        gallery.en = req.body.subGalleries[i].en;
         gallery.so = req.body.subGalleries[i].so;
 
         await gallery.save()

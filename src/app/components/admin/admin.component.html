@@ -15,11 +15,15 @@
         (cdkDropListDropped)="dropSubGallery($event)" [id]="subGallery.fi">
         <div fxLayout="column" cdkDrag>
           <!-- subgallery's header-->
-          <div class="sub-gallery-top-container" fxFlex="nogrow" fxLayout="row" fxLayoutAlign="center center"
+          <div class="sub-gallery-top-container" fxFlex="nogrow" fxLayout="row wrap" fxLayoutAlign="center center"
             cdkDragHandle>
-            <span fxFlex="90">{{ subGallery.fi }}</span>
-            <span class="delete-container" (click)="onDeleteSubGallery(subGallery)" fxFlex><i
+            <span fxFlex="90"><input name="{{ subGallery._id + ':alt_fin' }}" type="text" value="{{ subGallery.fi }}"
+                [(ngModel)]="subGallery.fi"></span>
+            <span class="delete-container" (click)="onDeleteSubGallery(subGallery)" fxFlex="10"><i
                 class="fa fa-trash"></i></span>
+
+            <span fxFlex="100"><input name="{{ subGallery._id + ':alt_en' }}" type="text" value="{{ subGallery.en }}"
+                [(ngModel)]="subGallery.en"></span>
           </div>
           <!-- subgallery's images-->
           <div cdkDropList [cdkDropListConnectedTo]="imagesDropList" class="example-list"
