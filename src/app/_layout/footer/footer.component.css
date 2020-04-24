@@ -74,7 +74,7 @@
 
 /* Media Queries */
 
-@media (max-width: 768px) {
+@media (max-width: 599px) {
   .footer-distributed .footer-left,
   .footer-distributed .footer-right {
     text-align: center;

@@ -3,6 +3,14 @@
     monospace;
 }
 
+.sub-gallery-nav {
+  position: fixed;
+}
+
+h2 {
+  text-align: center;
+}
+
 .topnav {
   overflow: hidden;
   text-align: center;
@@ -51,5 +59,10 @@ a.active {
   .img {
     width: 80vw;
     height: auto;
+  }
+
+  .sub-gallery-nav {
+    position: static;
+    margin-bottom: 32px;
   }
 }

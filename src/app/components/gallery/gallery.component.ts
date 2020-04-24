@@ -1,7 +1,7 @@
-import { Component, OnInit, HostListener, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { TranslationsService } from "../../services/translations.service";
 import { Image } from "../../interfaces/image";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
 
 // services
 import { ImagesService } from "../../services/images.service";
@@ -25,13 +25,14 @@ export class GalleryComponent implements OnInit, OnDestroy {
   private subGallerySubscription: Subscription;
   private I18nSubscription: Subscription;
   private langSubscription: Subscription;
-  public selectedSubGallery: string = "";
-  private selectedSubGallerySub: Subscription;
+  public selectedSubGallery: string;
+  public routerSubscription: Subscription;
 
   constructor(
     private translationsService: TranslationsService,
     private route: ActivatedRoute,
-    private imagesService: ImagesService
+    private imagesService: ImagesService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -47,10 +48,21 @@ export class GalleryComponent implements OnInit, OnDestroy {
     this.subGalleries = this.imagesService.getSubGalleries();
     this.subGallerySubscription = this.imagesService.subGalleriesChange.subscribe((subGalleries: SubGallery[]) => {
       this.subGalleries = subGalleries;
+
+      if (this.router.routerState.snapshot.url === '/gallery' && this.subGalleries.length > 0) {
+        this.router.navigate([this.subGalleries[0].en], { relativeTo: this.route })
+      }
     })
 
-    this.selectedSubGallerySub = this.imagesService.currentSubGallery.subscribe((res) => {
-      this.selectedSubGallery = res;
+
+    if (this.router.routerState.snapshot.url !== '/gallery') {
+      this.selectedSubGallery = this.router.routerState.snapshot.url.split('/')[2];
+    }
+
+    this.routerSubscription = this.router.events.subscribe((val) => {
+      if ((val instanceof NavigationEnd) && (this.router.routerState.snapshot.url !== '/gallery')) {
+        this.selectedSubGallery = this.router.routerState.snapshot.url.split('/')[2];
+      }
     })
   }
 
@@ -59,6 +71,6 @@ export class GalleryComponent implements OnInit, OnDestroy {
     this.imageSubscription.unsubscribe();
     this.langSubscription.unsubscribe();
     this.subGallerySubscription.unsubscribe();
-    this.selectedSubGallerySub.unsubscribe();
+    this.routerSubscription.unsubscribe();
   }
 }
