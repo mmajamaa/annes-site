@@ -5,7 +5,6 @@ import { Subscription } from 'rxjs';
 import { ImagesService } from '../../services/images.service';
 import { TranslationsService } from '../../services/translations.service';
 import { SubGallery } from '../../interfaces/sub-gallery';
-import { EventEmitter } from 'events';
 
 @Component({
   selector: 'app-sub-gallery',
@@ -14,11 +13,11 @@ import { EventEmitter } from 'events';
 })
 export class SubGalleryComponent implements OnInit, OnDestroy {
   public subGallery: SubGallery;
+  public subGalleries: SubGallery[] = [];
   private subGallerySubscription: Subscription = new Subscription();
   private langSubscription: Subscription;
   public language: string;
   public subGalleryName: string;
-  public subGallerySelected = new EventEmitter();
   public I18n: any;
   public I18nSubscription: Subscription;
 
@@ -32,11 +31,19 @@ export class SubGalleryComponent implements OnInit, OnDestroy {
     this.route.params.subscribe((params: Params) => {
       this.subGallerySubscription.unsubscribe();
       this.subGalleryName = params['en'];
-      this.subGallerySubscription = this.img.subGalleriesChange.subscribe((subGalleries: SubGallery[]) => {
-        this.subGallery = subGalleries.filter((subGallery: SubGallery) => subGallery.en.toLowerCase() === this.route.snapshot.params['en'])[0];
-        this.img.subGallerySelected(this.subGalleryName);
-      })
+      this.setSubGallery();
     })
+
+    this.subGallerySubscription = this.img.subGalleriesChange.subscribe((subGalleries: SubGallery[]) => {
+      this.subGalleries = subGalleries;
+      this.setSubGallery();
+    })
+  }
+
+  setSubGallery() {
+    if (this.subGalleries.length > 0 && this.subGalleryName) {
+      this.subGallery = this.subGalleries.filter((subGallery: SubGallery) => subGallery.en.toLowerCase() === this.subGalleryName)[0];
+    }
   }
 
   ngOnDestroy() {

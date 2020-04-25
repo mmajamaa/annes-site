@@ -33,7 +33,6 @@ export class GalleryComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.I18nSubscription = this.translationsService.I18n.subscribe(res => { this.I18n = res });
-
     this.langSubscription = this.translationsService.lang.subscribe(r => { this.language = r });
 
     this.subGalleries = this.imagesService.getSubGalleries();
@@ -55,8 +54,6 @@ export class GalleryComponent implements OnInit, OnDestroy {
       }
     })
   }
-
-
 
   ngOnDestroy() {
     this.I18nSubscription.unsubscribe();
