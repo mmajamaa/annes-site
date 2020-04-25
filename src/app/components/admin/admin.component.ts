@@ -144,9 +144,8 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   onAddGallery(form: NgForm) {
-    // TODO: also, add English name for the sub-gallery!
-    if (confirm(`Haluatko varmasti luoda gallerian nimeltä '${form.value.gallery}'?`)) {
-      this.img.createGallery(form.value.gallery, form.value.gallery);
+    if (confirm(`Haluatko varmasti luoda gallerian nimeltä '${form.value.galleryFi}'?`)) {
+      this.img.createGallery(form.value.galleryFi, form.value.galleryEn);
     }
   }
 
