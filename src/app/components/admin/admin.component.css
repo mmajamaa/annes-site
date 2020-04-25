@@ -358,8 +358,8 @@ select {
 }
 
 @media screen and (max-width: 600px) {
-  .image-card {
-    /*width: 80vw;*/
+  .image-card, .sub-gallery-top-container, .new-sub-gallery-container {
+    width: 70vw;
   }
 
   .sub-galleries-container {
@@ -367,11 +367,11 @@ select {
   }
   
   .sub-gallery-container {
-    scroll-snap-align: start;
+    scroll-snap-align: center;
   }
 
   .new-sub-gallery-container {
-    scroll-snap-align: start;
+    scroll-snap-align: center;
   }
 }
 
