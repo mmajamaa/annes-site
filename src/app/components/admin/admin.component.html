@@ -13,17 +13,29 @@
       <!-- sub gallery container-->
       <div class="sub-gallery-container" cdkDropList [cdkDropListConnectedTo]="subGalleriesDropList"
         (cdkDropListDropped)="dropSubGallery($event)" [id]="subGallery.fi">
-        <div fxLayout="column" cdkDrag>
+        <div class="sub-gallery-drag-container" fxLayout="column" cdkDrag>
           <!-- subgallery's header-->
-          <div class="sub-gallery-top-container" fxFlex="nogrow" fxLayout="row wrap" fxLayoutAlign="center center"
-            cdkDragHandle>
-            <span fxFlex="90"><input name="{{ subGallery._id + ':alt_fin' }}" type="text" value="{{ subGallery.fi }}"
-                [(ngModel)]="subGallery.fi"></span>
-            <span class="delete-container" (click)="onDeleteSubGallery(subGallery)" fxFlex="10"><i
-                class="fa fa-trash"></i></span>
+          <div class="sub-gallery-top-container" fxFlex="nogrow" fxLayout="row wrap" fxLayoutAlign="center center">
+            <div fxFlex="nogrow" fxLayout="row" class="max-width">
+              <span class="delete-container" (click)="onDeleteSubGallery(subGallery)"><i class="fa fa-trash"></i></span>
+              <span fxFlex></span>
+              <span class="drag-container" cdkDragHandle>
+                <i class="fa fa-arrows-alt"></i>
+              </span>
+            </div>
+            <!-- Finnish -->
+            <span fxFlex="nogrow" fxLayout="row" fxLayoutAlign="none center">
+              <img class="flag-icon" [src]="flagIcons[0].src" alt="flagIcons[0].src" />
+              <input class="card-input" fxFlex="nogrow" name="{{ subGallery._id + ':alt_fin' }}" type="text"
+                value="{{ subGallery.fi }}" [(ngModel)]="subGallery.fi">
+            </span>
+            <!-- English -->
+            <span fxFlex="nogrow" fxLayout="row" fxLayoutAlign="none center">
+              <img class="flag-icon" [src]="flagIcons[1].src" alt="flagIcons[1].src" />
+              <input class="card-input" fxFlex="nogrow" name="{{ subGallery._id + ':alt_en' }}" type="text"
+                value="{{ subGallery.en }}" [(ngModel)]="subGallery.en">
+            </span>
 
-            <span fxFlex="100"><input name="{{ subGallery._id + ':alt_en' }}" type="text" value="{{ subGallery.en }}"
-                [(ngModel)]="subGallery.en"></span>
           </div>
           <!-- subgallery's images-->
           <div cdkDropList [cdkDropListConnectedTo]="imagesDropList" class="example-list"
@@ -41,14 +53,18 @@
                   </div>
                   <img fxFlex="nogrow" src="{{ img.url }}" alt="{{ img.alt_fi }}" id="myImg" class="image"
                     (click)="openImage($event)" />
-
-                  <label class="title-label">Suomenkielinen kuvateksti:</label>
-                  <input name="{{ img._id + ':alt_fin' }}" type="text" fxFlex="nogrow" class="card-input"
-                    [(ngModel)]="img.alt_fi" />
-
-                  <label class="title-label">Englanninkielinen kuvateksti:</label>
-                  <input name="{{ img._id + ':alt_en' }}" type="text" value="{{ img.alt_en }}" fxFlex="nogrow"
-                    class="card-input" [(ngModel)]="img.alt_en" />
+                  <!-- Finnish -->
+                  <span fxFlex="nogrow" fxLayout="row" fxLayoutAlign="none center">
+                    <img class="flag-icon" fxFlex="nogrow" [src]="flagIcons[0].src" alt="flagIcons[0].src" />
+                    <input name="{{ img._id + ':alt_fin' }}" type="text" fxFlex="nogrow" class="card-input"
+                      [(ngModel)]="img.alt_fi" />
+                  </span>
+                  <!-- English -->
+                  <span fxFlex="nogrow" fxLayout="row" fxLayoutAlign="none center">
+                    <img class="flag-icon" fxFlex="nogrow" [src]="flagIcons[1].src" alt="flagIcons[1].src" />
+                    <input name="{{ img._id + ':alt_en' }}" type="text" value="{{ img.alt_en }}" fxFlex="nogrow"
+                      class="card-input" [(ngModel)]="img.alt_en" />
+                  </span>
                 </div>
               </mat-card-content>
             </mat-card>

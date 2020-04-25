@@ -1,8 +1,10 @@
+.sub-gallery-drag-container {}
+
 .sub-gallery-top-container {
   background-color: antiquewhite;
   margin: 16px;
   border-radius: 8px;
-  height: 48px;
+  /*height: 48px;*/
   width: 250px;
 }
 
@@ -359,6 +361,18 @@ select {
   .image-card {
     /*width: 80vw;*/
   }
+
+  .sub-galleries-container {
+    scroll-snap-type: x mandatory;
+  }
+  
+  .sub-gallery-container {
+    scroll-snap-align: start;
+  }
+
+  .new-sub-gallery-container {
+    scroll-snap-align: start;
+  }
 }
 
 .image-card:first-child {
@@ -367,7 +381,21 @@ select {
 
 .card-input {
   width: calc(100% - 30px);
-  margin: 0 16px 16px 16px;
+  margin: 8px;
+  border: none;
+  background-color: inherit;
+  font-weight: bolder;
+  height: 20px;
+}
+
+.card-input:hover {
+  cursor: pointer;
+}
+
+.flag-icon {
+  height: 10px;
+  width: auto;
+  margin: 8px 0px;
 }
 
 .card-input:first-child {

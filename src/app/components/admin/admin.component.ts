@@ -17,6 +17,10 @@ import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
   styleUrls: ["./admin.component.css"]
 })
 export class AdminComponent implements OnInit, OnDestroy {
+  public flagIcons = [
+    { src: "./assets/fi.png", alt: "fi" },
+    { src: "./assets/uk.png", alt: "uk" }
+  ];
   public images: Image[] = [];
   public subGalleries: SubGallery[] = [];
   private imageSubscription: Subscription;
