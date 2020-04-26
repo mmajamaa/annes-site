@@ -1,4 +1,6 @@
-.sub-gallery-drag-container {}
+.sub-gallery-container {
+  background-color: white;
+}
 
 .sub-gallery-top-container {
   background-color: antiquewhite;
@@ -309,7 +311,7 @@ select {
   max-width: 100%;
   min-height: 60px;
   display: block;
-  background: white;
+  /*background: white;*/
   border-radius: 4px;
   overflow: hidden;
 }
