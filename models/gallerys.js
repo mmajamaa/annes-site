@@ -15,10 +15,12 @@ let schema = new Schema({
 
 schema.pre('remove', async function (next) {
   try {
+    const imageIds = this.images.map(image => image._id);
+
     // get gallery's images
     const images = await Image.find({
       "_id": {
-        $in: this.images
+        $in: imageIds
       }
     });
 
