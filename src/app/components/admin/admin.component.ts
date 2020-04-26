@@ -27,7 +27,6 @@ export class AdminComponent implements OnInit, OnDestroy {
   private subGallerySubscription: Subscription;
   private subGalleryCreationSubscription: Subscription;
   public imagesDropList = [];
-  public subGalleriesDropList = [];
   @ViewChild('f') newSubGalleryForm;
 
 
@@ -43,10 +42,10 @@ export class AdminComponent implements OnInit, OnDestroy {
     });
 
     this.img.getSubGalleries();
-    this.updateDropLists();
+    this.updateDropList();
     this.subGallerySubscription = this.img.subGalleriesChange.subscribe((subGalleries: SubGallery[]) => {
       this.subGalleries = subGalleries;
-      this.updateDropLists();
+      this.updateDropList();
     })
 
     this.subGalleryCreationSubscription = this.img.subGalleryCreationSuccessful.subscribe((res: boolean) => {
@@ -57,12 +56,10 @@ export class AdminComponent implements OnInit, OnDestroy {
     })
   }
 
-  updateDropLists() {
+  updateDropList() {
     this.imagesDropList = [];
-    this.subGalleriesDropList = [];
     for (let subGallery of this.subGalleries) {
       this.imagesDropList.push(subGallery._id);
-      this.subGalleriesDropList.push(subGallery.fi);
     }
   }
 
@@ -125,14 +122,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   dropSubGallery(event: CdkDragDrop<string[]>) {
-    let fromId = event.previousContainer.id;
-    let toId = event.container.id;
-
-    let fromIdx = this.subGalleriesDropList.indexOf(fromId);
-    let toIdx = this.subGalleriesDropList.indexOf(toId);
-
-    moveItemInArray(this.subGalleriesDropList, fromIdx, toIdx)
-    moveItemInArray(this.subGalleries, fromIdx, toIdx)
+    moveItemInArray(this.subGalleries, event.previousIndex, event.currentIndex)
 
     for (let i = 0; i < this.subGalleries.length; i++) {
       this.subGalleries[i].so = i;
