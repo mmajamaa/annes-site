@@ -4,9 +4,9 @@ import { Observable, throwError, of } from 'rxjs';
 import { AuthenticationService } from './authentication.service';
 import { map, take, catchError } from 'rxjs/operators';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
-    constructor(private authenticationService: AuthenticationService, private router: Router, private route: ActivatedRoute) {}
+    constructor(private authenticationService: AuthenticationService, private router: Router, private route: ActivatedRoute) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.authenticationService.authStatus().pipe(map(
@@ -14,9 +14,9 @@ export class AuthGuard implements CanActivate {
                 return true;
             }
         ), catchError(error => {
-            this.router.navigate(['login']);
+            this.router.navigate(['/auth/login']);
             return of(error)
-            })
+        })
         );
     }
 } 

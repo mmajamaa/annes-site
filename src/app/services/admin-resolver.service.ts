@@ -6,13 +6,13 @@ import { Injectable } from '@angular/core';
     providedIn: "root"
 })
 export class AdminResolver implements Resolve<any> {
-    constructor(private authenticationService: AuthenticationService, private router: Router) {}
+    constructor(private authenticationService: AuthenticationService, private router: Router) { }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         return this.authenticationService.authStatus().subscribe(data => {
             return data
         }, error => {
-            this.router.navigate(['login'])
+            this.router.navigate(['/auth/login'])
         });
     }
 

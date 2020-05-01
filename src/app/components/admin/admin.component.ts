@@ -49,7 +49,6 @@ export class AdminComponent implements OnInit, OnDestroy {
     })
 
     this.subGalleryCreationSubscription = this.img.subGalleryCreationSuccessful.subscribe((res: boolean) => {
-      console.log(res)
       if (res) {
         this.newSubGalleryForm.reset();
       }

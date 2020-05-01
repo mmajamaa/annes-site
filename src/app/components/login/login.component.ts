@@ -16,19 +16,19 @@ export class LoginComponent implements OnInit {
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   loginUser(form: NgForm) {
     const username = form.value.username;
     const password = form.value.password;
 
     this.authObs = this.authenticationService.login(username, password)
-    
+
     this.authObs.subscribe(
       data => {
-        this.router.navigate(["admin"]);
+        this.router.navigate(["/auth/admin"]);
       },
       error => {
         window.alert(error);

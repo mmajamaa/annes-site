@@ -5,7 +5,7 @@ import { throwError, BehaviorSubject } from 'rxjs';
 
 import { AuthenticationResponseData } from '../interfaces/authentication-response-data';
 import { User } from '../models/user';
-import { Router,  } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: "root"
@@ -14,26 +14,26 @@ export class AuthenticationService {
   public loggedInStatus = false;
   public loggedIn = new BehaviorSubject<boolean>(false);
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) { }
 
   login(username, password) {
     return this.http.post<AuthenticationResponseData>("/api/auth/login",
-    {
-      username,
-      password
-    }
+      {
+        username,
+        password
+      }
     )
-    .pipe(
-      catchError(this.handleError),
-      tap(data => {
-        this.handleAuthentication(data);
-      })
-    );
+      .pipe(
+        catchError(this.handleError),
+        tap(data => {
+          this.handleAuthentication(data);
+        })
+      );
   }
 
   logout() {
     localStorage.removeItem("token");
-    this.router.navigate(['login'], {queryParams: {resolve: false}});
+    this.router.navigate(['/auth/login'], { queryParams: { resolve: false } });
     this.loggedIn.next(false);
   }
 
@@ -48,12 +48,13 @@ export class AuthenticationService {
   }
 
   authStatus() {
-    const UserData = {token: localStorage.getItem('token')};
+    const UserData = { token: localStorage.getItem('token') };
     const loadedUser = new User(UserData.token);
     this.loggedIn.next(true);
 
     return this.http.get<AuthenticationResponseData>('api/auth/status', {
       observe: 'body',
       params: new HttpParams().append("token", loadedUser.token),
-    })}
+    })
+  }
 }
