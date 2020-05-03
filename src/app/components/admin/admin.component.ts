@@ -8,7 +8,7 @@ import { Image } from "../../interfaces/image";
 import { SubGallery } from 'src/app/interfaces/sub-gallery';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
-
+import { FacadeService } from '../../store/facade.service';
 
 
 @Component({
@@ -32,10 +32,13 @@ export class AdminComponent implements OnInit, OnDestroy {
 
   constructor(
     private img: ImagesService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private facade: FacadeService
   ) { }
 
   ngOnInit() {
+    this.facade.autoLogin();
+
     this.images = this.img.getImages();
     this.imageSubscription = this.img.imagesChange.subscribe((images: Image[]) => {
       this.images = images;

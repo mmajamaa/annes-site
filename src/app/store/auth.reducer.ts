@@ -1,16 +1,19 @@
 import * as AuthActions from './auth.actions';
 import { User } from '../models/user';
+import { isLoggedIn } from './auth.selectors';
 
 export interface State {
     user: User,
     authError: string,
-    loading: boolean
+    loading: boolean,
+    isLoggedIn: boolean
 }
 
 export const initialState: State = {
     user: null,
     authError: null,
-    loading: false
+    loading: false,
+    isLoggedIn: true
 }
 
 export function authReducer(
@@ -18,6 +21,13 @@ export function authReducer(
     action: AuthActions.AuthActions
 ) {
     switch (action.type) {
+        // login
+        case AuthActions.LOGIN_START:
+            return {
+                ...state,
+                authError: null,
+                loading: true,
+            }
         case AuthActions.LOGIN_SUCCESFUL:
             const user = new User(
                 action.payload.username,
@@ -27,19 +37,23 @@ export function authReducer(
                 ...state,
                 authError: null,
                 user: user,
-                loading: false
+                loading: false,
+                isLoggedIn: true
             }
         case AuthActions.LOGIN_FAILED:
             return {
                 ...state,
                 authError: action.payload,
-                loading: false
+                loading: false,
             }
-        case AuthActions.LOGIN_START:
+        // logout    
+        case AuthActions.LOGOUT_REQUESTED:
             return {
                 ...state,
+                user: null,
                 authError: null,
-                loading: true
+                loading: false, // TODO: change this when logout confirmed on back-end
+                isLoggedIn: false // this too
             }
         default:
             return state;

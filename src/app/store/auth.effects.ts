@@ -44,6 +44,32 @@ export class AuthEffects {
         })
     )
 
+    @Effect({ dispatch: false })
+    authLogout = this.actions$.pipe(
+        ofType(AuthActions.LOGOUT_REQUESTED),
+        tap((logoutRequested: AuthActions.LogoutRequested) => {
+            localStorage.removeItem('user');
+            this.router.navigate(['/auth/login']);
+        })
+    )
+
+    @Effect()
+    autoLogin = this.actions$.pipe(
+        ofType(AuthActions.AUTO_LOGIN),
+        map((autoLogin: AuthActions.AutoLogin) => {
+            const userData: { username: string, token: string } = JSON.parse(localStorage.getItem('user'));
+            if (!userData) {
+                return { type: 'DUMMY' }
+            }
+
+            const loadedUser = new User(
+                userData.username,
+                userData.token
+            )
+
+            return new AuthActions.LoginSuccesful({ username: loadedUser.username, token: loadedUser.token });
+        })
+    )
+
     constructor(private authenticationService: AuthenticationService, private router: Router, private actions$: Actions) { }
 }
-

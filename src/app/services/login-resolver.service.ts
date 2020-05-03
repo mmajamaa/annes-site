@@ -2,11 +2,13 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@a
 import { AuthenticationService } from './authentication.service';
 import { Injectable } from '@angular/core';
 
+import { FacadeService } from '../store/facade.service';
+
 @Injectable({
     providedIn: "root"
 })
 export class LoginResolver implements Resolve<any> {
-    constructor(private authenticationService: AuthenticationService, private router: Router) { }
+    constructor(private authenticationService: AuthenticationService, private router: Router, private facade: FacadeService) { }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         if (route.queryParams.resolve === 'false') {
@@ -17,6 +19,7 @@ export class LoginResolver implements Resolve<any> {
             this.router.navigate(['/auth/admin'])
             return data
         }, error => {
+            this.facade.logoutRequested();
             this.router.navigate(['/auth/login'])
         });
     }

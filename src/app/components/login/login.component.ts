@@ -16,7 +16,9 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private facade: FacadeService
-  ) { }
+  ) {
+    this.facade.autoLogin();
+  }
 
   ngOnInit() { }
 

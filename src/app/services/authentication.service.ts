@@ -24,25 +24,7 @@ export class AuthenticationService {
         password
       }
     )
-      .pipe(
-        tap((data: AuthenticationResponseData) => {
-          this.handleAuthentication(data);
-        })
-      );
   }
-
-  // TODO: move logic to effects
-  logout() {
-    localStorage.removeItem('user');
-    this.router.navigate(['/auth/login'], { queryParams: { resolve: false } });
-    this.loggedIn.next(false);
-  }
-
-  // TODO: can be removed, move logic to effects
-  handleAuthentication(data: AuthenticationResponseData) {
-    this.loggedIn.next(true);
-  }
-
 
   // TODO: move logic to effects
   authStatus() {
@@ -54,7 +36,6 @@ export class AuthenticationService {
       loadedUser = new User(userData.username, userData.token);
       this.loggedIn.next(true);
     }
-
 
     return this.http.get<AuthenticationResponseData>('api/auth/status', {
       observe: 'body',
