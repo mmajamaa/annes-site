@@ -20,7 +20,7 @@ module.exports = {
             expiresIn: "3d"
           });
           console.log("succesful login");
-          return res.status(200).json({token});
+          return res.status(200).json({ username, token });
         } else {
           console.log("invalid pw");
           return res.status(501).json({ message: "Invalid password." });
@@ -52,6 +52,6 @@ module.exports = {
   },
 
   authenticated: async (req, res, next) => {
-    return res.status(200).json({message: "User is authenticated."});
+    return res.status(200).json({ message: "User is authenticated." });
   }
 };

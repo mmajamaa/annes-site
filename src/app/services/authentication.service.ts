@@ -1,11 +1,12 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpErrorResponse, HttpParams } from "@angular/common/http";
-import { catchError, tap } from 'rxjs/operators';
-import { throwError, BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
+import { HttpClient, HttpParams } from "@angular/common/http";
+
+import { BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 import { AuthenticationResponseData } from '../interfaces/authentication-response-data';
 import { User } from '../models/user';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: "root"
@@ -24,33 +25,36 @@ export class AuthenticationService {
       }
     )
       .pipe(
-        catchError(this.handleError),
-        tap(data => {
+        tap((data: AuthenticationResponseData) => {
           this.handleAuthentication(data);
         })
       );
   }
 
+  // TODO: move logic to effects
   logout() {
-    localStorage.removeItem("token");
+    localStorage.removeItem('user');
     this.router.navigate(['/auth/login'], { queryParams: { resolve: false } });
     this.loggedIn.next(false);
   }
 
-  handleError(errorRes: HttpErrorResponse) {
-    return throwError(errorRes.error.message);
-  }
-
-  handleAuthentication(data) {
-    const token = data.token;
-    localStorage.setItem('token', token.toString());
+  // TODO: can be removed, move logic to effects
+  handleAuthentication(data: AuthenticationResponseData) {
     this.loggedIn.next(true);
   }
 
+
+  // TODO: move logic to effects
   authStatus() {
-    const UserData = { token: localStorage.getItem('token') };
-    const loadedUser = new User(UserData.token);
-    this.loggedIn.next(true);
+    const userData: User = JSON.parse(localStorage.getItem('user'));
+
+    let loadedUser = new User(null, null);
+
+    if (userData) {
+      loadedUser = new User(userData.username, userData.token);
+      this.loggedIn.next(true);
+    }
+
 
     return this.http.get<AuthenticationResponseData>('api/auth/status', {
       observe: 'body',

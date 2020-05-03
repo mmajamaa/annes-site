@@ -1,9 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
+
 import { Observable } from 'rxjs';
-import { AuthenticationService } from "../../services/authentication.service";
+
+import { FacadeService } from '../../store/facade.service';
 import { AuthenticationResponseData } from '../../interfaces/authentication-response-data';
-import { Router } from "@angular/router";
 
 @Component({
   selector: "app-login",
@@ -14,8 +15,7 @@ export class LoginComponent implements OnInit {
   private authObs: Observable<AuthenticationResponseData>;
 
   constructor(
-    private authenticationService: AuthenticationService,
-    private router: Router
+    private facade: FacadeService
   ) { }
 
   ngOnInit() { }
@@ -24,15 +24,6 @@ export class LoginComponent implements OnInit {
     const username = form.value.username;
     const password = form.value.password;
 
-    this.authObs = this.authenticationService.login(username, password)
-
-    this.authObs.subscribe(
-      data => {
-        this.router.navigate(["/auth/admin"]);
-      },
-      error => {
-        window.alert(error);
-      }
-    );
+    this.facade.loginStart(username, password);
   }
 }
