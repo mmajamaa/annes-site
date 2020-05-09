@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() { }
 
-  loginUser(form: NgForm) {
+  loginUser(form) {
     const username = form.value.username;
     const password = form.value.password;
 
