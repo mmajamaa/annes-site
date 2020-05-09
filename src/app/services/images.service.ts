@@ -23,27 +23,18 @@ export class ImagesService {
   }
 
   onInit() {
-    // get images
-    this.getImagesFromApi().subscribe((images: Image[]) => {
-      this.images = images;
-      this.imagesChange.next(this.images.slice());
-    },
-      error => {
-        this.snackBarService.openSnackBar(
-          "Virhe kuvien lataamisessa. Päivitä sivu.",
-          "warn-snackbar"
-        );
-      })
     // get galleries
     this.getSubGalleriesFromApi().subscribe((subGalleries: SubGallery[]) => {
       this.subGalleries = subGalleries;
       this.subGalleriesChange.next(this.subGalleries.slice())
     },
       error => {
-        this.snackBarService.openSnackBar(
-          "Virhe alagallerioiden lataamisessa. Päivitä sivu",
-          "warn-snackbar"
-        );
+        if (this.subGalleries.length === 0) {
+          this.snackBarService.openSnackBar(
+            "Virhe alagallerioiden lataamisessa. Päivitä sivu",
+            "warn-snackbar"
+          );
+        }
       })
   }
 
@@ -72,10 +63,6 @@ export class ImagesService {
         this.uploadSuccesful.next('cancelled');
       }
     );
-  }
-
-  public getImagesFromApi(): Observable<Image[]> {
-    return this.http.get<Image[]>("/api/images/");
   }
 
   public getSubGalleries(): SubGallery[] {
