@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { TranslationsService } from '../../services/translations.service';
 import { RedirectService } from '../../services/redirect.service';
 import { Subscription } from 'rxjs';
-import { mainEmail, devEmail } from '../../data/variables';
+import { mainEmail, devEmail, siteUrl } from '../../data/variables';
 
 @Component({
   selector: 'app-footer',
@@ -19,13 +19,11 @@ export class FooterComponent implements OnInit, OnDestroy {
   constructor(
     private translationsService: TranslationsService,
     private redirectService: RedirectService,
-    @Inject(Window) private window: Window
-
-    ) { }
+  ) { }
 
   ngOnInit() {
-    this.I18nSubscription = this.translationsService.I18n.subscribe(r => {this.I18n = r});
-    this.url = this.window.location.hostname;
+    this.I18nSubscription = this.translationsService.I18n.subscribe(r => { this.I18n = r });
+    this.url = siteUrl;
   }
 
   openIg() {

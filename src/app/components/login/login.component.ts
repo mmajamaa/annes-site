@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
-import { NgForm } from "@angular/forms";
 import { Observable } from 'rxjs';
 import { AuthenticationService } from "../../services/authentication.service";
 import { AuthenticationResponseData } from '../../interfaces/authentication-response-data';
 import { Router } from "@angular/router";
+import { SnackBarService } from 'src/app/services/snack-bar.service';
 
 @Component({
   selector: "app-login",
@@ -15,7 +15,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private authenticationService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private snackBarService: SnackBarService
   ) { }
 
   ngOnInit() { }
@@ -31,7 +32,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(["/auth/admin"]);
       },
       error => {
-        window.alert(error);
+        this.snackBarService.openSnackBar('Error logging in.', 'warn-snackbar');
       }
     );
   }
