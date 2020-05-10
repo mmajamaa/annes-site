@@ -14,14 +14,11 @@ import { environment } from '../environments/environment'
   ],
   imports: [
     MatSnackBarModule,
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
-  ],
-  providers: [
-    { provide: Window, useValue: window }
   ],
   bootstrap: [AppComponent]
 })
