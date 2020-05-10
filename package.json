@@ -19,10 +19,10 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-devkit/build-angular": "^0.900.7",
+    "@angular-devkit/build-angular": "^0.901.5",
     "@angular/animations": "^9.0.7",
     "@angular/cdk": "^9.2.3",
-    "@angular/cli": "^9.0.7",
+    "@angular/cli": "^9.1.5",
     "@angular/common": "^9.0.7",
     "@angular/compiler": "^9.0.7",
     "@angular/compiler-cli": "^9.0.7",
