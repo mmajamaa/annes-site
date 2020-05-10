@@ -2,45 +2,41 @@ import 'zone.js/dist/zone-node';
 
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
-
 import { AppServerModule } from './src/main.server';
 import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'fs';
-
 import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
 import * as path from 'path';
 
+import * as apiRoutes from './routes/api';
+import * as mongoose from 'mongoose';
+
 let config = { db_uri: "" };
+let mongoDB = "";
+
 if (process.env.NODE_ENV !== "production") {
   import('./config.json').then(data => {
     config = data;
-    console.log(config)
+    mongooseConnect();
   });
 } else {
   import('./config.json').then(data => {
     config = data;
-    console.log(config)
+    mongooseConnect();
   });
 }
 
-// routes
-import * as apiRoutes from './routes/api';
-
-// mongoose
-import * as mongoose from 'mongoose';
-
-let mongoDB = process.env.MONGODB_URI || config.db_uri;
-console.log("mongodb:")
-console.log(mongoDB)
-console.log('^^')
-mongoose.connect(
-  mongoDB,
-  { useNewUrlParser: true, useUnifiedTopology: true },
-  err => {
-    console.log(err);
-  }
-);
+function mongooseConnect() {
+  mongoDB = process.env.MONGODB_URI || config.db_uri;
+  mongoose.connect(
+    mongoDB,
+    { useNewUrlParser: true, useUnifiedTopology: true },
+    err => {
+      console.log(err);
+    }
+  );
+}
 
 function requireHTTPS(req, res, next) {
   // The 'x-forwarded-proto' check is for Heroku
