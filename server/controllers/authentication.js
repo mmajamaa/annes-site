@@ -20,7 +20,7 @@ module.exports = {
             expiresIn: "3d"
           });
           console.log("succesful login");
-          return res.status(200).json(token);
+          return res.status(200).json({token});
         } else {
           console.log("invalid pw");
           return res.status(501).json({ message: "Invalid password." });
@@ -34,8 +34,9 @@ module.exports = {
     }
   },
 
-  /*register: async (req, res, next) => {
-    console.log(req.body);
+  register: async (req, res, next) => {
+    // TODO: REMOVE AS NEEDED
+    return;
     let user = new User({
       username: req.body.username,
       password: User.hashPassword(req.body.password)
@@ -48,11 +49,9 @@ module.exports = {
     } catch (error) {
       return res.status(501).json({ message: "Error registering user." });
     }
-  },*/
+  },
 
   authenticated: async (req, res, next) => {
-    // TODO: do something to this...
-    let decodedToken = "test";
-    return res.status(200).json(decodedToken);
+    return res.status(200).json({message: "User is authenticated."});
   }
 };

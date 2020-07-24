@@ -10,7 +10,7 @@
     "e2e": "ng e2e",
     "serve": "concurrently \"npm:command-*\"",
     "command-ng": "ng serve --proxy-config proxyconfig.json",
-    "command-server": "node_modules\\.bin\\ts-node-dev server.ts",
+    "command-server": "node_modules\\.bin\\ts-node-dev server\\server.ts",
     "postinstall": "ng build --aot --prod"
   },
   "private": true,
