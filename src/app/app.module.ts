@@ -10,8 +10,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppComponent } from "./app.component";
 import { AppRoutingModule } from "./app-routing.module";
-import * as fromApp from './store/app.reducer';
-import { AuthEffects } from './store/auth.effects'
+import * as fromApp from './app.reducer';
+import { AuthEffects } from './components/auth/store/auth.effects'
 import { environment } from 'src/environments/environment';
 import { ServiceWorkerModule } from '@angular/service-worker';
 

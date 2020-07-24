@@ -4,11 +4,11 @@ import { Routes, RouterModule, PreloadAllModules } from "@angular/router";
 const routes: Routes = [
   {
     path: "auth",
-    loadChildren: () => import('./modules/admin.module').then(m => m.AdminModule)
+    loadChildren: () => import('./components/auth/admin.module').then(m => m.AdminModule)
   },
   {
     path: "",
-    loadChildren: () => import('./modules/main-page.module').then(m => m.MainPageModule)
+    loadChildren: () => import('./components/public/main-page.module').then(m => m.MainPageModule)
   },
   { path: "**", redirectTo: 'page-not-found' }
 ];
