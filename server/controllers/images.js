@@ -1,15 +1,17 @@
-const Image = require('../models/images');
-const Gallery = require('../models/gallerys');
-const deleteImage = require('../services/images').deleteImage;
+const Image = require("../models/images");
+const Gallery = require("../models/gallerys");
+const deleteImage = require("../services/images").deleteImage;
 
 module.exports = {
-  index:  async (req, res, next) => {
-    let images = await Image.find().sort({so: 0}).populate('gallery');
+  index: async (req, res, next) => {
+    let images = await Image.find()
+      .sort({ so: 0 })
+      .populate("gallery");
 
     try {
       return res.status(200).json(images);
     } catch (error) {
-      return res.status(501).json({message: 'Error getting images'});
+      return res.status(501).json({ message: "Error getting images" });
     }
   },
 
@@ -17,9 +19,10 @@ module.exports = {
     try {
       // create new image
       const newImage = new Image({
-        Key: req.file.key,
-        url: req.file.location,
-        alt: req.body.alt,
+        Key: res.locals.key,
+        url: res.locals.url,
+        alt_fi: res.locals.alt_fi,
+        alt_en: res.locals.alt_fi,
         so: 1
       });
       // get gallery based on url parameter
@@ -32,17 +35,66 @@ module.exports = {
       await gallery.save();
       res.status(201).json(newImage);
     } catch (error) {
-      return res.status(501).json({message: 'Error on saving record to database.'})
+      return res
+        .status(501)
+        .json({ message: "Error on saving record to database." });
+    }
+  },
+
+  newImageNoGallery: async (req, res, next) => {
+    try {
+      const img = await Image.findOne().sort("-so");
+
+      // create new image
+      const newImage = new Image({
+        Key: res.locals.key, // TODO: remove?
+        url: res.locals.url,
+        alt_fi: res.locals.alt_fi,
+        alt_en: res.locals.alt_en,
+        so: img ? img.so + 1 : 0
+      });
+
+      await newImage.save();
+      // push new image to gallery
+
+      res.status(201).json(newImage);
+    } catch (error) {
+      return res
+        .status(501)
+        .json({ message: "Error on saving record to database." });
     }
   },
 
   deleteImage: async (req, res, next) => {
     try {
-      const image = await Image.findOne({Key: req.params.key});
+      const image = await Image.findOne({ _id: req.params.id });
       await image.remove();
-      return res.status(200).json({message: 'Image deleted succesfully.'});
+      return res.status(200).json(image);
     } catch (error) {
-      return res.status(501).json({message: 'Error deleting image.'})
+      return res.status(501).json({ message: "Error deleting image." });
     }
+  },
+
+  saveOrder: async (req, res, next) => {
+    const images = req.body.images;
+    for (let i = 0; i < images.length; i++) {
+      Image.update(
+        { _id: images[i]._id },
+        {
+          so: images[i].so,
+          alt_fi: images[i].alt_fi,
+          alt_en: images[i].alt_en
+        },
+        (err, doc) => {
+          if (err) {
+            return res
+              .status(501)
+              .json({ message: "Error on saving record to database." });
+          }
+        }
+      );
+    }
+
+    return res.status(200).json({ message: "success" });
   }
-}
+};
