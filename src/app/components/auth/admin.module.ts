@@ -15,6 +15,7 @@ import { LoginResolver } from './login/login-resolver.service';
 import { DeactivateGuardService } from './admin/deactivate-guard.service';
 import { AuthGuard } from './auth-guard.service';
 import { SharedModule } from '../shared/shared.module';
+import { ImageModalComponent } from './admin/image-modal/image-modal.component';
 
 @NgModule({
     declarations: [
@@ -24,6 +25,7 @@ import { SharedModule } from '../shared/shared.module';
         UploadComponentComponent,
         ImageDialogComponent,
         SpinnerOverlayComponent,
+        ImageModalComponent,
     ],
     imports: [
         RouterModule.forChild([
