@@ -41,8 +41,6 @@ export class AdminComponent implements OnInit, OnDestroy {
       this.images = images;
     });
 
-    this.img.getSubGalleries();
-    this.updateDropList();
     this.subGallerySubscription = this.img.subGalleriesChange.subscribe((subGalleries: SubGallery[]) => {
       this.subGalleries = subGalleries;
       this.updateDropList();
@@ -75,10 +73,8 @@ export class AdminComponent implements OnInit, OnDestroy {
     var modal = document.getElementById("myModal");
     console.log(event.target.src);
     // Get the image and insert it inside the modal - use its "alt" text as a caption
-    var img = document.getElementById("myImg");
     var modalImg = document.getElementById("img01");
     var captionText = document.getElementById("caption");
-    console.log("jaa");
     modal.style.display = "block";
     (<HTMLImageElement>modalImg).src = event.target.src;
     captionText.innerHTML = event.target.alt;
