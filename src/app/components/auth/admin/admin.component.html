@@ -4,17 +4,31 @@
   <app-image-modal></app-image-modal>
   <form #subGalleryForm="ngForm">
     <!-- sub galleries -->
-    <div class="sub-galleries-container" fxFlex fxLayout="row" (cdkDropListDropped)="dropSubGallery($event)"
-      cdkDropListOrientation="horizontal" cdkDropList>
+    <div
+      class="sub-galleries-container"
+      fxFlex
+      fxLayout="row"
+      (cdkDropListDropped)="dropSubGallery($event)"
+      cdkDropListOrientation="horizontal"
+      cdkDropList
+    >
       <div *ngFor="let subGallery of subGalleries" cdkDrag>
         <!-- sub gallery container-->
         <div class="sub-gallery-container">
           <div fxLayout="column">
             <!-- subgallery's header-->
-            <div class="sub-gallery-top-container" fxFlex="nogrow" fxLayout="row wrap" fxLayoutAlign="center center">
+            <div
+              class="sub-gallery-top-container"
+              fxFlex="nogrow"
+              fxLayout="row wrap"
+              fxLayoutAlign="center center"
+            >
               <div fxFlex="nogrow" fxLayout="row" class="max-width">
-                <span class="delete-container" (click)="onDeleteSubGallery(subGallery)"><i
-                    class="fa fa-trash"></i></span>
+                <span
+                  class="delete-container"
+                  (click)="onDeleteSubGallery(subGallery)"
+                  ><i class="fa fa-trash"></i
+                ></span>
                 <span fxFlex></span>
                 <span class="drag-container" cdkDragHandle>
                   <i class="fa fa-arrows-alt"></i>
@@ -22,45 +36,117 @@
               </div>
               <!-- Finnish -->
               <span fxFlex="nogrow" fxLayout="row" fxLayoutAlign="none center">
-                <img class="flag-icon" [src]="flagIcons[0].src" alt="flagIcons[0].src" />
-                <input class="card-input" fxFlex="nogrow" name="{{ subGallery._id + ':alt_fin' }}" type="text"
-                  value="{{ subGallery.fi }}" [(ngModel)]="subGallery.fi">
+                <img
+                  class="flag-icon"
+                  [src]="flagIcons[0].src"
+                  alt="flagIcons[0].src"
+                />
+                <input
+                  class="card-input"
+                  fxFlex="nogrow"
+                  name="{{ subGallery._id + ':alt_fin' }}"
+                  type="text"
+                  value="{{ subGallery.fi }}"
+                  [ngModel]="subGallery.fi"
+                />
               </span>
               <!-- English -->
               <span fxFlex="nogrow" fxLayout="row" fxLayoutAlign="none center">
-                <img class="flag-icon" [src]="flagIcons[1].src" alt="flagIcons[1].src" />
-                <input class="card-input" fxFlex="nogrow" name="{{ subGallery._id + ':alt_en' }}" type="text"
-                  value="{{ subGallery.en }}" [(ngModel)]="subGallery.en">
+                <img
+                  class="flag-icon"
+                  [src]="flagIcons[1].src"
+                  alt="flagIcons[1].src"
+                />
+                <input
+                  class="card-input"
+                  fxFlex="nogrow"
+                  name="{{ subGallery._id + ':alt_en' }}"
+                  type="text"
+                  value="{{ subGallery.en }}"
+                  [(ngModel)]="subGallery.en"
+                />
               </span>
-
             </div>
             <!-- subgallery's images-->
-            <div cdkDropList [cdkDropListConnectedTo]="imagesDropList" class="example-list"
-              (cdkDropListDropped)="drop($event, subGallery)" fxLayout="column" fxLayoutAlign="none center"
-              [id]="subGallery._id">
-              <mat-card *ngFor="let img of subGallery.images; let i = index" class="image-card" cdkDrag>
+            <div
+              cdkDropList
+              [cdkDropListConnectedTo]="imagesDropList"
+              class="example-list"
+              (cdkDropListDropped)="drop($event, subGallery)"
+              fxLayout="column"
+              fxLayoutAlign="none center"
+              [id]="subGallery._id"
+            >
+              <mat-card
+                *ngFor="let img of subGallery.images; let i = index"
+                class="image-card"
+                cdkDrag
+              >
                 <mat-card-content>
-                  <div fxLayout="column" fxLayoutAlign="none center" class="top-container">
+                  <div
+                    fxLayout="column"
+                    fxLayoutAlign="none center"
+                    class="top-container"
+                  >
                     <div fxFlex="nogrow" fxLayout="row" class="max-width">
-                      <span class="delete-container" (click)="deleteImage(img._id)"><i class="fa fa-trash"></i></span>
+                      <span
+                        class="delete-container"
+                        (click)="deleteImage(img._id)"
+                        ><i class="fa fa-trash"></i
+                      ></span>
                       <span fxFlex></span>
                       <span class="drag-container" cdkDragHandle>
                         <i class="fa fa-arrows-alt"></i>
                       </span>
                     </div>
-                    <img fxFlex="nogrow" src="{{ img.url }}" alt="{{ img.alt_fi }}" id="myImg" class="image"
-                      (click)="openImage($event)" />
+                    <img
+                      fxFlex="nogrow"
+                      src="{{ img.url }}"
+                      alt="{{ img.alt_fi }}"
+                      id="myImg"
+                      class="image"
+                      (click)="openImage($event)"
+                    />
                     <!-- Finnish -->
-                    <span fxFlex="nogrow" fxLayout="row" fxLayoutAlign="none center">
-                      <img class="flag-icon" fxFlex="nogrow" [src]="flagIcons[0].src" alt="flagIcons[0].src" />
-                      <input name="{{ img._id + ':alt_fin' }}" type="text" fxFlex="nogrow" class="card-input"
-                        [(ngModel)]="img.alt_fi" />
+                    <span
+                      fxFlex="nogrow"
+                      fxLayout="row"
+                      fxLayoutAlign="none center"
+                    >
+                      <img
+                        class="flag-icon"
+                        fxFlex="nogrow"
+                        [src]="flagIcons[0].src"
+                        alt="flagIcons[0].src"
+                      />
+                      <input
+                        name="{{ img._id + ':alt_fin' }}"
+                        type="text"
+                        fxFlex="nogrow"
+                        class="card-input"
+                        [(ngModel)]="img.alt_fi"
+                      />
                     </span>
                     <!-- English -->
-                    <span fxFlex="nogrow" fxLayout="row" fxLayoutAlign="none center">
-                      <img class="flag-icon" fxFlex="nogrow" [src]="flagIcons[1].src" alt="flagIcons[1].src" />
-                      <input name="{{ img._id + ':alt_en' }}" type="text" value="{{ img.alt_en }}" fxFlex="nogrow"
-                        class="card-input" [(ngModel)]="img.alt_en" />
+                    <span
+                      fxFlex="nogrow"
+                      fxLayout="row"
+                      fxLayoutAlign="none center"
+                    >
+                      <img
+                        class="flag-icon"
+                        fxFlex="nogrow"
+                        [src]="flagIcons[1].src"
+                        alt="flagIcons[1].src"
+                      />
+                      <input
+                        name="{{ img._id + ':alt_en' }}"
+                        type="text"
+                        value="{{ img.alt_en }}"
+                        fxFlex="nogrow"
+                        class="card-input"
+                        [(ngModel)]="img.alt_en"
+                      />
                     </span>
                   </div>
                 </mat-card-content>
@@ -68,29 +154,77 @@
             </div>
             <!-- add image -->
             <span fxFlex="nogrow" fxLayout="row" fxLayoutAlign="center">
-              <button (click)="onAddImage(subGallery)" type="button" fxFlex="nogrow">+</button>
+              <button
+                (click)="onAddImage(subGallery)"
+                type="button"
+                fxFlex="nogrow"
+              >
+                +
+              </button>
             </span>
           </div>
         </div>
       </div>
       <!-- new subgallery -->
-      <div class="new-sub-gallery-main-container" fxLayout="column" fxLayoutAlign="start center">
-        <div class="new-sub-gallery-container" fxLayout="row" fxLayoutAlign="center center">
-          <form #f="ngForm" fxFlex="nogrow" fxLayout="column" fxLayoutAlign="none center" ngNativeValidate>
+      <div
+        class="new-sub-gallery-main-container"
+        fxLayout="column"
+        fxLayoutAlign="start center"
+      >
+        <div
+          class="new-sub-gallery-container"
+          fxLayout="row"
+          fxLayoutAlign="center center"
+        >
+          <form
+            #f="ngForm"
+            fxFlex="nogrow"
+            fxLayout="column"
+            fxLayoutAlign="none center"
+            ngNativeValidate
+          >
             <!-- Finnish -->
             <span fxFlex="nogrow" fxLayout="row" fxLayoutAlign="none center">
-              <img class="flag-icon" fxFlex="nogrow" [src]="flagIcons[0].src" alt="flagIcons[0].src" />
-              <input class="card-input" type="text" name="galleryFi" placeholder="Uuden gallerian nimi" ngModel
-                required>
+              <img
+                class="flag-icon"
+                fxFlex="nogrow"
+                [src]="flagIcons[0].src"
+                alt="flagIcons[0].src"
+              />
+              <input
+                class="card-input"
+                type="text"
+                name="galleryFi"
+                placeholder="Uuden gallerian nimi"
+                ngModel
+                required
+              />
             </span>
             <!-- English -->
             <span fxFlex="nogrow" fxLayout="row" fxLayoutAlign="none center">
-              <img class="flag-icon" fxFlex="nogrow" [src]="flagIcons[1].src" alt="flagIcons[1].src" />
-              <input class="card-input" type="text" name="galleryEn" placeholder="Uuden gallerian nimi" ngModel
-                required>
+              <img
+                class="flag-icon"
+                fxFlex="nogrow"
+                [src]="flagIcons[1].src"
+                alt="flagIcons[1].src"
+              />
+              <input
+                class="card-input"
+                type="text"
+                name="galleryEn"
+                placeholder="Uuden gallerian nimi"
+                ngModel
+                required
+              />
             </span>
           </form>
-          <button (click)="onAddGallery(f)" fxFlex="nogrow" [disabled]="!f.valid">+</button>
+          <button
+            (click)="onAddGallery(f)"
+            fxFlex="nogrow"
+            [disabled]="!f.valid"
+          >
+            +
+          </button>
         </div>
       </div>
     </div>
