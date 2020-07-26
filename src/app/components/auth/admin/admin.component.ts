@@ -249,22 +249,28 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
 
     if (difference < 0) {
       // moved down in list
-      // TODO: only update ones between currentIndex and previousIndex
-      for (let i = event.currentIndex; i < this.subGalleries.length; i++) {
+      for (
+        let i = event.currentIndex;
+        i <= event.currentIndex - difference;
+        i++
+      ) {
         clonedSubGalleries.push({
           id: this.subGalleries[
-            i === event.currentIndex ? event.previousIndex : i
+            i === event.currentIndex ? event.previousIndex : i - 1
           ]._id,
           changes: { so: i },
         });
       }
     } else if (difference > 0) {
       // moved up in list
-      // TODO: only update ones between currentIndex and previousIndex
-      for (let i = event.currentIndex; i >= 0; i--) {
+      for (
+        let i = event.currentIndex;
+        i >= event.currentIndex - difference;
+        i--
+      ) {
         clonedSubGalleries.push({
           id: this.subGalleries[
-            i === event.currentIndex ? event.previousIndex : i
+            i === event.currentIndex ? event.previousIndex : i + 1
           ]._id,
           changes: { so: i },
         });
