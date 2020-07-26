@@ -345,8 +345,6 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
     });
 
     this.facade.subGalleriesUpdateRequested(subGalleriesChanges);
-    // TODO: get this from subGalleriesChange/handle with store some other way
-    this.img.updateSubGalleries(this.subGalleries);
   }
 
   onAddGallery(form: NgForm) {

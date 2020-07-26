@@ -16,6 +16,9 @@ export const SUB_GALLERY_SELECTED = "[Gallery Component] Sub gallery selected.";
 export const SUB_GALLERIES_UPDATE_REQUESTED =
   "[Admin Component] Sub galleries update requested";
 
+export const SUB_GALLERIES_UPDATED_TO_STORE =
+  "[] Sub galleries updated to store.";
+
 export class SubGalleriesRequested implements Action {
   public readonly type = SUB_GALLERIES_REQUESTED;
 }
@@ -51,6 +54,10 @@ export class SubGallerisUpdateRequested implements Action {
   public constructor(public payload: { subGalleries: Update<SubGallery>[] }) {}
 }
 
+export class SubGalleriesUpdatedToStore implements Action {
+  public readonly type = SUB_GALLERIES_UPDATED_TO_STORE;
+}
+
 export type SubGalleryActions =
   | SubGalleriesRequested
   | SubGalleriesLoaded
@@ -59,4 +66,5 @@ export type SubGalleryActions =
   | SubGalleriesSaved
   | SubGalleriesSaveCancelled
   | SubGallerySelected
-  | SubGallerisUpdateRequested;
+  | SubGallerisUpdateRequested
+  | SubGalleriesUpdatedToStore;
