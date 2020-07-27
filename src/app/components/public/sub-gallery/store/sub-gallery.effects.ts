@@ -9,6 +9,7 @@ import * as SubGalleryActions from "./sub-gallery.actions";
 import * as SubGallerySelectors from "./sub-gallery.selectors";
 import { ImagesService } from "src/app/components/shared/images.service";
 import { SubGallery } from "../../../shared/sub-gallery";
+import * as AuthSelectors from "../../../auth/store/auth.selectors";
 
 @Injectable({ providedIn: "root" })
 export class SubGalleryEffects {
@@ -35,8 +36,6 @@ export class SubGalleryEffects {
   subGalleriesLoadToStoreRequested = this.actions$.pipe(
     ofType(SubGalleryActions.SUB_GALLERIES_UPDATE_REQUESTED),
     map((actionData) => {
-      console.log("jaa");
-      // TODO: add condition whether to automatically save changes or not
       return new SubGalleryActions.SubGalleriesUpdatedToStore();
     })
   );
@@ -45,10 +44,13 @@ export class SubGalleryEffects {
   subGalleriesLoadedToStore = this.actions$.pipe(
     ofType(SubGalleryActions.SUB_GALLERIES_UPDATED_TO_STORE),
     withLatestFrom(
-      this.store.select(SubGallerySelectors.selectAllSubGalleries)
+      this.store.select(SubGallerySelectors.selectAllSubGalleries),
+      this.store.select(AuthSelectors.isQuickSave)
     ),
-    map(([actionData, subGalleries]) => {
-      this.img.updateSubGalleries(subGalleries);
+    map(([actionData, subGalleries, isQuickSave]) => {
+      if (isQuickSave) {
+        this.img.updateSubGalleries(subGalleries);
+      }
     })
   );
 
