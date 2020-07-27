@@ -10,6 +10,7 @@ import * as SubGallerySelectors from "./sub-gallery.selectors";
 import { ImagesService } from "src/app/components/shared/images.service";
 import { SubGallery } from "../../../shared/sub-gallery";
 import * as AuthSelectors from "../../../auth/store/auth.selectors";
+import { SnackBarService } from "src/app/components/shared/snack-bar.service";
 
 @Injectable({ providedIn: "root" })
 export class SubGalleryEffects {
@@ -32,31 +33,49 @@ export class SubGalleryEffects {
       );
     })
   );
+
   @Effect()
-  subGalleriesLoadToStoreRequested = this.actions$.pipe(
-    ofType(SubGalleryActions.SUB_GALLERIES_UPDATE_REQUESTED),
-    map((actionData) => {
-      return new SubGalleryActions.SubGalleriesUpdatedToStore();
+  subGalleriesUpdateToStoreRequested = this.actions$.pipe(
+    ofType(SubGalleryActions.SUB_GALLERIES_UPDATE_TO_STORE_REQUESTED),
+    withLatestFrom(this.store.select(AuthSelectors.isQuickSave)),
+    map(([actionData, isQuickSave]) => {
+      if (isQuickSave) {
+        return new SubGalleryActions.SubGalleriesUpdateToAPIRequested();
+      }
+      return { type: "DUMMY" };
     })
   );
 
-  @Effect({ dispatch: false })
+  @Effect()
   subGalleriesLoadedToStore = this.actions$.pipe(
-    ofType(SubGalleryActions.SUB_GALLERIES_UPDATED_TO_STORE),
+    ofType(SubGalleryActions.SUB_GALLERIES_UPDATE_TO_API_REQUESTED),
     withLatestFrom(
-      this.store.select(SubGallerySelectors.selectAllSubGalleries),
-      this.store.select(AuthSelectors.isQuickSave)
+      this.store.select(SubGallerySelectors.selectAllSubGalleries)
     ),
-    map(([actionData, subGalleries, isQuickSave]) => {
-      if (isQuickSave) {
-        this.img.updateSubGalleries(subGalleries);
-      }
+    switchMap(([aSctionData, subGalleries]) => {
+      return this.img.updateSubGalleries(subGalleries).pipe(
+        map((updatedSubGalleries: SubGallery[]) => {
+          this.snackBarService.openSnackBar(
+            "Muutokset tallennettiin onnistuneesti.",
+            "ok-snackbar"
+          );
+          return new SubGalleryActions.SubGalleriesUpdateToAPICompleted();
+        }),
+        catchError((errorRes) => {
+          this.snackBarService.openSnackBar(
+            "Virhe muutosten tallentamisessa. Yritä uudelleen.",
+            "warn-snackbar"
+          );
+          return of(new SubGalleryActions.SubGalleriesUpdateToAPICancelled());
+        })
+      );
     })
   );
 
   constructor(
     private img: ImagesService,
     private actions$: Actions,
-    private store: Store
+    private store: Store,
+    private snackBarService: SnackBarService
   ) {}
 }

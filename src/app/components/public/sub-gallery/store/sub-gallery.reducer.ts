@@ -30,7 +30,7 @@ export function subGalleryReducer(
         ...state,
         selectedSubGalleryId: action.payload.selectedSubGalleryId,
       };
-    case SubGalleryActions.SUB_GALLERIES_UPDATE_REQUESTED:
+    case SubGalleryActions.SUB_GALLERIES_UPDATE_TO_STORE_REQUESTED:
       return adapter.updateMany(action.payload.subGalleries, state);
     default:
       return state;

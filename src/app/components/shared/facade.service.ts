@@ -48,11 +48,17 @@ export class FacadeService {
     return this.store.select(SubGallerySelectors.selectCurrentSubGallery);
   }
 
-  subGalleriesUpdateRequested(subGalleries) {
+  subGalleriesUpdateToStoreRequested(subGalleries) {
     this.store.dispatch(
-      new SubGalleryActions.SubGallerisUpdateRequested({
+      new SubGalleryActions.SubGalleriesUpdateToStoreRequested({
         subGalleries: subGalleries,
       })
+    );
+  }
+
+  subGalleriesUpdateToAPIRequested() {
+    this.store.dispatch(
+      new SubGalleryActions.SubGalleriesUpdateToAPIRequested()
     );
   }
 }

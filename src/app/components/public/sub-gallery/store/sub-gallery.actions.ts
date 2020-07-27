@@ -13,11 +13,16 @@ export const SUB_GALLERIES_SAVE_REQUESTED =
 export const SUB_GALLERIES_SAVED = "[] Saving sub galleries succeeded.";
 export const SUB_GALLERIES_SAVE_CANCELLED = "[] Failed to save sub galleries.";
 export const SUB_GALLERY_SELECTED = "[Gallery Component] Sub gallery selected.";
-export const SUB_GALLERIES_UPDATE_REQUESTED =
+export const SUB_GALLERIES_UPDATE_TO_STORE_REQUESTED =
   "[Admin Component] Sub galleries update requested";
-
-export const SUB_GALLERIES_UPDATED_TO_STORE =
+export const SUB_GALLERIES_UPDATE_TO_STORE_COMPLETED =
   "[] Sub galleries updated to store.";
+export const SUB_GALLERIES_UPDATE_TO_API_REQUESTED =
+  "[] Sub galleries update to API requested.";
+export const SUB_GALLERIES_UPDATE_TO_API_COMPLETED =
+  "[Sub Gallery Effects] Sub galleries updated to API.";
+export const SUB_GALLERIES_UPDATE_TO_API_CANCELLED =
+  "[Sub Gallery Effects] Sub gallerius update to API cancelled.";
 
 export class SubGalleriesRequested implements Action {
   public readonly type = SUB_GALLERIES_REQUESTED;
@@ -49,13 +54,25 @@ export class SubGallerySelected implements Action {
   public constructor(public payload: { selectedSubGalleryId: string }) {}
 }
 
-export class SubGallerisUpdateRequested implements Action {
-  public readonly type = SUB_GALLERIES_UPDATE_REQUESTED;
+export class SubGalleriesUpdateToStoreRequested implements Action {
+  public readonly type = SUB_GALLERIES_UPDATE_TO_STORE_REQUESTED;
   public constructor(public payload: { subGalleries: Update<SubGallery>[] }) {}
 }
 
-export class SubGalleriesUpdatedToStore implements Action {
-  public readonly type = SUB_GALLERIES_UPDATED_TO_STORE;
+export class SubGalleriesUpdateToStoreCompleted implements Action {
+  public readonly type = SUB_GALLERIES_UPDATE_TO_STORE_COMPLETED;
+}
+
+export class SubGalleriesUpdateToAPIRequested implements Action {
+  public readonly type = SUB_GALLERIES_UPDATE_TO_API_REQUESTED;
+}
+
+export class SubGalleriesUpdateToAPICompleted implements Action {
+  public readonly type = SUB_GALLERIES_UPDATE_TO_API_COMPLETED;
+}
+
+export class SubGalleriesUpdateToAPICancelled implements Action {
+  public readonly type = SUB_GALLERIES_UPDATE_TO_API_CANCELLED;
 }
 
 export type SubGalleryActions =
@@ -66,5 +83,8 @@ export type SubGalleryActions =
   | SubGalleriesSaved
   | SubGalleriesSaveCancelled
   | SubGallerySelected
-  | SubGallerisUpdateRequested
-  | SubGalleriesUpdatedToStore;
+  | SubGalleriesUpdateToStoreRequested
+  | SubGalleriesUpdateToStoreCompleted
+  | SubGalleriesUpdateToAPIRequested
+  | SubGalleriesUpdateToAPICompleted
+  | SubGalleriesUpdateToAPICancelled;

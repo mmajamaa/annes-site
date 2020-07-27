@@ -235,7 +235,7 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.facade.subGalleriesUpdateRequested(subGalleriesChanges);
+    this.facade.subGalleriesUpdateToStoreRequested(subGalleriesChanges);
   }
 
   dropSubGallery(event: CdkDragDrop<string[]>) {
@@ -284,67 +284,11 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
       this.subGalleries[i].so = i;
     }
 
-    this.facade.subGalleriesUpdateRequested(clonedSubGalleries);
+    this.facade.subGalleriesUpdateToStoreRequested(clonedSubGalleries);
   }
 
   onSaveChanges() {
-    let subGalleriesChanges = [];
-    // iterate through sub galleries and reconstruct them
-    this.subGalleries.forEach((sg) => {
-      let subGallerysImgChanges = [];
-      sg.images.forEach((img) => {
-        subGallerysImgChanges.push({
-          so: img.so,
-          Key: img.Key,
-          gallery: img.gallery,
-          url: img.url,
-          _id: img._id,
-        });
-      });
-
-      let subGalleryChanges = {
-        id: sg._id,
-        changes: {
-          so: sg.so,
-          images: subGallerysImgChanges,
-        },
-      };
-
-      for (let key in this.subGalleryForm.form.controls) {
-        // new value
-        let val = this.subGalleryForm.form.controls[key].value;
-        // to identify sub gallery/image and where is the value associated (alt_fin/alt_en)
-        let identifiers = key.split(" ");
-        let subGalleryId = "";
-        let imgId = "";
-        let fieldToUpdate = "";
-
-        subGalleryId = identifiers[0].split(":")[1];
-
-        if (subGalleryId !== sg._id) {
-          continue;
-        }
-
-        if (identifiers.length === 2) {
-          // sub gallery
-          fieldToUpdate = identifiers[1];
-          subGalleryChanges.changes[fieldToUpdate] = val;
-        } else if (identifiers.length === 3) {
-          // img
-          imgId = identifiers[1].split(":")[1];
-          fieldToUpdate = identifiers[2];
-          for (let i = 0; i < subGallerysImgChanges.length; i++) {
-            if (subGallerysImgChanges[i]._id === imgId) {
-              subGallerysImgChanges[i][fieldToUpdate] = val;
-              continue;
-            }
-          }
-        }
-      }
-      subGalleriesChanges.push(subGalleryChanges);
-    });
-
-    this.facade.subGalleriesUpdateRequested(subGalleriesChanges);
+    this.facade.subGalleriesUpdateToAPIRequested();
   }
 
   onAddGallery(form: NgForm) {
