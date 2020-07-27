@@ -32,6 +32,14 @@ export function subGalleryReducer(
       };
     case SubGalleryActions.SUB_GALLERIES_UPDATE_TO_STORE_REQUESTED:
       return adapter.updateMany(action.payload.subGalleries, state);
+    case SubGalleryActions.IMG_UPLOAD_COMPLETED:
+      const subGalleryId = action.payload.imgData.gallery;
+      const imgs = state.entities[subGalleryId].images.slice();
+      imgs.push(action.payload.imgData);
+      return adapter.updateOne(
+        { id: subGalleryId, changes: { images: imgs } },
+        state
+      );
     default:
       return state;
   }

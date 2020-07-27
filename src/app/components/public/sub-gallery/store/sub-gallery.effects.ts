@@ -52,7 +52,7 @@ export class SubGalleryEffects {
     withLatestFrom(
       this.store.select(SubGallerySelectors.selectAllSubGalleries)
     ),
-    switchMap(([aSctionData, subGalleries]) => {
+    switchMap(([actionData, subGalleries]) => {
       return this.img.updateSubGalleries(subGalleries).pipe(
         map((updatedSubGalleries: SubGallery[]) => {
           this.snackBarService.openSnackBar(
@@ -69,6 +69,26 @@ export class SubGalleryEffects {
           return of(new SubGalleryActions.SubGalleriesUpdateToAPICancelled());
         })
       );
+    })
+  );
+
+  @Effect()
+  ImgUploadRequested = this.actions$.pipe(
+    ofType(SubGalleryActions.IMG_UPLOAD_REQUESTED),
+    switchMap((actionData: SubGalleryActions.ImgUploadRequested) => {
+      return this.img
+        .uploadImage(
+          actionData.payload.uploadObject,
+          actionData.payload.subGalleryId
+        )
+        .pipe(
+          map((imgData) => {
+            return new SubGalleryActions.ImgUploadCompleted({ imgData });
+          }),
+          catchError((errorRes) => {
+            return of(new SubGalleryActions.ImgUploadCancelled());
+          })
+        );
     })
   );
 

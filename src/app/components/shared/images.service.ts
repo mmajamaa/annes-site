@@ -48,12 +48,11 @@ export class ImagesService {
   uploadImage(uploadObject, galleryId) {
     const id = galleryId == null ? "" : galleryId;
 
-    this.http
-      .post("/api/images/" + id, JSON.stringify(uploadObject), {
-        observe: "body",
-        params: new HttpParams().append("token", localStorage.getItem("token")),
-      })
-      .subscribe(
+    return this.http.post("/api/images/" + id, JSON.stringify(uploadObject), {
+      observe: "body",
+      params: new HttpParams().append("token", localStorage.getItem("token")), // TODO: get from store
+    });
+    /*.subscribe(
         (newImage: Image) => {
           for (let i = 0; i < this.subGalleries.length; i++) {
             if (this.subGalleries[i]._id == galleryId) {
@@ -75,7 +74,7 @@ export class ImagesService {
           );
           this.uploadSuccesful.next("cancelled");
         }
-      );
+      );*/
   }
 
   public getSubGalleries(): SubGallery[] {

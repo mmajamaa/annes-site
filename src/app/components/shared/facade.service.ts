@@ -61,4 +61,13 @@ export class FacadeService {
       new SubGalleryActions.SubGalleriesUpdateToAPIRequested()
     );
   }
+
+  imgUploadRequested(uploadObject, subGalleryId) {
+    this.store.dispatch(
+      new SubGalleryActions.ImgUploadRequested({
+        uploadObject,
+        subGalleryId,
+      })
+    );
+  }
 }

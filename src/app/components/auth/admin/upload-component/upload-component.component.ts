@@ -4,12 +4,13 @@ import { NgForm } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { ImageDialogComponent } from "../image-dialog/image-dialog.component";
 import { NgxImageCompressService } from "ngx-image-compress";
-import { Subscription } from 'rxjs';
+import { Subscription } from "rxjs";
+import { FacadeService } from "../../../shared/facade.service";
 
 @Component({
   selector: "app-upload-component",
   templateUrl: "./upload-component.component.html",
-  styleUrls: ["./upload-component.component.css"]
+  styleUrls: ["./upload-component.component.css"],
 })
 export class UploadComponentComponent implements OnInit, OnDestroy {
   public file: File = null;
@@ -17,26 +18,27 @@ export class UploadComponentComponent implements OnInit, OnDestroy {
   public disabled = true;
   public loading = false;
   private uploadStatus: Subscription;
-  @ViewChild('uploadForm') uploadForm;
+  @ViewChild("uploadForm") uploadForm;
   @Input() galleryId: string;
 
   constructor(
     private img: ImagesService,
     public dialogRef: MatDialogRef<ImageDialogComponent>,
     private imageCompress: NgxImageCompressService,
-  ) { }
+    private facade: FacadeService
+  ) {}
 
   ngOnInit(): void {
     this.uploadStatus = this.img.uploadSuccesful.subscribe((status: string) => {
-      if (status === 'completed') {
+      if (status === "completed") {
         this.uploadForm.reset();
         this.file = null;
         this.imgUrl = null;
         this.dialogRef.close();
-      } else if (status === 'cancelled') {
+      } else if (status === "cancelled") {
         this.loading = false;
       }
-    })
+    });
   }
 
   uploadFile(form: NgForm) {
@@ -49,10 +51,10 @@ export class UploadComponentComponent implements OnInit, OnDestroy {
     const uploadObject = {
       alt_fi: form.value.alt_fi,
       alt_en: form.value.alt_en,
-      image: this.imgUrl
+      image: this.imgUrl,
     };
 
-    this.img.uploadImage(uploadObject, this.galleryId);
+    this.facade.imgUploadRequested(uploadObject, this.galleryId);
   }
 
   public cancelUpload() {
@@ -70,7 +72,7 @@ export class UploadComponentComponent implements OnInit, OnDestroy {
 
       this.imageCompress
         .compressFile(image, orientation, 100, quality)
-        .then(result => {
+        .then((result) => {
           this.imgUrl = result;
           this.disabled = false;
 

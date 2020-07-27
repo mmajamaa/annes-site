@@ -4,9 +4,7 @@ const deleteImage = require("../services/images").deleteImage;
 
 module.exports = {
   index: async (req, res, next) => {
-    let images = await Image.find()
-      .sort({ so: 0 })
-      .populate("gallery");
+    let images = await Image.find().sort({ so: 0 }).populate("gallery");
 
     try {
       return res.status(200).json(images);
@@ -23,12 +21,12 @@ module.exports = {
         url: res.locals.url,
         alt_fi: res.locals.alt_fi,
         alt_en: res.locals.alt_fi,
-        so: 1
+        so: 1,
       });
       // get gallery based on url parameter
       const gallery = await Gallery.findById(req.params.galleryId);
       // set new image's gallery
-      newImage.gallery = gallery;
+      newImage.gallery = gallery._id;
       await newImage.save();
       // push new image to gallery
       gallery.images.push(newImage._id);
@@ -51,7 +49,7 @@ module.exports = {
         url: res.locals.url,
         alt_fi: res.locals.alt_fi,
         alt_en: res.locals.alt_en,
-        so: img ? img.so + 1 : 0
+        so: img ? img.so + 1 : 0,
       });
 
       await newImage.save();
@@ -83,7 +81,7 @@ module.exports = {
         {
           so: images[i].so,
           alt_fi: images[i].alt_fi,
-          alt_en: images[i].alt_en
+          alt_en: images[i].alt_en,
         },
         (err, doc) => {
           if (err) {
@@ -96,5 +94,5 @@ module.exports = {
     }
 
     return res.status(200).json({ message: "success" });
-  }
+  },
 };

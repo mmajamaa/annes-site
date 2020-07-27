@@ -22,7 +22,11 @@ export const SUB_GALLERIES_UPDATE_TO_API_REQUESTED =
 export const SUB_GALLERIES_UPDATE_TO_API_COMPLETED =
   "[Sub Gallery Effects] Sub galleries updated to API.";
 export const SUB_GALLERIES_UPDATE_TO_API_CANCELLED =
-  "[Sub Gallery Effects] Sub gallerius update to API cancelled.";
+  "[Sub Gallery Effects] Sub galleries update to API cancelled.";
+// image actions (move to it's own file?)
+export const IMG_UPLOAD_REQUESTED = "[] Image upload requested.";
+export const IMG_UPLOAD_COMPLETED = "[] Image upload completed.";
+export const IMG_UPLOAD_CANCELLED = "[] Image upload cancelled.";
 
 export class SubGalleriesRequested implements Action {
   public readonly type = SUB_GALLERIES_REQUESTED;
@@ -75,6 +79,21 @@ export class SubGalleriesUpdateToAPICancelled implements Action {
   public readonly type = SUB_GALLERIES_UPDATE_TO_API_CANCELLED;
 }
 
+export class ImgUploadRequested implements Action {
+  public readonly type = IMG_UPLOAD_REQUESTED;
+  public constructor(
+    public payload: { uploadObject: any; subGalleryId: string }
+  ) {}
+}
+
+export class ImgUploadCompleted implements Action {
+  public readonly type = IMG_UPLOAD_COMPLETED;
+  public constructor(public payload: { imgData: any }) {}
+}
+export class ImgUploadCancelled implements Action {
+  public readonly type = IMG_UPLOAD_CANCELLED;
+}
+
 export type SubGalleryActions =
   | SubGalleriesRequested
   | SubGalleriesLoaded
@@ -87,4 +106,7 @@ export type SubGalleryActions =
   | SubGalleriesUpdateToStoreCompleted
   | SubGalleriesUpdateToAPIRequested
   | SubGalleriesUpdateToAPICompleted
-  | SubGalleriesUpdateToAPICancelled;
+  | SubGalleriesUpdateToAPICancelled
+  | ImgUploadRequested
+  | ImgUploadCompleted
+  | ImgUploadCancelled;
