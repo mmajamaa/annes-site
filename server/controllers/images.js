@@ -20,7 +20,7 @@ module.exports = {
         Key: res.locals.key,
         url: res.locals.url,
         alt_fi: res.locals.alt_fi,
-        alt_en: res.locals.alt_fi,
+        alt_en: res.locals.alt_en,
         so: 1,
       });
       // get gallery based on url parameter
