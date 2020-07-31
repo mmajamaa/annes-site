@@ -1,60 +1,43 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpErrorResponse, HttpParams } from "@angular/common/http";
-import { catchError, tap } from 'rxjs/operators';
-import { throwError, BehaviorSubject } from 'rxjs';
+import { Router } from "@angular/router";
+import { HttpClient, HttpParams } from "@angular/common/http";
 
-import { AuthenticationResponseData } from './login/authentication-response-data';
-import { User } from './user';
-import { Router } from '@angular/router';
+import { BehaviorSubject } from "rxjs";
+import { tap } from "rxjs/operators";
+
+import { AuthenticationResponseData } from "./login/authentication-response-data";
+import { User } from "./user";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class AuthenticationService {
   public loggedInStatus = false;
   public loggedIn = new BehaviorSubject<boolean>(false);
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router) {}
 
   login(username, password) {
-    return this.http.post<AuthenticationResponseData>("/api/auth/login",
-      {
-        username,
-        password
-      }
-    )
-      .pipe(
-        catchError(this.handleError),
-        tap(data => {
-          this.handleAuthentication(data);
-        })
-      );
+    return this.http.post<AuthenticationResponseData>("/api/auth/login", {
+      username,
+      password,
+    });
   }
 
-  logout() {
-    localStorage.removeItem("token");
-    this.router.navigate(['/auth/login'], { queryParams: { resolve: false } });
-    this.loggedIn.next(false);
-  }
-
-  handleError(errorRes: HttpErrorResponse) {
-    return throwError(errorRes.error.message);
-  }
-
-  handleAuthentication(data) {
-    const token = data.token;
-    localStorage.setItem('token', token.toString());
-    this.loggedIn.next(true);
-  }
-
+  // TODO: move logic to effects
   authStatus() {
-    const UserData = { token: localStorage.getItem('token') };
-    const loadedUser = new User(UserData.token);
-    this.loggedIn.next(true);
+    const userData: User = JSON.parse(localStorage.getItem("user"));
 
-    return this.http.get<AuthenticationResponseData>('api/auth/status', {
-      observe: 'body',
+    let loadedUser = new User(null, null);
+
+    if (userData) {
+      loadedUser = new User(userData.username, userData.token);
+      this.loggedIn.next(true);
+    }
+
+    return this.http.get<AuthenticationResponseData>("api/auth/status", {
+      observe: "body",
       params: new HttpParams().append("token", loadedUser.token),
-    })
+    });
   }
 }

@@ -1,16 +1,21 @@
 import { Component, Output, EventEmitter } from "@angular/core";
-import { AuthenticationService } from '../../authentication.service';
+
+import { FacadeService } from "../../../shared/facade.service";
+import { AuthenticationService } from "../../authentication.service";
 
 @Component({
   selector: "app-user-bar",
   templateUrl: "./user-bar.component.html",
-  styleUrls: ["./user-bar.component.css"]
+  styleUrls: ["./user-bar.component.css"],
 })
 export class UserBarComponent {
   @Output() onSaveChanges = new EventEmitter();
-  constructor(private authenticationService: AuthenticationService) { }
+  constructor(
+    private authenticationService: AuthenticationService,
+    private facade: FacadeService
+  ) {}
 
   logout() {
-    this.authenticationService.logout();
+    this.facade.logoutRequested();
   }
 }

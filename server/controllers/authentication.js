@@ -29,7 +29,7 @@ module.exports = {
             }
           );
           console.log("succesful login");
-          return res.status(200).json({ token });
+          return res.status(200).json({ username, token });
         } else {
           console.log("invalid pw");
           return res.status(501).json({ message: "Invalid password." });

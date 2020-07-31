@@ -1,38 +1,29 @@
 import { Component, OnInit } from "@angular/core";
 import { NgForm } from "@angular/forms";
-import { Observable } from 'rxjs';
-import { AuthenticationService } from "../authentication.service";
-import { AuthenticationResponseData } from './authentication-response-data';
-import { Router } from "@angular/router";
+
+import { Observable } from "rxjs";
+
+import { FacadeService } from "../../shared/facade.service";
+import { AuthenticationResponseData } from "./authentication-response-data";
 
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.css"]
+  styleUrls: ["./login.component.css"],
 })
 export class LoginComponent implements OnInit {
   private authObs: Observable<AuthenticationResponseData>;
 
-  constructor(
-    private authenticationService: AuthenticationService,
-    private router: Router
-  ) { }
+  constructor(private facade: FacadeService) {
+    this.facade.autoLogin();
+  }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   loginUser(form) {
     const username = form.value.username;
     const password = form.value.password;
 
-    this.authObs = this.authenticationService.login(username, password)
-
-    this.authObs.subscribe(
-      data => {
-        this.router.navigate(["/auth/admin"]);
-      },
-      error => {
-        window.alert(error);
-      }
-    );
+    this.facade.loginStart(username, password);
   }
 }

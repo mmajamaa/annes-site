@@ -1,3 +1,4 @@
 export interface AuthenticationResponseData {
-    token: string;
-  }
+  username: string;
+  token: string;
+}

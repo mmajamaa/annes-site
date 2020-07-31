@@ -1,10 +1,10 @@
-<div *ngIf="subGallery" fxLayout="row wrap" fxLayoutAlign="center center" fxFill>
-    <div *ngFor="let image of subGallery.images " fxFlex="100" class="img-container" fxLayout="column"
+<div *ngIf="subGallery$ | async" fxLayout="row wrap" fxLayoutAlign="center center" fxFill>
+    <div *ngFor="let image of (subGallery$ | async).images " fxFlex="100" class="img-container" fxLayout="column"
         fxLayoutAlign="center center">
         <img src="{{ image.url }}" class="img" alt="{{ language == 'fi' ? image.alt_fi : image.alt_en }}" fxFlex />
         <span fxFlex>{{ language == "fi" ? image.alt_fi : image.alt_en }}</span>
     </div>
-    <div *ngIf="subGallery.images.length === 0">
+    <div *ngIf="(subGallery$ | async).images.length === 0">
         {{ I18n.gallery_empty }}
     </div>
 </div>
