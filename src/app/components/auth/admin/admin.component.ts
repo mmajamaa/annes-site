@@ -304,13 +304,12 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
   }
 
   onDeleteSubGallery(subGallery: SubGallery) {
-    // TODO: move to store
     if (
       confirm(
         `Haluatko varmasti poistaa gallerian '${subGallery.fi}' ja kaikki sen sisältämät kuvat?`
       )
     ) {
-      this.img.deleteGallery(subGallery._id);
+      this.facade.subGalleryDeleteRequested(subGallery._id);
     }
   }
 

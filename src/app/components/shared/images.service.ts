@@ -97,32 +97,13 @@ export class ImagesService {
   }
 
   deleteGallery(id) {
-    this.http
-      .delete("/api/gallery/" + id, {
-        observe: "body",
-        params: new HttpParams().append(
-          "token",
-          JSON.parse(localStorage.getItem("user")).token
-        ),
-      })
-      .subscribe(
-        (deletedSubGallery: SubGallery) => {
-          this.subGalleries = this.subGalleries.filter(
-            (sg) => sg._id != deletedSubGallery._id
-          );
-          this.subGalleriesChange.next(this.subGalleries.slice());
-          this.snackBarService.openSnackBar(
-            "Galleria poistettiin onnistuneesti.",
-            "ok-snackbar"
-          );
-        },
-        (error) => {
-          this.snackBarService.openSnackBar(
-            "Virhe gallerien poistamisessa. Yritä uudelleen.",
-            "warn-snackbar"
-          );
-        }
-      );
+    return this.http.delete("/api/gallery/" + id, {
+      observe: "body",
+      params: new HttpParams().append(
+        "token",
+        JSON.parse(localStorage.getItem("user")).token
+      ),
+    });
   }
 
   saveOrder(images: Image[]) {

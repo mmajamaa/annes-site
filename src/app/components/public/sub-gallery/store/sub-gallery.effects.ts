@@ -129,13 +129,13 @@ export class SubGalleryEffects {
 
   @Effect()
   CreateSubGalleryRequested = this.actions$.pipe(
-    ofType(SubGalleryActions.CREATE_SUB_GALLERY_REQUESTED),
+    ofType(SubGalleryActions.SUB_GALLERY_CREATE_REQUESTED),
     withLatestFrom(
       this.store.select(SubGallerySelectors.selectAllSubGalleries)
     ),
     switchMap(
       ([actionData, subGalleries]: [
-        SubGalleryActions.CreateSubGalleryRequested,
+        SubGalleryActions.SubGalleryCreateRequested,
         any[]
       ]) => {
         for (let i = 0; i < subGalleries.length; i++) {
@@ -159,7 +159,7 @@ export class SubGalleryEffects {
                 "Galleria luotiin onnistuneesti.",
                 "ok-snackbar"
               );
-              return new SubGalleryActions.CreateSubGalleryCompleted({
+              return new SubGalleryActions.SubGalleryCreateCompleted({
                 subGallery: subGalleryData,
               });
             }),
@@ -168,11 +168,36 @@ export class SubGalleryEffects {
                 "Virhe gallerien luomisessa.",
                 "warn-snackbar"
               );
-              return of(new SubGalleryActions.CreateSubGalleryCancelled());
+              return of(new SubGalleryActions.SubGalleryCreateCancelled());
             })
           );
       }
     )
+  );
+
+  @Effect()
+  SubGalleryDeleteRequested = this.actions$.pipe(
+    ofType(SubGalleryActions.SUB_GALLERY_DELETE_REQUESTED),
+    switchMap((actionData: SubGalleryActions.SubGalleryDeleteRequested) => {
+      return this.img.deleteGallery(actionData.payload.subGalleryId).pipe(
+        map((deletedSubGallery: SubGallery) => {
+          this.snackBarService.openSnackBar(
+            "Galleria poistettiin onnistuneesti.",
+            "ok-snackbar"
+          );
+          return new SubGalleryActions.SubGalleryDeleteCompleted({
+            subGalleryId: deletedSubGallery._id,
+          });
+        }),
+        catchError((erroRes) => {
+          this.snackBarService.openSnackBar(
+            "Virhe gallerien poistamisessa. Yritä uudelleen.",
+            "warn-snackbar"
+          );
+          return of(new SubGalleryActions.SubGalleryDeleteCancelled());
+        })
+      );
+    })
   );
 
   constructor(
