@@ -78,4 +78,10 @@ export class FacadeService {
   deleteImgRequested(imgId) {
     this.store.dispatch(new SubGalleryActions.ImgDeleteRequested({ imgId }));
   }
+
+  createSubGalleryRequested(fi: string, en: string) {
+    this.store.dispatch(
+      new SubGalleryActions.CreateSubGalleryRequested({ fi, en })
+    );
+  }
 }

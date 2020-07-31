@@ -290,15 +290,16 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
     this.facade.subGalleriesUpdateToAPIRequested();
   }
 
-  onAddGallery(form: NgForm) {
-    // TODO: rename to onAddSubGallery
-    // TODO: move to store
+  onAddSubGallery(form: NgForm) {
     if (
       confirm(
         `Haluatko varmasti luoda gallerian nimeltä '${form.value.galleryFi}'?`
       )
     ) {
-      this.img.createGallery(form.value.galleryFi, form.value.galleryEn);
+      this.facade.createSubGalleryRequested(
+        form.value.galleryFi,
+        form.value.galleryEn
+      );
     }
   }
 

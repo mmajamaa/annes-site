@@ -80,47 +80,20 @@ export class ImagesService {
   }
 
   createGallery(fi, en) {
-    for (let i = 0; i < this.subGalleries.length; i++) {
-      if (this.subGalleries[i].fi == fi || this.subGalleries[i].en == en) {
-        this.snackBarService.openSnackBar(
-          "Virhe gallerien luomisessa. Saman niminen galleria on jo olemassa.",
-          "warn-snackbar"
-        );
-        return;
+    return this.http.post(
+      "/api/gallerys",
+      {
+        en,
+        fi,
+      },
+      {
+        observe: "body",
+        params: new HttpParams().append(
+          "token",
+          JSON.parse(localStorage.getItem("user")).token
+        ),
       }
-    }
-    this.http
-      .post(
-        "/api/gallerys",
-        {
-          en,
-          fi,
-        },
-        {
-          observe: "body",
-          params: new HttpParams().append(
-            "token",
-            JSON.parse(localStorage.getItem("user")).token
-          ),
-        }
-      )
-      .subscribe(
-        (newSubGallery: SubGallery) => {
-          this.subGalleries.push(newSubGallery);
-          this.subGalleriesChange.next(this.subGalleries.slice());
-          this.subGalleryCreationSuccessful.next(true);
-          this.snackBarService.openSnackBar(
-            "Galleria luotiin onnistuneesti.",
-            "ok-snackbar"
-          );
-        },
-        (error) => {
-          this.snackBarService.openSnackBar(
-            "Virhe gallerien luomisessa.",
-            "warn-snackbar"
-          );
-        }
-      );
+    );
   }
 
   deleteGallery(id) {

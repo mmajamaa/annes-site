@@ -127,6 +127,54 @@ export class SubGalleryEffects {
     })
   );
 
+  @Effect()
+  CreateSubGalleryRequested = this.actions$.pipe(
+    ofType(SubGalleryActions.CREATE_SUB_GALLERY_REQUESTED),
+    withLatestFrom(
+      this.store.select(SubGallerySelectors.selectAllSubGalleries)
+    ),
+    switchMap(
+      ([actionData, subGalleries]: [
+        SubGalleryActions.CreateSubGalleryRequested,
+        any[]
+      ]) => {
+        for (let i = 0; i < subGalleries.length; i++) {
+          if (
+            subGalleries[i].fi == actionData.payload.fi ||
+            subGalleries[i].en == actionData.payload.en
+          ) {
+            this.snackBarService.openSnackBar(
+              "Virhe gallerien luomisessa. Saman niminen galleria on jo olemassa.",
+              "warn-snackbar"
+            );
+            return of(new SubGalleryActions.ImgDeleteCancelled());
+          }
+        }
+
+        return this.img
+          .createGallery(actionData.payload.fi, actionData.payload.en)
+          .pipe(
+            map((subGalleryData: any) => {
+              this.snackBarService.openSnackBar(
+                "Galleria luotiin onnistuneesti.",
+                "ok-snackbar"
+              );
+              return new SubGalleryActions.CreateSubGalleryCompleted({
+                subGallery: subGalleryData,
+              });
+            }),
+            catchError((errorRes) => {
+              this.snackBarService.openSnackBar(
+                "Virhe gallerien luomisessa.",
+                "warn-snackbar"
+              );
+              return of(new SubGalleryActions.CreateSubGalleryCancelled());
+            })
+          );
+      }
+    )
+  );
+
   constructor(
     private img: ImagesService,
     private actions$: Actions,

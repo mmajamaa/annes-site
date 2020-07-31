@@ -58,6 +58,8 @@ export function subGalleryReducer(
         { id: sgId, changes: { images: filteredImgs } },
         state
       );
+    case SubGalleryActions.CREATE_SUB_GALLERY_COMPLETED:
+      return adapter.addOne(action.payload.subGallery, state);
     default:
       return state;
   }
