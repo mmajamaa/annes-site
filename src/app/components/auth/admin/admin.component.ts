@@ -325,11 +325,13 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
     this.imageModal.openImage(event);
   }
 
-  onFocusOut() {
-    // TODO: this is too heavy, instead update only the sub gallery that changed
+  onFocusOut(subGalleryId) {
     let subGalleriesChanges = [];
-    // iterate through sub galleries and reconstruct them
     this.subGalleries.forEach((sg) => {
+      if (sg._id !== subGalleryId) {
+        return;
+      }
+
       let subGallerysImgChanges = [];
       sg.images.forEach((img) => {
         subGallerysImgChanges.push({
@@ -354,13 +356,13 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
         let val = this.subGalleryForm.form.controls[key].value;
         // to identify sub gallery/image and where is the value associated (alt_fin/alt_en)
         let identifiers = key.split(" ");
-        let subGalleryId = "";
+        let subGalleryIdForm = "";
         let imgId = "";
         let fieldToUpdate = "";
 
-        subGalleryId = identifiers[0].split(":")[1];
+        subGalleryIdForm = identifiers[0].split(":")[1];
 
-        if (subGalleryId !== sg._id) {
+        if (subGalleryIdForm !== subGalleryId) {
           continue;
         }
 
