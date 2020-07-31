@@ -15,13 +15,16 @@ module.exports = {
 
   newImage: async (req, res, next) => {
     try {
+      const image = await Image.findOne({ gallery: req.params.galleryId }).sort(
+        "-so"
+      );
       // create new image
       const newImage = new Image({
         Key: res.locals.key,
         url: res.locals.url,
         alt_fi: res.locals.alt_fi,
         alt_en: res.locals.alt_en,
-        so: 1,
+        so: image ? image.so + 1 : 0,
       });
       // get gallery based on url parameter
       const gallery = await Gallery.findById(req.params.galleryId);
