@@ -74,4 +74,8 @@ export class FacadeService {
   getIsUploadingImg() {
     return this.store.select(SubGallerySelectors.isUploadingImg);
   }
+
+  deleteImgRequested(imgId) {
+    this.store.dispatch(new SubGalleryActions.ImgDeleteRequested({ imgId }));
+  }
 }

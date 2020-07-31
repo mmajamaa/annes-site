@@ -79,12 +79,11 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
   }
 
   deleteImage(id: string) {
-    // TODO: move to store
     if (confirm("Haluatko varmasti poistaa kuvan?") == false) {
       return;
     }
 
-    this.img.deleteImage(id);
+    this.facade.deleteImgRequested(id);
   }
 
   drop(event: CdkDragDrop<string[]>, subGallery: SubGallery) {
@@ -292,6 +291,7 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
   }
 
   onAddGallery(form: NgForm) {
+    // TODO: rename to onAddSubGallery
     // TODO: move to store
     if (
       confirm(

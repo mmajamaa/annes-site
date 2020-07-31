@@ -28,7 +28,7 @@ export class ImagesService {
   }
 
   onInit() {
-    // get galleries
+    // get sub galleries
     this.getSubGalleriesFromApi().subscribe(
       (subGalleries: SubGallery[]) => {
         this.subGalleries = subGalleries;
@@ -55,29 +55,6 @@ export class ImagesService {
         JSON.parse(localStorage.getItem("user")).token
       ), // TODO: get from store
     });
-    /*.subscribe(
-        (newImage: Image) => {
-          for (let i = 0; i < this.subGalleries.length; i++) {
-            if (this.subGalleries[i]._id == galleryId) {
-              this.subGalleries[i].images.push(newImage);
-              break;
-            }
-          }
-          this.subGalleriesChange.next(this.subGalleries.slice());
-          this.snackBarService.openSnackBar(
-            "Kuva ladattiin onnistuneesti.",
-            "ok-snackbar"
-          );
-          this.uploadSuccesful.next("completed");
-        },
-        (error) => {
-          this.snackBarService.openSnackBar(
-            "Virhe kuvan lataamisessa. Yritä uudestaan.",
-            "warn-snackbar"
-          );
-          this.uploadSuccesful.next("cancelled");
-        }
-      );*/
   }
 
   public getSubGalleries(): SubGallery[] {
@@ -89,39 +66,13 @@ export class ImagesService {
   }
 
   deleteImage(id: string) {
-    this.http
-      .delete("/api/image/" + id, {
-        observe: "body",
-        params: new HttpParams().append(
-          "token",
-          JSON.parse(localStorage.getItem("user")).token
-        ),
-      })
-      .subscribe(
-        (deletedImage: Image) => {
-          for (let i = 0; i < this.subGalleries.length; i++) {
-            for (let j = 0; j < this.subGalleries[i].images.length; j++) {
-              if (this.subGalleries[i].images[j]._id === id) {
-                this.subGalleries[i].images = this.subGalleries[
-                  i
-                ].images.filter((image: Image) => image._id !== id);
-                break;
-              }
-            }
-          }
-          this.subGalleriesChange.next(this.subGalleries.slice());
-          this.snackBarService.openSnackBar(
-            "Kuva poistettiin onnistuneesti.",
-            "ok-snackbar"
-          );
-        },
-        (error) => {
-          this.snackBarService.openSnackBar(
-            "Virhe kuvan poistamisessa. Yritä uudelleen.",
-            "warn-snackbar"
-          );
-        }
-      );
+    return this.http.delete("/api/image/" + id, {
+      observe: "body",
+      params: new HttpParams().append(
+        "token",
+        JSON.parse(localStorage.getItem("user")).token
+      ),
+    });
   }
 
   getSubGalleriesFromApi(): Observable<SubGallery[]> {

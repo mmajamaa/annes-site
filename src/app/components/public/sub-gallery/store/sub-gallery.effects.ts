@@ -82,15 +82,49 @@ export class SubGalleryEffects {
           actionData.payload.subGalleryId
         )
         .pipe(
-          map(
-            (imgData) => new SubGalleryActions.ImgUploadCompleted({ imgData })
-          ),
+          map((imgData) => {
+            this.snackBarService.openSnackBar(
+              "Kuva ladattiin onnistuneesti.",
+              "ok-snackbar"
+            );
+            return new SubGalleryActions.ImgUploadCompleted({ imgData });
+          }),
           catchError((errorRes) => {
+            this.snackBarService.openSnackBar(
+              "Virhe kuvan lataamisessa. Yritä uudestaan.",
+              "warn-snackbar"
+            );
             return of(new SubGalleryActions.ImgUploadCancelled());
           })
         );
     }),
     switchMap((action) => [action, new SubGalleryActions.ResetUploadingImg()])
+  );
+
+  @Effect()
+  ImgDeleteRequested = this.actions$.pipe(
+    ofType(SubGalleryActions.IMG_DELETE_REQUESTED),
+    switchMap((actionData: SubGalleryActions.ImgDeleteRequested) => {
+      return this.img.deleteImage(actionData.payload.imgId).pipe(
+        map((imgData: any) => {
+          this.snackBarService.openSnackBar(
+            "Kuva poistettiin onnistuneesti.",
+            "ok-snackbar"
+          );
+          return new SubGalleryActions.ImgDeleteCompleted({
+            imgId: imgData._id,
+            subGalleryId: imgData.gallery,
+          });
+        }),
+        catchError((errorRes) => {
+          this.snackBarService.openSnackBar(
+            "Virhe kuvan poistamisessa. Yritä uudelleen.",
+            "warn-snackbar"
+          );
+          return of(new SubGalleryActions.ImgDeleteCancelled());
+        })
+      );
+    })
   );
 
   constructor(

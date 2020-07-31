@@ -28,6 +28,9 @@ export const IMG_UPLOAD_REQUESTED = "[] Image upload requested.";
 export const IMG_UPLOAD_COMPLETED = "[] Image upload completed.";
 export const IMG_UPLOAD_CANCELLED = "[] Image upload cancelled.";
 export const RESET_UPLOADING_IMG = "[] Reset uploading image.";
+export const IMG_DELETE_REQUESTED = "[] Image delete requested.";
+export const IMG_DELETE_COMPLETED = "[] Image delete completed.";
+export const IMG_DELETE_CANCELLED = "[] Image delete cancelled.";
 
 export class SubGalleriesRequested implements Action {
   public readonly type = SUB_GALLERIES_REQUESTED;
@@ -100,6 +103,20 @@ export class ResetUploadingImg implements Action {
   public readonly type = RESET_UPLOADING_IMG;
 }
 
+export class ImgDeleteRequested implements Action {
+  public readonly type = IMG_DELETE_REQUESTED;
+  public constructor(public payload: { imgId: string }) {}
+}
+
+export class ImgDeleteCompleted implements Action {
+  public readonly type = IMG_DELETE_COMPLETED;
+  public constructor(public payload: { imgId: string; subGalleryId: string }) {}
+}
+
+export class ImgDeleteCancelled implements Action {
+  public readonly type = IMG_DELETE_CANCELLED;
+}
+
 export type SubGalleryActions =
   | SubGalleriesRequested
   | SubGalleriesLoaded
@@ -116,4 +133,7 @@ export type SubGalleryActions =
   | ImgUploadRequested
   | ImgUploadCompleted
   | ImgUploadCancelled
-  | ResetUploadingImg;
+  | ResetUploadingImg
+  | ImgDeleteRequested
+  | ImgDeleteCompleted
+  | ImgDeleteCancelled;

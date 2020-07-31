@@ -38,6 +38,7 @@ export function subGalleryReducer(
       const subGalleryId = action.payload.imgData.gallery;
       const imgs = state.entities[subGalleryId].images.slice();
       imgs.push(action.payload.imgData);
+      console.log(imgs);
       return adapter.updateOne(
         { id: subGalleryId, changes: { images: imgs } },
         { ...state, uploadingImgStatus: "completed" }
@@ -46,6 +47,17 @@ export function subGalleryReducer(
       return { ...state, uploadingImgStatus: "cancelled" };
     case SubGalleryActions.RESET_UPLOADING_IMG:
       return { ...state, uploadingImgStatus: null };
+    case SubGalleryActions.IMG_DELETE_COMPLETED:
+      const sgId = action.payload.subGalleryId;
+      const imgId = action.payload.imgId;
+      const filteredImgs = state.entities[sgId].images.filter(
+        (img) => img._id !== imgId
+      );
+      console.log(filteredImgs);
+      return adapter.updateOne(
+        { id: sgId, changes: { images: filteredImgs } },
+        state
+      );
     default:
       return state;
   }
