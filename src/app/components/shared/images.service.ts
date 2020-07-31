@@ -92,7 +92,10 @@ export class ImagesService {
     this.http
       .delete("/api/image/" + id, {
         observe: "body",
-        params: new HttpParams().append("token", localStorage.getItem("token")),
+        params: new HttpParams().append(
+          "token",
+          JSON.parse(localStorage.getItem("user")).token
+        ),
       })
       .subscribe(
         (deletedImage: Image) => {

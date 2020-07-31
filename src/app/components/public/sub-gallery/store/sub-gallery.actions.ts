@@ -27,6 +27,7 @@ export const SUB_GALLERIES_UPDATE_TO_API_CANCELLED =
 export const IMG_UPLOAD_REQUESTED = "[] Image upload requested.";
 export const IMG_UPLOAD_COMPLETED = "[] Image upload completed.";
 export const IMG_UPLOAD_CANCELLED = "[] Image upload cancelled.";
+export const RESET_UPLOADING_IMG = "[] Reset uploading image.";
 
 export class SubGalleriesRequested implements Action {
   public readonly type = SUB_GALLERIES_REQUESTED;
@@ -90,8 +91,13 @@ export class ImgUploadCompleted implements Action {
   public readonly type = IMG_UPLOAD_COMPLETED;
   public constructor(public payload: { imgData: any }) {}
 }
+
 export class ImgUploadCancelled implements Action {
   public readonly type = IMG_UPLOAD_CANCELLED;
+}
+
+export class ResetUploadingImg implements Action {
+  public readonly type = RESET_UPLOADING_IMG;
 }
 
 export type SubGalleryActions =
@@ -109,4 +115,5 @@ export type SubGalleryActions =
   | SubGalleriesUpdateToAPICancelled
   | ImgUploadRequested
   | ImgUploadCompleted
-  | ImgUploadCancelled;
+  | ImgUploadCancelled
+  | ResetUploadingImg;

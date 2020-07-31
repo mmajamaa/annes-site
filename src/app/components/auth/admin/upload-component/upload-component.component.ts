@@ -1,23 +1,23 @@
-import { Component, OnInit, OnDestroy, ViewChild, Input } from "@angular/core";
+import { Component, OnInit, ViewChild, Input } from "@angular/core";
 import { ImagesService } from "src/app/components/shared/images.service";
 import { NgForm } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { ImageDialogComponent } from "../image-dialog/image-dialog.component";
 import { NgxImageCompressService } from "ngx-image-compress";
-import { Subscription } from "rxjs";
 import { FacadeService } from "../../../shared/facade.service";
+import { takeUntil } from "rxjs/operators";
+import { BaseComponent } from "src/app/components/core/base/base.component";
 
 @Component({
   selector: "app-upload-component",
   templateUrl: "./upload-component.component.html",
   styleUrls: ["./upload-component.component.css"],
 })
-export class UploadComponentComponent implements OnInit, OnDestroy {
+export class UploadComponentComponent extends BaseComponent implements OnInit {
   public file: File = null;
   public imgUrl: string;
   public disabled = true;
   public loading = false;
-  private uploadStatus: Subscription;
   @ViewChild("uploadForm") uploadForm;
   @Input() galleryId: string;
 
@@ -26,19 +26,24 @@ export class UploadComponentComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<ImageDialogComponent>,
     private imageCompress: NgxImageCompressService,
     private facade: FacadeService
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
-    this.uploadStatus = this.img.uploadSuccesful.subscribe((status: string) => {
-      if (status === "completed") {
-        this.uploadForm.reset();
-        this.file = null;
-        this.imgUrl = null;
-        this.dialogRef.close();
-      } else if (status === "cancelled") {
-        this.loading = false;
-      }
-    });
+    this.facade
+      .getIsUploadingImg()
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe((status: string) => {
+        if (status === "completed") {
+          this.uploadForm.reset();
+          this.file = null;
+          this.imgUrl = null;
+          this.dialogRef.close();
+        } else if (status === "cancelled") {
+          this.loading = false;
+        }
+      });
   }
 
   uploadFile(form: NgForm) {
@@ -79,9 +84,5 @@ export class UploadComponentComponent implements OnInit, OnDestroy {
           this.loading = false;
         });
     });
-  }
-
-  ngOnDestroy() {
-    this.uploadStatus.unsubscribe();
   }
 }

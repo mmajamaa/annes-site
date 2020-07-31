@@ -82,14 +82,15 @@ export class SubGalleryEffects {
           actionData.payload.subGalleryId
         )
         .pipe(
-          map((imgData) => {
-            return new SubGalleryActions.ImgUploadCompleted({ imgData });
-          }),
+          map(
+            (imgData) => new SubGalleryActions.ImgUploadCompleted({ imgData })
+          ),
           catchError((errorRes) => {
             return of(new SubGalleryActions.ImgUploadCancelled());
           })
         );
-    })
+    }),
+    switchMap((action) => [action, new SubGalleryActions.ResetUploadingImg()])
   );
 
   constructor(

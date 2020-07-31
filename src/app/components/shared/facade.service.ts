@@ -70,4 +70,8 @@ export class FacadeService {
       })
     );
   }
+
+  getIsUploadingImg() {
+    return this.store.select(SubGallerySelectors.isUploadingImg);
+  }
 }

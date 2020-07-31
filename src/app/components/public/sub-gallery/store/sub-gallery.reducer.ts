@@ -5,6 +5,7 @@ import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 export interface State extends EntityState<SubGallery> {
   selectedSubGalleryId: string | null;
   subGalleries: SubGallery[];
+  uploadingImgStatus: string;
 }
 
 const adapter: EntityAdapter<SubGallery> = createEntityAdapter<SubGallery>({
@@ -14,6 +15,7 @@ const adapter: EntityAdapter<SubGallery> = createEntityAdapter<SubGallery>({
 export const initialState: State = adapter.getInitialState({
   selectedSubGalleryId: null,
   subGalleries: [],
+  uploadingImgStatus: null,
 });
 
 export function subGalleryReducer(
@@ -38,8 +40,12 @@ export function subGalleryReducer(
       imgs.push(action.payload.imgData);
       return adapter.updateOne(
         { id: subGalleryId, changes: { images: imgs } },
-        state
+        { ...state, uploadingImgStatus: "completed" }
       );
+    case SubGalleryActions.IMG_UPLOAD_CANCELLED:
+      return { ...state, uploadingImgStatus: "cancelled" };
+    case SubGalleryActions.RESET_UPLOADING_IMG:
+      return { ...state, uploadingImgStatus: null };
     default:
       return state;
   }
@@ -47,6 +53,8 @@ export function subGalleryReducer(
 
 export const getSelectedSubGalleryId = (state: State) =>
   state.selectedSubGalleryId;
+
+export const getUploadingImgStatus = (state: State) => state.uploadingImgStatus;
 
 export const { selectAll } = adapter.getSelectors();
 
