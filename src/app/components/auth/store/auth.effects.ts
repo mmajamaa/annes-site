@@ -50,7 +50,6 @@ export class AuthEffects {
     ofType(AuthActions.LOGOUT_REQUESTED),
     tap((logoutRequested: AuthActions.LogoutRequested) => {
       localStorage.removeItem("user");
-      console.log("jaajaa");
       this.router.navigate(["/auth/login"]);
     })
   );
