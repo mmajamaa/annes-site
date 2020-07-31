@@ -6,16 +6,23 @@ export interface State extends EntityState<SubGallery> {
   selectedSubGalleryId: string | null;
   subGalleries: SubGallery[];
   uploadingImgStatus: string;
+  subGalleryCreated: boolean;
+}
+
+export function compareBySo(a, b) {
+  return a.so - b.so;
 }
 
 const adapter: EntityAdapter<SubGallery> = createEntityAdapter<SubGallery>({
   selectId: (subGallery) => subGallery._id,
+  sortComparer: compareBySo,
 });
 
 export const initialState: State = adapter.getInitialState({
   selectedSubGalleryId: null,
   subGalleries: [],
   uploadingImgStatus: null,
+  subGalleryCreated: null,
 });
 
 export function subGalleryReducer(
@@ -38,7 +45,6 @@ export function subGalleryReducer(
       const subGalleryId = action.payload.imgData.gallery;
       const imgs = state.entities[subGalleryId].images.slice();
       imgs.push(action.payload.imgData);
-      console.log(imgs);
       return adapter.updateOne(
         { id: subGalleryId, changes: { images: imgs } },
         { ...state, uploadingImgStatus: "completed" }
@@ -53,13 +59,17 @@ export function subGalleryReducer(
       const filteredImgs = state.entities[sgId].images.filter(
         (img) => img._id !== imgId
       );
-      console.log(filteredImgs);
       return adapter.updateOne(
         { id: sgId, changes: { images: filteredImgs } },
         state
       );
+    case SubGalleryActions.SUB_GALLERY_CREATE_REQUESTED:
+      return { ...state, subGalleryCreated: false };
     case SubGalleryActions.SUB_GALLERY_CREATE_COMPLETED:
-      return adapter.addOne(action.payload.subGallery, state);
+      return adapter.addOne(action.payload.subGallery, {
+        ...state,
+        subGalleryCreated: true,
+      });
     case SubGalleryActions.SUB_GALLERY_DELETE_COMPLETED:
       return adapter.removeOne(action.payload.subGalleryId, state);
     default:
@@ -72,6 +82,22 @@ export const getSelectedSubGalleryId = (state: State) =>
 
 export const getUploadingImgStatus = (state: State) => state.uploadingImgStatus;
 
-export const { selectAll } = adapter.getSelectors();
+export const getSubGalleryCreated = (state: State) => state.subGalleryCreated;
+
+//export const { selectAll } = adapter.getSelectors();
+
+export const selectAll = (state: State) => {
+  const subGalleries = [];
+
+  for (let sg in state.entities) {
+    let imgsSorted = state.entities[sg].images
+      .slice()
+      .sort((a, b) => a.so - b.so);
+    let subGallery = { ...state.entities[sg], images: imgsSorted };
+    subGalleries.push(subGallery);
+  }
+  const subGalleriesSorted = subGalleries.sort((a, b) => a.so - b.so);
+  return subGalleriesSorted;
+};
 
 export const selectAllSubGalleries = selectAll;

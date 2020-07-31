@@ -27,3 +27,8 @@ export const isUploadingImg = createSelector(
   selectSubGalleryState,
   fromSubGallery.getUploadingImgStatus
 );
+
+export const isSubGalleryCreated = createSelector(
+  selectSubGalleryState,
+  fromSubGallery.getSubGalleryCreated
+);

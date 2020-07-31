@@ -111,7 +111,7 @@ export class ResetUploadingImg implements Action {
 
 export class ImgDeleteRequested implements Action {
   public readonly type = IMG_DELETE_REQUESTED;
-  public constructor(public payload: { imgId: string }) {}
+  public constructor(public payload: { imgId: string; subGalleryId: string }) {}
 }
 
 export class ImgDeleteCompleted implements Action {

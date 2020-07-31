@@ -113,7 +113,7 @@ export class SubGalleryEffects {
           );
           return new SubGalleryActions.ImgDeleteCompleted({
             imgId: imgData._id,
-            subGalleryId: imgData.gallery,
+            subGalleryId: actionData.payload.subGalleryId,
           });
         }),
         catchError((errorRes) => {

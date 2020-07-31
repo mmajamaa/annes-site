@@ -75,8 +75,10 @@ export class FacadeService {
     return this.store.select(SubGallerySelectors.isUploadingImg);
   }
 
-  deleteImgRequested(imgId) {
-    this.store.dispatch(new SubGalleryActions.ImgDeleteRequested({ imgId }));
+  deleteImgRequested(imgId, subGalleryId) {
+    this.store.dispatch(
+      new SubGalleryActions.ImgDeleteRequested({ imgId, subGalleryId })
+    );
   }
 
   createSubGalleryRequested(fi: string, en: string) {
@@ -89,5 +91,9 @@ export class FacadeService {
     this.store.dispatch(
       new SubGalleryActions.SubGalleryDeleteRequested({ subGalleryId })
     );
+  }
+
+  getIsSubGalleryCreated() {
+    return this.store.select(SubGallerySelectors.isSubGalleryCreated);
   }
 }

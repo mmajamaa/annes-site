@@ -1,10 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
-import {
-  CdkDragDrop,
-  moveItemInArray,
-  transferArrayItem,
-} from "@angular/cdk/drag-drop";
+import { CdkDragDrop } from "@angular/cdk/drag-drop";
 
 import { ImagesService } from "../../shared/images.service";
 import { Image } from "../../shared/image";
@@ -45,24 +41,15 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
     this.subGalleries$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((subGalleries) => {
-        // TODO:
-        // this.subGalleries = subGalleries;
-        // this.updateDropList();
+        this.subGalleries = subGalleries;
+        this.updateDropList();
         console.log(subGalleries);
       });
 
     this.facade.autoLogin();
 
-    this.img.getSubGalleries();
-    this.updateDropList();
-    this.img.subGalleriesChange
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((subGalleries: SubGallery[]) => {
-        this.subGalleries = subGalleries;
-        this.updateDropList();
-      });
-
-    this.img.subGalleryCreationSuccessful
+    this.facade
+      .getIsSubGalleryCreated()
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((res: boolean) => {
         if (res) {
@@ -78,12 +65,12 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
     }
   }
 
-  deleteImage(id: string) {
+  deleteImage(imgId: string, subGalleryId: string) {
     if (confirm("Haluatko varmasti poistaa kuvan?") == false) {
       return;
     }
 
-    this.facade.deleteImgRequested(id);
+    this.facade.deleteImgRequested(imgId, subGalleryId);
   }
 
   drop(event: CdkDragDrop<string[]>, subGallery: SubGallery) {
@@ -139,17 +126,6 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
         id: this.subGalleries[toGalleyIdx]._id,
         changes: { images: imageChanges },
       });
-
-      // between the same sub gallery, TODO: old implementation, rm
-      for (let i = 0; i < this.subGalleries[toGalleyIdx].images.length; i++) {
-        this.subGalleries[toGalleyIdx].images[i].so = i;
-      }
-
-      moveItemInArray(
-        this.subGalleries[toGalleyIdx].images,
-        event.previousIndex,
-        event.currentIndex
-      );
     } else {
       for (let i = 0; i < this.subGalleries.length; i++) {
         if (this.subGalleries[i]._id === event.previousContainer.id) {
@@ -173,6 +149,7 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
       // clone new img
       clonedToGallerysImgs.push({
         ...this.subGalleries[fromGalleryIdx].images[event.previousIndex],
+        gallery: this.subGalleries[toGalleyIdx]._id,
         so: event.currentIndex,
       });
 
@@ -209,29 +186,6 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
 
       subGalleriesChanges.push(clonedToGallery);
       subGalleriesChanges.push(clonedFromGallery);
-
-      // TODO: old implementation, rm all the code below from this block
-      transferArrayItem(
-        this.subGalleries[fromGalleryIdx].images,
-        this.subGalleries[toGalleyIdx].images,
-        event.previousIndex,
-        event.currentIndex
-      );
-
-      // update togallery's sos
-      for (let i = 0; i < this.subGalleries[toGalleyIdx].images.length; i++) {
-        this.subGalleries[toGalleyIdx].images[i].so = i;
-        this.subGalleries[toGalleyIdx].images[i].gallery = subGallery._id;
-      }
-
-      // update fromgallery's sos
-      for (
-        let i = 0;
-        i < this.subGalleries[fromGalleryIdx].images.length;
-        i++
-      ) {
-        this.subGalleries[fromGalleryIdx].images[i].so = i;
-      }
     }
 
     this.facade.subGalleriesUpdateToStoreRequested(subGalleriesChanges);
@@ -274,13 +228,6 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
           changes: { so: i },
         });
       }
-    }
-
-    // TODO: old implementation, rm all the code below from this block
-    moveItemInArray(this.subGalleries, event.previousIndex, event.currentIndex);
-
-    for (let i = 0; i < this.subGalleries.length; i++) {
-      this.subGalleries[i].so = i;
     }
 
     this.facade.subGalleriesUpdateToStoreRequested(clonedSubGalleries);
