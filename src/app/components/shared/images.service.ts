@@ -50,7 +50,10 @@ export class ImagesService {
 
     return this.http.post("/api/images/" + id, JSON.stringify(uploadObject), {
       observe: "body",
-      params: new HttpParams().append("token", localStorage.getItem("token")), // TODO: get from store
+      params: new HttpParams().append(
+        "token",
+        JSON.parse(localStorage.getItem("user")).token
+      ), // TODO: get from store
     });
     /*.subscribe(
         (newImage: Image) => {
@@ -143,7 +146,7 @@ export class ImagesService {
           observe: "body",
           params: new HttpParams().append(
             "token",
-            localStorage.getItem("token")
+            JSON.parse(localStorage.getItem("user")).token
           ),
         }
       )
@@ -170,7 +173,10 @@ export class ImagesService {
     this.http
       .delete("/api/gallery/" + id, {
         observe: "body",
-        params: new HttpParams().append("token", localStorage.getItem("token")),
+        params: new HttpParams().append(
+          "token",
+          JSON.parse(localStorage.getItem("user")).token
+        ),
       })
       .subscribe(
         (deletedSubGallery: SubGallery) => {
@@ -227,7 +233,10 @@ export class ImagesService {
       { subGalleries },
       {
         observe: "body",
-        params: new HttpParams().append("token", localStorage.getItem("token")),
+        params: new HttpParams().append(
+          "token",
+          JSON.parse(localStorage.getItem("user")).token
+        ),
       }
     );
   }
