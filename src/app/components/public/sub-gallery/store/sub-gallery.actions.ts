@@ -32,6 +32,7 @@ export const SUB_GALLERY_DELETE_CANCELLED = "[] Sub gallery delete cancelled.";
 
 export class SubGalleriesRequested implements Action {
   public readonly type = SUB_GALLERIES_REQUESTED;
+  constructor(public payload: { url: string }) {}
 }
 
 export class SubGalleriesLoaded implements Action {

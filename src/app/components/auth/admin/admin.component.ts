@@ -33,6 +33,8 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.facade.subGalleriesRequested("/api/gallerys");
+
     this.subGalleries$
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe((subGalleries) => {

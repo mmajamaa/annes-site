@@ -32,8 +32,10 @@ export class FacadeService {
     return this.store.select(AuthSelectors.isLoggedIn);
   }
 
-  subGalleriesRequested() {
-    return this.store.dispatch(new SubGalleryActions.SubGalleriesRequested());
+  subGalleriesRequested(url: string) {
+    return this.store.dispatch(
+      new SubGalleryActions.SubGalleriesRequested({ url })
+    );
   }
 
   selectSubGalleries() {

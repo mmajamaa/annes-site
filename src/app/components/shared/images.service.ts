@@ -23,27 +23,7 @@ export class ImagesService {
   constructor(
     private http: HttpClient,
     private snackBarService: SnackBarService
-  ) {
-    this.onInit();
-  }
-
-  onInit() {
-    // get sub galleries
-    this.getSubGalleriesFromApi().subscribe(
-      (subGalleries: SubGallery[]) => {
-        this.subGalleries = subGalleries;
-        this.subGalleriesChange.next(this.subGalleries.slice());
-      },
-      (error) => {
-        if (this.subGalleries.length === 0) {
-          this.snackBarService.openSnackBar(
-            "Virhe alagallerioiden lataamisessa. Päivitä sivu",
-            "warn-snackbar"
-          );
-        }
-      }
-    );
-  }
+  ) {}
 
   uploadImage(uploadObject, galleryId) {
     const id = galleryId == null ? "" : galleryId;
@@ -75,8 +55,8 @@ export class ImagesService {
     });
   }
 
-  getSubGalleriesFromApi(): Observable<SubGallery[]> {
-    return this.http.get<SubGallery[]>("/api/gallerys");
+  getSubGalleriesFromApi(url: string): Observable<SubGallery[]> {
+    return this.http.get<SubGallery[]>(url);
   }
 
   createGallery(fi, en) {

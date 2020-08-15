@@ -4,8 +4,6 @@ import { ActivatedRoute, Router } from "@angular/router";
 
 import { takeUntil } from "rxjs/operators";
 
-import { Subscription } from "rxjs";
-import { SubGallery } from "src/app/components/shared/sub-gallery";
 import { FacadeService } from "../../shared/facade.service";
 import { BaseComponent } from "../../core/base/base.component";
 
@@ -30,6 +28,10 @@ export class GalleryComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.facade.subGalleriesRequested(
+      "https://annes-gallery.s3.eu-north-1.amazonaws.com/sub_gallery_data.json"
+    );
+
     this.translationsService.I18n.pipe(takeUntil(this.ngUnsubscribe)).subscribe(
       (res) => {
         this.I18n = res;

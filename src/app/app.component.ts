@@ -14,8 +14,7 @@ export class AppComponent {
 
   constructor(
     private translationsService: TranslationsService,
-    private generalHttpService: GeneralHttpService,
-    private facade: FacadeService
+    private generalHttpService: GeneralHttpService
   ) {}
 
   ngOnInit() {
@@ -23,6 +22,5 @@ export class AppComponent {
       this.I18n = r;
     });
     this.generalHttpService.pageLoad().subscribe();
-    this.facade.subGalleriesRequested();
   }
 }

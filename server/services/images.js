@@ -9,7 +9,7 @@ if (process.env.NODE_ENV !== "production") {
 aws.config.update({
   secretAccessKey: process.env.AWS_SECRET_ACCESS || config.AWS_SECRET_ACCESS,
   accessKeyId: process.env.AWS_ACCESS_KEY || config.AWS_ACCESS_KEY,
-  region: "us-east-2"
+  region: "us-east-2",
 });
 
 const s3 = new aws.S3();
@@ -29,13 +29,13 @@ const upload = multer({
     s3,
     bucket: "annes-gallery",
     acl: "public-read",
-    metadata: function(req, file, cb) {
+    metadata: function (req, file, cb) {
       cb(null, { fieldName: "TESTING" });
     },
-    key: function(req, file, cb) {
+    key: function (req, file, cb) {
       cb(null, Date.now().toString());
-    }
-  })
+    },
+  }),
 });
 
 const singleUpload = (req, res, next) => {
@@ -55,9 +55,9 @@ const singleUpload = (req, res, next) => {
     Body: buf,
     ContentEncoding: "base64",
     ContentType: "image/jpeg",
-    ACL: "public-read"
+    ACL: "public-read",
   };
-  s3.putObject(data, function(err, data) {
+  s3.putObject(data, function (err, data) {
     if (err) {
       console.log(err);
       console.log("Error uploading data: ", data);
@@ -72,11 +72,11 @@ const singleUpload = (req, res, next) => {
   });
 };
 
-const deleteImage = file => {
+const deleteImage = (file) => {
   s3.deleteObject(
     {
       Bucket: "annes-gallery",
-      Key: file
+      Key: file,
     },
     (error, data) => {
       if (error) console.log(error, error.stack);
@@ -84,15 +84,15 @@ const deleteImage = file => {
   );
 };
 
-const deleteImages = files => {
+const deleteImages = (files) => {
   s3.deleteObjects(
     {
       Bucket: "annes-gallery",
       Delete: {
-        Objects: files
-      }
+        Objects: files,
+      },
     },
-    function(error, data) {
+    function (error, data) {
       if (error) console.log(error, error.stack);
       else console.log("delete", data);
     }

@@ -19,7 +19,7 @@ export class SubGalleryEffects {
   subGalleriesRequested = this.actions$.pipe(
     ofType(SubGalleryActions.SUB_GALLERIES_REQUESTED),
     switchMap((actionData: SubGalleryActions.SubGalleriesRequested) => {
-      return this.img.getSubGalleriesFromApi().pipe(
+      return this.img.getSubGalleriesFromApi(actionData.payload.url).pipe(
         switchMap((resData: SubGallery[]) => {
           let images = [];
           resData.map((sg) => (images = [...images, ...sg.images]));
