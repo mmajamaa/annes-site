@@ -7,6 +7,8 @@ import * as AuthActions from "../auth/store/auth.actions";
 import * as AuthSelectors from "../auth/store/auth.selectors";
 import * as SubGalleryActions from "../public/sub-gallery/store/sub-gallery.actions";
 import * as SubGallerySelectors from "../public/sub-gallery/store/sub-gallery.selectors";
+import * as ImageActions from "../shared/images/images.actions";
+import * as ImageSelectors from "../shared/images/images.selectors";
 
 @Injectable({ providedIn: "root" })
 export class FacadeService {
@@ -64,7 +66,7 @@ export class FacadeService {
 
   imgUploadRequested(uploadObject, subGalleryId) {
     this.store.dispatch(
-      new SubGalleryActions.ImgUploadRequested({
+      new ImageActions.ImgUploadRequested({
         uploadObject,
         subGalleryId,
       })
@@ -72,12 +74,12 @@ export class FacadeService {
   }
 
   getIsUploadingImg() {
-    return this.store.select(SubGallerySelectors.isUploadingImg);
+    return this.store.select(ImageSelectors.isUploadingImg);
   }
 
   deleteImgRequested(imgId, subGalleryId) {
     this.store.dispatch(
-      new SubGalleryActions.ImgDeleteRequested({ imgId, subGalleryId })
+      new ImageActions.ImgDeleteRequested({ imgId, subGalleryId })
     );
   }
 
@@ -95,5 +97,11 @@ export class FacadeService {
 
   getIsSubGalleryCreated() {
     return this.store.select(SubGallerySelectors.isSubGalleryCreated);
+  }
+
+  imagesUpdateToStoreRequested(images) {
+    return this.store.dispatch(
+      new ImageActions.ImgsUpdateToStoreRequested({ images })
+    );
   }
 }

@@ -1,14 +1,41 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 import * as fromSubGallery from "./sub-gallery.reducer";
+import * as imageSelectors from "../../../shared/images/images.selectors";
 
 export const selectSubGalleryState = createFeatureSelector<
   fromSubGallery.State
 >("subGalleries");
 
-export const selectAllSubGalleries = createSelector(
+export const selectAll = createSelector(
   selectSubGalleryState,
-  fromSubGallery.selectAllSubGalleries
+  fromSubGallery.selectAll
+);
+
+export const selectAllSubGalleries = createSelector(
+  selectAll,
+  imageSelectors.selectAll,
+  (subGalleries, imgEntities) => {
+    let sgs = [];
+    for (let sgId in subGalleries) {
+      let sgsImgs = [];
+      for (let imgId in imgEntities) {
+        if (subGalleries[sgId].images.indexOf(imgId) > -1) {
+          sgsImgs.push(imgEntities[imgId]);
+        }
+      }
+      let subGalleryObj = {
+        ...subGalleries[sgId],
+        images: sgsImgs.sort((a, b) => a.so - b.so),
+      };
+
+      sgs.push(subGalleryObj);
+    }
+
+    sgs.sort((a, b) => a.so - b.so);
+
+    return sgs;
+  }
 );
 
 export const selectCurrentSubGalleryId = createSelector(
@@ -21,11 +48,6 @@ export const selectCurrentSubGallery = createSelector(
   selectCurrentSubGalleryId,
   (subGalleryEntities, subGalleryId) =>
     subGalleryEntities.entities[subGalleryId]
-);
-
-export const isUploadingImg = createSelector(
-  selectSubGalleryState,
-  fromSubGallery.getUploadingImgStatus
 );
 
 export const isSubGalleryCreated = createSelector(

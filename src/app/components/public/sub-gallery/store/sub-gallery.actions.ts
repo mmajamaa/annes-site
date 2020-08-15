@@ -29,14 +29,6 @@ export const SUB_GALLERY_CREATE_CANCELLED = "[] Create sub gallery cancelled.";
 export const SUB_GALLERY_DELETE_REQUESTED = "[] Sub gallery delete requested.";
 export const SUB_GALLERY_DELETE_COMPLETED = "[] Sub gallery delete completed.";
 export const SUB_GALLERY_DELETE_CANCELLED = "[] Sub gallery delete cancelled.";
-// image actions (move to it's own file?)
-export const IMG_UPLOAD_REQUESTED = "[] Image upload requested.";
-export const IMG_UPLOAD_COMPLETED = "[] Image upload completed.";
-export const IMG_UPLOAD_CANCELLED = "[] Image upload cancelled.";
-export const RESET_UPLOADING_IMG = "[] Reset uploading image.";
-export const IMG_DELETE_REQUESTED = "[] Image delete requested.";
-export const IMG_DELETE_COMPLETED = "[] Image delete completed.";
-export const IMG_DELETE_CANCELLED = "[] Image delete cancelled.";
 
 export class SubGalleriesRequested implements Action {
   public readonly type = SUB_GALLERIES_REQUESTED;
@@ -89,40 +81,6 @@ export class SubGalleriesUpdateToAPICancelled implements Action {
   public readonly type = SUB_GALLERIES_UPDATE_TO_API_CANCELLED;
 }
 
-export class ImgUploadRequested implements Action {
-  public readonly type = IMG_UPLOAD_REQUESTED;
-  public constructor(
-    public payload: { uploadObject: any; subGalleryId: string }
-  ) {}
-}
-
-export class ImgUploadCompleted implements Action {
-  public readonly type = IMG_UPLOAD_COMPLETED;
-  public constructor(public payload: { imgData: any }) {}
-}
-
-export class ImgUploadCancelled implements Action {
-  public readonly type = IMG_UPLOAD_CANCELLED;
-}
-
-export class ResetUploadingImg implements Action {
-  public readonly type = RESET_UPLOADING_IMG;
-}
-
-export class ImgDeleteRequested implements Action {
-  public readonly type = IMG_DELETE_REQUESTED;
-  public constructor(public payload: { imgId: string; subGalleryId: string }) {}
-}
-
-export class ImgDeleteCompleted implements Action {
-  public readonly type = IMG_DELETE_COMPLETED;
-  public constructor(public payload: { imgId: string; subGalleryId: string }) {}
-}
-
-export class ImgDeleteCancelled implements Action {
-  public readonly type = IMG_DELETE_CANCELLED;
-}
-
 export class SubGalleryCreateRequested implements Action {
   public readonly type = SUB_GALLERY_CREATE_REQUESTED;
   public constructor(public payload: { fi: string; en: string }) {}
@@ -164,13 +122,6 @@ export type SubGalleryActions =
   | SubGalleriesUpdateToAPIRequested
   | SubGalleriesUpdateToAPICompleted
   | SubGalleriesUpdateToAPICancelled
-  | ImgUploadRequested
-  | ImgUploadCompleted
-  | ImgUploadCancelled
-  | ResetUploadingImg
-  | ImgDeleteRequested
-  | ImgDeleteCompleted
-  | ImgDeleteCancelled
   | SubGalleryCreateRequested
   | SubGalleryCreateCompleted
   | SubGalleryCreateCancelled

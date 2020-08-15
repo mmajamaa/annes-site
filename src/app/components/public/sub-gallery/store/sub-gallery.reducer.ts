@@ -1,11 +1,11 @@
 import * as SubGalleryActions from "./sub-gallery.actions";
+import * as ImageActions from "../../../shared/images/images.actions";
 import { SubGallery } from "src/app/components/shared/sub-gallery";
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 
 export interface State extends EntityState<SubGallery> {
   selectedSubGalleryId: string | null;
   subGalleries: SubGallery[];
-  uploadingImgStatus: string;
   subGalleryCreated: boolean;
 }
 
@@ -21,17 +21,19 @@ const adapter: EntityAdapter<SubGallery> = createEntityAdapter<SubGallery>({
 export const initialState: State = adapter.getInitialState({
   selectedSubGalleryId: null,
   subGalleries: [],
-  uploadingImgStatus: null,
   subGalleryCreated: null,
 });
 
 export function subGalleryReducer(
   state = initialState,
-  action: SubGalleryActions.SubGalleryActions
+  action: SubGalleryActions.SubGalleryActions | ImageActions.ImageActions
 ) {
   switch (action.type) {
     case SubGalleryActions.SUB_GALLERIES_LOADED:
-      return adapter.addAll(action.payload.subGalleries, {
+      let subGalleries = action.payload.subGalleries.map((sg) => {
+        return { ...sg, images: sg.images.map((img) => img._id) };
+      });
+      return adapter.addAll(subGalleries, {
         ...state,
       });
     case SubGalleryActions.SUB_GALLERY_SELECTED:
@@ -41,19 +43,15 @@ export function subGalleryReducer(
       };
     case SubGalleryActions.SUB_GALLERIES_UPDATE_TO_STORE_REQUESTED:
       return adapter.updateMany(action.payload.subGalleries, state);
-    case SubGalleryActions.IMG_UPLOAD_COMPLETED:
+    case ImageActions.IMG_UPLOAD_COMPLETED:
       const subGalleryId = action.payload.imgData.gallery;
       const imgs = state.entities[subGalleryId].images.slice();
-      imgs.push(action.payload.imgData);
+      imgs.push(action.payload.imgData._id);
       return adapter.updateOne(
         { id: subGalleryId, changes: { images: imgs } },
-        { ...state, uploadingImgStatus: "completed" }
+        state
       );
-    case SubGalleryActions.IMG_UPLOAD_CANCELLED:
-      return { ...state, uploadingImgStatus: "cancelled" };
-    case SubGalleryActions.RESET_UPLOADING_IMG:
-      return { ...state, uploadingImgStatus: null };
-    case SubGalleryActions.IMG_DELETE_COMPLETED:
+    case ImageActions.IMG_DELETE_COMPLETED:
       const sgId = action.payload.subGalleryId;
       const imgId = action.payload.imgId;
       const filteredImgs = state.entities[sgId].images.filter(
@@ -80,24 +78,6 @@ export function subGalleryReducer(
 export const getSelectedSubGalleryId = (state: State) =>
   state.selectedSubGalleryId;
 
-export const getUploadingImgStatus = (state: State) => state.uploadingImgStatus;
-
 export const getSubGalleryCreated = (state: State) => state.subGalleryCreated;
 
-//export const { selectAll } = adapter.getSelectors();
-
-export const selectAll = (state: State) => {
-  const subGalleries = [];
-
-  for (let sg in state.entities) {
-    let imgsSorted = state.entities[sg].images
-      .slice()
-      .sort((a, b) => a.so - b.so);
-    let subGallery = { ...state.entities[sg], images: imgsSorted };
-    subGalleries.push(subGallery);
-  }
-  const subGalleriesSorted = subGalleries.sort((a, b) => a.so - b.so);
-  return subGalleriesSorted;
-};
-
-export const selectAllSubGalleries = selectAll;
+export const { selectAll } = adapter.getSelectors();

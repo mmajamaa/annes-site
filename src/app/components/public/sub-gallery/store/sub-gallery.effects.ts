@@ -11,6 +11,7 @@ import { ImagesService } from "src/app/components/shared/images.service";
 import { SubGallery } from "../../../shared/sub-gallery";
 import * as AuthSelectors from "../../../auth/store/auth.selectors";
 import { SnackBarService } from "src/app/components/shared/snack-bar.service";
+import * as ImageActions from "../../../shared/images/images.actions";
 
 @Injectable({ providedIn: "root" })
 export class SubGalleryEffects {
@@ -19,14 +20,20 @@ export class SubGalleryEffects {
     ofType(SubGalleryActions.SUB_GALLERIES_REQUESTED),
     switchMap((actionData: SubGalleryActions.SubGalleriesRequested) => {
       return this.img.getSubGalleriesFromApi().pipe(
-        switchMap((resData: SubGallery[]) => [
-          new SubGalleryActions.SubGalleriesLoaded({
-            subGalleries: resData,
-          }),
-          new SubGalleryActions.SubGallerySelected({
-            selectedSubGalleryId: resData[0]._id,
-          }),
-        ]),
+        switchMap((resData: SubGallery[]) => {
+          let images = [];
+          resData.map((sg) => (images = [...images, ...sg.images]));
+
+          return [
+            new ImageActions.ImgsLoaded({ images }),
+            new SubGalleryActions.SubGalleriesLoaded({
+              subGalleries: resData,
+            }),
+            new SubGalleryActions.SubGallerySelected({
+              selectedSubGalleryId: resData[0]._id,
+            }),
+          ];
+        }),
         catchError((errorRes) => {
           return of(new SubGalleryActions.SubGalleriesCancelled());
         })
@@ -73,61 +80,6 @@ export class SubGalleryEffects {
   );
 
   @Effect()
-  ImgUploadRequested = this.actions$.pipe(
-    ofType(SubGalleryActions.IMG_UPLOAD_REQUESTED),
-    switchMap((actionData: SubGalleryActions.ImgUploadRequested) => {
-      return this.img
-        .uploadImage(
-          actionData.payload.uploadObject,
-          actionData.payload.subGalleryId
-        )
-        .pipe(
-          map((imgData) => {
-            this.snackBarService.openSnackBar(
-              "Kuva ladattiin onnistuneesti.",
-              "ok-snackbar"
-            );
-            return new SubGalleryActions.ImgUploadCompleted({ imgData });
-          }),
-          catchError((errorRes) => {
-            this.snackBarService.openSnackBar(
-              "Virhe kuvan lataamisessa. Yritä uudestaan.",
-              "warn-snackbar"
-            );
-            return of(new SubGalleryActions.ImgUploadCancelled());
-          })
-        );
-    }),
-    switchMap((action) => [action, new SubGalleryActions.ResetUploadingImg()])
-  );
-
-  @Effect()
-  ImgDeleteRequested = this.actions$.pipe(
-    ofType(SubGalleryActions.IMG_DELETE_REQUESTED),
-    switchMap((actionData: SubGalleryActions.ImgDeleteRequested) => {
-      return this.img.deleteImage(actionData.payload.imgId).pipe(
-        map((imgData: any) => {
-          this.snackBarService.openSnackBar(
-            "Kuva poistettiin onnistuneesti.",
-            "ok-snackbar"
-          );
-          return new SubGalleryActions.ImgDeleteCompleted({
-            imgId: imgData._id,
-            subGalleryId: actionData.payload.subGalleryId,
-          });
-        }),
-        catchError((errorRes) => {
-          this.snackBarService.openSnackBar(
-            "Virhe kuvan poistamisessa. Yritä uudelleen.",
-            "warn-snackbar"
-          );
-          return of(new SubGalleryActions.ImgDeleteCancelled());
-        })
-      );
-    })
-  );
-
-  @Effect()
   CreateSubGalleryRequested = this.actions$.pipe(
     ofType(SubGalleryActions.SUB_GALLERY_CREATE_REQUESTED),
     withLatestFrom(
@@ -147,7 +99,7 @@ export class SubGalleryEffects {
               "Virhe gallerien luomisessa. Saman niminen galleria on jo olemassa.",
               "warn-snackbar"
             );
-            return of(new SubGalleryActions.ImgDeleteCancelled());
+            return of(new SubGalleryActions.SubGalleryCreateCancelled());
           }
         }
 

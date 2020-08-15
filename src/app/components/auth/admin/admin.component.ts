@@ -29,11 +29,7 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
   @ViewChild("subGalleryForm") subGalleryForm;
   @ViewChild(ImageModalComponent) imageModal: ImageModalComponent;
 
-  constructor(
-    private img: ImagesService,
-    private dialog: MatDialog,
-    private facade: FacadeService
-  ) {
+  constructor(private dialog: MatDialog, private facade: FacadeService) {
     super();
   }
 
@@ -73,10 +69,127 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
     this.facade.deleteImgRequested(imgId, subGalleryId);
   }
 
+  imgMovedBetweenSubGalleries(
+    fromSubGalleryId,
+    toGalleryIdx,
+    imgsCurrentIdx,
+    imgsPreviousIdx
+  ) {
+    let imageChanges = [];
+    let subGalleriesChanges = [];
+
+    var fromGalleryIdx: number = this.subGalleries.findIndex(
+      (sg) => sg._id === fromSubGalleryId
+    );
+
+    // imgs that already existed in the sub gallery where img was moved
+    imageChanges = [
+      ...imageChanges,
+      ...this.subGalleries[toGalleryIdx].images.map((img, i) => {
+        return {
+          id: img._id,
+          changes: {
+            so: i < imgsCurrentIdx ? img.so : img.so + 1,
+          },
+        };
+      }),
+    ];
+    // img that was moved to sub gallery
+    imageChanges.push({
+      id: this.subGalleries[fromGalleryIdx].images[imgsPreviousIdx]._id,
+      changes: {
+        gallery: this.subGalleries[toGalleryIdx]._id,
+        so: imgsCurrentIdx,
+      },
+    });
+
+    let temp = this.subGalleries[toGalleryIdx].images.map((img) => img._id);
+    temp.push(this.subGalleries[fromGalleryIdx].images[imgsPreviousIdx]._id);
+
+    let clonedToGallery = {
+      id: this.subGalleries[toGalleryIdx]._id,
+      changes: {
+        images: temp,
+      },
+    };
+
+    imageChanges = [
+      ...imageChanges,
+      this.subGalleries[fromGalleryIdx].images.map((img, i) => {
+        if (i === imgsPreviousIdx) {
+          return;
+        }
+        return {
+          id: img._id,
+          changes: {
+            so: i < imgsPreviousIdx ? img.so : img.so - 1,
+          },
+        };
+      }),
+    ];
+
+    let clonedFromGallery = {
+      id: this.subGalleries[fromGalleryIdx]._id,
+      changes: {
+        images: this.subGalleries[fromGalleryIdx].images
+          .map((img) => img._id)
+          .filter(
+            (img) =>
+              img !==
+              this.subGalleries[fromGalleryIdx].images[imgsPreviousIdx]._id
+          ),
+      },
+    };
+
+    subGalleriesChanges.push(clonedToGallery);
+    subGalleriesChanges.push(clonedFromGallery);
+
+    return [imageChanges, subGalleriesChanges];
+  }
+
+  imgMovedInsideSubGallery(
+    difference,
+    imgsCurrentIdx,
+    imgsPreviousIdx,
+    subGalleryIdx
+  ) {
+    let imageChanges = [];
+
+    if (difference < 0) {
+      // moved down in list
+      // copy the image and images that follow
+      for (
+        let i = imgsCurrentIdx;
+        i < this.subGalleries[subGalleryIdx].images.length;
+        i++
+      ) {
+        imageChanges.push({
+          id: this.subGalleries[subGalleryIdx].images[
+            i === imgsCurrentIdx ? imgsPreviousIdx : i - 1
+          ]._id,
+          changes: { so: i },
+        });
+      }
+    } else if (difference > 0) {
+      // moved up in list
+      for (let i = imgsCurrentIdx; i >= 0; i--) {
+        imageChanges.push({
+          id: this.subGalleries[subGalleryIdx].images[
+            i === imgsCurrentIdx ? imgsPreviousIdx : i + 1
+          ]._id,
+          changes: { so: i },
+        });
+      }
+    }
+
+    return imageChanges;
+  }
+
   drop(event: CdkDragDrop<string[]>, subGallery: SubGallery) {
-    var toGalleyIdx = this.subGalleries.indexOf(subGallery);
+    var toGalleryIdx = this.subGalleries.indexOf(subGallery);
 
     let subGalleriesChanges = [];
+    let values = [];
 
     // img's location didn't change
     if (
@@ -86,108 +199,29 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
       return;
     }
 
+    let imageChanges = [];
+
     if (event.previousContainer === event.container) {
-      let imageChanges = [];
-
       let difference = event.currentIndex - event.previousIndex;
-
-      if (difference < 0) {
-        // moved down in location
-        // copy the image and images that follow
-        for (
-          let i = event.currentIndex;
-          i < this.subGalleries[toGalleyIdx].images.length;
-          i++
-        ) {
-          let imageChange = {
-            ...this.subGalleries[toGalleyIdx].images[
-              i === event.currentIndex ? event.previousIndex : i - 1
-            ],
-            so: i,
-          };
-          imageChanges.push(imageChange);
-        }
-      } else if (difference > 0) {
-        // moved up in list
-
-        for (let i = event.currentIndex; i >= 0; i--) {
-          let imageChange = {
-            ...this.subGalleries[toGalleyIdx].images[
-              i === event.currentIndex ? event.previousIndex : i + 1
-            ],
-            so: i,
-          };
-          imageChanges.push(imageChange);
-        }
-      }
-
-      // update single sub gallery
-      subGalleriesChanges.push({
-        id: this.subGalleries[toGalleyIdx]._id,
-        changes: { images: imageChanges },
-      });
+      imageChanges = this.imgMovedInsideSubGallery(
+        difference,
+        event.currentIndex,
+        event.previousIndex,
+        toGalleryIdx
+      );
     } else {
-      for (let i = 0; i < this.subGalleries.length; i++) {
-        if (this.subGalleries[i]._id === event.previousContainer.id) {
-          var fromGalleryIdx: number = i;
-          continue;
-        }
-      }
+      values = this.imgMovedBetweenSubGalleries(
+        event.previousContainer.id,
+        toGalleryIdx,
+        event.currentIndex,
+        event.previousIndex
+      );
 
-      // move image between sub galleries
-      let clonedToGallerysImgs = [];
-      // clone imgs that already existed in the sub gallery
-      for (let i = 0; i < this.subGalleries[toGalleyIdx].images.length; i++) {
-        clonedToGallerysImgs.push({
-          ...this.subGalleries[toGalleyIdx].images[i],
-          so:
-            i < event.currentIndex
-              ? this.subGalleries[toGalleyIdx].images[i].so
-              : this.subGalleries[toGalleyIdx].images[i].so + 1,
-        });
-      }
-      // clone new img
-      clonedToGallerysImgs.push({
-        ...this.subGalleries[fromGalleryIdx].images[event.previousIndex],
-        gallery: this.subGalleries[toGalleyIdx]._id,
-        so: event.currentIndex,
-      });
-
-      let clonedToGallery = {
-        id: this.subGalleries[toGalleyIdx]._id,
-        changes: {
-          images: clonedToGallerysImgs,
-        },
-      };
-
-      let clonedFromGallerysImgs = [];
-      for (
-        let i = 0;
-        i < this.subGalleries[fromGalleryIdx].images.length;
-        i++
-      ) {
-        if (i === event.previousIndex) {
-          continue;
-        }
-        clonedFromGallerysImgs.push({
-          ...this.subGalleries[fromGalleryIdx].images[i],
-          so:
-            i < event.previousIndex
-              ? this.subGalleries[fromGalleryIdx].images[i].so
-              : this.subGalleries[fromGalleryIdx].images[i].so - 1,
-        });
-      }
-      let clonedFromGallery = {
-        id: this.subGalleries[fromGalleryIdx]._id,
-        changes: {
-          images: clonedFromGallerysImgs,
-        },
-      };
-
-      subGalleriesChanges.push(clonedToGallery);
-      subGalleriesChanges.push(clonedFromGallery);
+      imageChanges = values[0];
+      subGalleriesChanges = values[1];
     }
 
+    this.facade.imagesUpdateToStoreRequested(imageChanges);
     this.facade.subGalleriesUpdateToStoreRequested(subGalleriesChanges);
   }
 
@@ -272,31 +306,13 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
     this.imageModal.openImage(event);
   }
 
-  onFocusOut(subGalleryId) {
+  onFocusOut(subGalleryId, field, imgId = undefined) {
     let subGalleriesChanges = [];
+    let imgChanges = [];
     this.subGalleries.forEach((sg) => {
       if (sg._id !== subGalleryId) {
         return;
       }
-
-      let subGallerysImgChanges = [];
-      sg.images.forEach((img) => {
-        subGallerysImgChanges.push({
-          so: img.so,
-          Key: img.Key,
-          gallery: img.gallery,
-          url: img.url,
-          _id: img._id,
-        });
-      });
-
-      let subGalleryChanges = {
-        id: sg._id,
-        changes: {
-          so: sg.so,
-          images: subGallerysImgChanges,
-        },
-      };
 
       for (let key in this.subGalleryForm.form.controls) {
         // new value
@@ -316,21 +332,30 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
         if (identifiers.length === 2) {
           // sub gallery
           fieldToUpdate = identifiers[1];
-          subGalleryChanges.changes[fieldToUpdate] = val;
+          if (fieldToUpdate !== field) {
+            continue;
+          }
+          subGalleriesChanges.push({
+            id: sg._id,
+            changes: {
+              [fieldToUpdate]: val,
+            },
+          });
+          this.facade.subGalleriesUpdateToStoreRequested(subGalleriesChanges);
         } else if (identifiers.length === 3) {
           // img
           imgId = identifiers[1].split(":")[1];
           fieldToUpdate = identifiers[2];
-          for (let i = 0; i < subGallerysImgChanges.length; i++) {
-            if (subGallerysImgChanges[i]._id === imgId) {
-              subGallerysImgChanges[i][fieldToUpdate] = val;
-              continue;
-            }
+
+          if (fieldToUpdate !== field) {
+            continue;
           }
+
+          imgChanges.push({ id: imgId, changes: { [fieldToUpdate]: val } });
+
+          this.facade.imagesUpdateToStoreRequested(imgChanges);
         }
       }
-      subGalleriesChanges.push(subGalleryChanges);
     });
-    this.facade.subGalleriesUpdateToStoreRequested(subGalleriesChanges);
   }
 }
