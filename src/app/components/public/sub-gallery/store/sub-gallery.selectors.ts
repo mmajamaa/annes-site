@@ -46,8 +46,26 @@ export const selectCurrentSubGalleryId = createSelector(
 export const selectCurrentSubGallery = createSelector(
   selectSubGalleryState,
   selectCurrentSubGalleryId,
-  (subGalleryEntities, subGalleryId) =>
-    subGalleryEntities.entities[subGalleryId]
+  imageSelectors.selectAll,
+  (subGalleryEntities, subGalleryId, imgEntities) => {
+    if (!subGalleryId) {
+      return;
+    }
+    let sgsImgs = [];
+    for (let imgId in imgEntities) {
+      if (
+        subGalleryEntities.entities[subGalleryId].images.indexOf(imgId) > -1
+      ) {
+        sgsImgs.push(imgEntities[imgId]);
+      }
+    }
+    let subGalleryObj = {
+      ...subGalleryEntities.entities[subGalleryId],
+      images: sgsImgs.sort((a, b) => a.so - b.so),
+    };
+
+    return subGalleryObj;
+  }
 );
 
 export const isSubGalleryCreated = createSelector(
