@@ -47,7 +47,7 @@
                   name="{{ 'subGalleryId:' + subGallery._id + ' fi' }}"
                   type="text"
                   [ngModel]="subGallery.fi"
-                  (focusout)="onFocusOut(subGallery._id, 'fi')"
+                  (focusout)="onFocusOutSubGallery(subGallery._id, 'fi')"
                 />
               </span>
               <!-- English -->
@@ -63,7 +63,7 @@
                   name="{{ 'subGalleryId:' + subGallery._id + ' en' }}"
                   type="text"
                   [ngModel]="subGallery.en"
-                  (focusout)="onFocusOut(subGallery._id, 'en')"
+                  (focusout)="onFocusOutSubGallery(subGallery._id, 'en')"
                 />
               </span>
             </div>
@@ -132,7 +132,7 @@
                         class="card-input"
                         [ngModel]="img.alt_fi"
                         (focusout)="
-                          onFocusOut(subGallery._id, 'alt_fi', img._id)
+                          onFocusOutImg(subGallery._id, 'alt_fi', img._id)
                         "
                       />
                     </span>
@@ -161,7 +161,7 @@
                         class="card-input"
                         [ngModel]="img.alt_en"
                         (focusout)="
-                          onFocusOut(subGallery._id, 'alt_en', img._id)
+                          onFocusOutImg(subGallery._id, 'alt_en', img._id)
                         "
                       />
                     </span>

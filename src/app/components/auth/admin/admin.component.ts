@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { CdkDragDrop } from "@angular/cdk/drag-drop";
 
-import { ImagesService } from "../../shared/images.service";
 import { Image } from "../../shared/image";
 import { SubGallery } from "src/app/components/shared/sub-gallery";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
@@ -306,56 +305,69 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
     this.imageModal.openImage(event);
   }
 
-  onFocusOut(subGalleryId, field, imgId = undefined) {
+  onFocusOutSubGallery(subGalleryId, field) {
     let subGalleriesChanges = [];
+
+    for (let key in this.subGalleryForm.form.controls) {
+      // new value
+      let val = this.subGalleryForm.form.controls[key].value;
+      // to identify sub gallery/image and where is the value associated (alt_fin/alt_en)
+      let identifiers = key.split(" ");
+      let subGalleryIdForm = "";
+      let fieldToUpdate = "";
+
+      subGalleryIdForm = identifiers[0].split(":")[1];
+
+      if (subGalleryIdForm !== subGalleryId) {
+        continue;
+      }
+
+      fieldToUpdate = identifiers[1];
+      if (fieldToUpdate !== field) {
+        continue;
+      }
+      subGalleriesChanges.push({
+        id: subGalleryId,
+        changes: {
+          [fieldToUpdate]: val,
+        },
+      });
+      this.facade.subGalleriesUpdateToStoreRequested(subGalleriesChanges);
+    }
+  }
+
+  onFocusOutImg(subGalleryId, field, imgId) {
     let imgChanges = [];
-    this.subGalleries.forEach((sg) => {
-      if (sg._id !== subGalleryId) {
-        return;
+
+    for (let key in this.subGalleryForm.form.controls) {
+      // new value
+      let val = this.subGalleryForm.form.controls[key].value;
+      // to identify sub gallery/image and where is the value associated (alt_fin/alt_en)
+      let identifiers = key.split(" ");
+      let subGalleryIdForm = "";
+      let imgIdForm = "";
+      let fieldToUpdate = "";
+
+      subGalleryIdForm = identifiers[0].split(":")[1];
+      imgIdForm = identifiers[1].split(":")[1];
+
+      if (subGalleryIdForm !== subGalleryId) {
+        continue;
       }
 
-      for (let key in this.subGalleryForm.form.controls) {
-        // new value
-        let val = this.subGalleryForm.form.controls[key].value;
-        // to identify sub gallery/image and where is the value associated (alt_fin/alt_en)
-        let identifiers = key.split(" ");
-        let subGalleryIdForm = "";
-        let imgId = "";
-        let fieldToUpdate = "";
-
-        subGalleryIdForm = identifiers[0].split(":")[1];
-
-        if (subGalleryIdForm !== subGalleryId) {
-          continue;
-        }
-
-        if (identifiers.length === 2) {
-          // sub gallery
-          fieldToUpdate = identifiers[1];
-          if (fieldToUpdate !== field) {
-            continue;
-          }
-          subGalleriesChanges.push({
-            id: sg._id,
-            changes: {
-              [fieldToUpdate]: val,
-            },
-          });
-          this.facade.subGalleriesUpdateToStoreRequested(subGalleriesChanges);
-        } else if (identifiers.length === 3) {
-          // img
-          imgId = identifiers[1].split(":")[1];
-          fieldToUpdate = identifiers[2];
-
-          if (fieldToUpdate !== field) {
-            continue;
-          }
-
-          imgChanges.push({ id: imgId, changes: { [fieldToUpdate]: val } });
-
-          this.facade.imagesUpdateToStoreRequested(imgChanges);
-        }
+      if (imgIdForm !== imgId) {
+        continue;
       }
-    });
+
+      fieldToUpdate = identifiers[2];
+
+      if (fieldToUpdate !== field) {
+        continue;
+      }
+
+      imgChanges.push({ id: imgId, changes: { [fieldToUpdate]: val } });
+
+      this.facade.imagesUpdateToStoreRequested(imgChanges);
+    }
   }
 }
