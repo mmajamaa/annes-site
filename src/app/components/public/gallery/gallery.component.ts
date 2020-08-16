@@ -48,7 +48,7 @@ export class GalleryComponent extends BaseComponent implements OnInit {
           selectedSubGallery &&
           this.router.routerState.snapshot.url === "/gallery"
         ) {
-          this.router.navigate([selectedSubGallery.en], {
+          this.router.navigate([selectedSubGallery.en.toLowerCase()], {
             relativeTo: this.route,
           });
         }
