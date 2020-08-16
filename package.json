@@ -3,14 +3,14 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "node server\\server.ts",
+    "start": "node server.ts",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "serve": "concurrently \"npm:command-*\"",
     "command-ng": "ng serve --proxy-config proxyconfig.json",
-    "command-server": "node_modules\\.bin\\ts-node-dev server\\server.ts",
+    "command-server": "node_modules\\.bin\\ts-node-dev server.ts",
     "postinstall": "ng build --aot --prod"
   },
   "private": true,
