@@ -46,6 +46,7 @@ module.exports = {
   uploadSubGalleryJson: (subGalleryData) => {
     let bucket = process.env.BUCKET || config.BUCKET;
     let key = "sub_gallery_data.json";
+    let production = process.env.NODE_ENV === "production";
 
     s3.putObject(
       {
@@ -53,6 +54,7 @@ module.exports = {
         Key: key,
         Body: JSON.stringify(subGalleryData),
         ContentType: "application/json",
+        ACL: production ? "public-read" : "",
       },
       function (err, data) {
         console.log(JSON.stringify(err) + " " + JSON.stringify(data));
