@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1597576645879,
+  "timestamp": 1597577020847,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -15,8 +15,8 @@
         "/7-es2015.8ce50e8cd24f429aa3bb.js",
         "/7-es5.8ce50e8cd24f429aa3bb.js",
         "/index.html",
-        "/main-es2015.56a866125e77242666a8.js",
-        "/main-es5.56a866125e77242666a8.js",
+        "/main-es2015.b8b7fb461326de9f11f8.js",
+        "/main-es5.b8b7fb461326de9f11f8.js",
         "/manifest.webmanifest",
         "/polyfills-es2015.2b532bd8220dbc37bb1c.js",
         "/polyfills-es5.113f0fab45d9303cebcd.js",
@@ -90,9 +90,9 @@
     "/assets/ig.png": "6c9ac3cf3e7b0d1efd22d0f246a88c892b27e6da",
     "/assets/syli.ico": "c0f1fbf979b6f5bc7f7aeac50ef932a493de7d59",
     "/assets/uk.png": "0f52f02f3ef51193a448b2607d67b6c94b5489f9",
-    "/index.html": "0ce995aeaebfa4560813aebf8eddc08f9ba78cba",
-    "/main-es2015.56a866125e77242666a8.js": "ecc6f4abc81da6a4f3e5f77654ff25a0f5b7fa2d",
-    "/main-es5.56a866125e77242666a8.js": "196c255d819419c6821be4ad6c1e6189b9c5f5f0",
+    "/index.html": "f1d4cada30ca76e53f4e6b33e4cbffad12bac315",
+    "/main-es2015.b8b7fb461326de9f11f8.js": "6004866e88570ed9600d8b289da8832968baa33a",
+    "/main-es5.b8b7fb461326de9f11f8.js": "473c0515aa4f58d5a4deb38b2a3ee5f9f3f16524",
     "/manifest.webmanifest": "06885be61ccd0df8689d2db0690e6eeccfcd1436",
     "/polyfills-es2015.2b532bd8220dbc37bb1c.js": "6816720a92ee443beb3c45d6e3965ab6be95e184",
     "/polyfills-es5.113f0fab45d9303cebcd.js": "b73958bceceda5b279039f70d50aeeb73554b7d5",
