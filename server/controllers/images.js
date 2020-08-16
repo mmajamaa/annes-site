@@ -1,6 +1,7 @@
 const Image = require("../models/images");
 const Gallery = require("../models/gallerys");
 const deleteImage = require("../services/images").deleteImage;
+const helpers = require("./helpers/index");
 
 module.exports = {
   index: async (req, res, next) => {
@@ -34,6 +35,8 @@ module.exports = {
       // push new image to gallery
       gallery.images.push(newImage._id);
       await gallery.save();
+      let docs = await Gallery.find().sort({ so: 0 }).populate("images");
+      helpers.uploadSubGalleryJson(docs);
       res.status(201).json(newImage);
     } catch (error) {
       return res
@@ -70,6 +73,8 @@ module.exports = {
     try {
       const image = await Image.findOne({ _id: req.params.id });
       await image.remove();
+      let docs = await Gallery.find().sort({ so: 0 }).populate("images");
+      helpers.uploadSubGalleryJson(docs);
       return res.status(200).json(image);
     } catch (error) {
       return res.status(501).json({ message: "Error deleting image." });
@@ -95,6 +100,9 @@ module.exports = {
         }
       );
     }
+
+    let docs = await Gallery.find().sort({ so: 0 }).populate("images");
+    helpers.uploadSubGalleryJson(docs);
 
     return res.status(200).json({ message: "success" });
   },

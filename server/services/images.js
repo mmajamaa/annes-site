@@ -1,6 +1,8 @@
 const aws = require("aws-sdk");
 const multer = require("multer");
 const multerS3 = require("multer-s3");
+
+const helpers = require("../controllers/helpers");
 let config = "";
 
 if (process.env.NODE_ENV !== "production") {
@@ -47,7 +49,8 @@ const singleUpload = (req, res, next) => {
   );
 
   const key = Date.now().toString();
-  const bucket = "annes-gallery";
+  let production = process.env.NODE_ENV === "production";
+  let bucket = process.env.BUCKET || config.BUCKET;
 
   var data = {
     Bucket: bucket,
@@ -55,7 +58,7 @@ const singleUpload = (req, res, next) => {
     Body: buf,
     ContentEncoding: "base64",
     ContentType: "image/jpeg",
-    ACL: "public-read",
+    ACL: production ? "public-read" : "",
   };
   s3.putObject(data, function (err, data) {
     if (err) {
@@ -63,7 +66,13 @@ const singleUpload = (req, res, next) => {
       console.log("Error uploading data: ", data);
     } else {
       console.log("succesfully uploaded the image!");
-      res.locals.url = `https://${bucket}.s3.eu-north-1.amazonaws.com/${key}`; // TODO: change to more dynamic;
+
+      if (!production) {
+        res.locals.url = helpers.signUrl(key);
+      } else {
+        res.locals.url = `https://${bucket}.s3.eu-north-1.amazonaws.com/${key}`; // TODO: change to more dynamic;
+      }
+
       res.locals.key = key;
       res.locals.alt_fi = body.alt_fi;
       res.locals.alt_en = body.alt_en;

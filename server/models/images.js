@@ -11,11 +11,11 @@ let schema = new Schema({
   so: { type: Number, require: true },
   gallery: {
     type: Schema.Types.ObjectId,
-    ref: "Gallery"
-  }
+    ref: "Gallery",
+  },
 });
 
-schema.pre("remove", async function(next) {
+schema.pre("remove", async function (next) {
   await deleteImage(this.Key);
   next();
 });

@@ -50,5 +50,6 @@ Thumbs.db
 yarn.lock
 
 /server/config.json
+/src/environments/secrets.ts
 
 config.json

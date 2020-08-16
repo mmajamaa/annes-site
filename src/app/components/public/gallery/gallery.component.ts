@@ -6,6 +6,7 @@ import { takeUntil } from "rxjs/operators";
 
 import { FacadeService } from "../../shared/facade.service";
 import { BaseComponent } from "../../core/base/base.component";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-gallery",
@@ -28,9 +29,7 @@ export class GalleryComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.facade.subGalleriesRequested(
-      "https://annes-gallery.s3.eu-north-1.amazonaws.com/sub_gallery_data.json"
-    );
+    this.facade.subGalleriesRequested(environment.subGalleryUrl);
 
     this.translationsService.I18n.pipe(takeUntil(this.ngUnsubscribe)).subscribe(
       (res) => {
