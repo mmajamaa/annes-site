@@ -21,8 +21,6 @@ export class SubGalleryEffects {
     switchMap((actionData: SubGalleryActions.SubGalleriesRequested) => {
       return this.img.getSubGalleriesFromApi(actionData.payload.url).pipe(
         switchMap((resData: SubGallery[]) => {
-          console.log(actionData.payload);
-          console.log(resData);
           let images = [];
           resData.map((sg) => (images = [...images, ...sg.images]));
 
