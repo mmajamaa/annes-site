@@ -10,6 +10,7 @@ import { ImageDialogComponent } from "./image-dialog/image-dialog.component";
 import { BaseComponent } from "../../core/base/base.component";
 import { takeUntil } from "rxjs/operators";
 import { ImageModalComponent } from "./image-modal/image-modal.component";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-admin",
@@ -33,7 +34,7 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.facade.subGalleriesRequested("/api/gallerys");
+    this.facade.subGalleriesRequested(environment.baseUrl + "/api/gallerys");
 
     this.subGalleries$
       .pipe(takeUntil(this.ngUnsubscribe))
