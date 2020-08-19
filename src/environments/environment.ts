@@ -7,6 +7,7 @@ const secretUrl = localStorage.getItem("secretUrl");
 export const environment = {
   production: false,
   subGalleryUrl: secretUrl,
+  baseUrl: "",
 };
 
 /*

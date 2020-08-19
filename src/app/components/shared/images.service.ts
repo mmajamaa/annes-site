@@ -4,6 +4,7 @@ import { Image } from "./image";
 import { SubGallery } from "./sub-gallery";
 import { Observable, Subject, BehaviorSubject } from "rxjs";
 import { SnackBarService } from "./snack-bar.service";
+import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root",
@@ -28,13 +29,17 @@ export class ImagesService {
   uploadImage(uploadObject, galleryId) {
     const id = galleryId == null ? "" : galleryId;
 
-    return this.http.post("/api/images/" + id, JSON.stringify(uploadObject), {
-      observe: "body",
-      params: new HttpParams().append(
-        "token",
-        JSON.parse(localStorage.getItem("user")).token
-      ), // TODO: get from store
-    });
+    return this.http.post(
+      environment.baseUrl + "/api/images/" + id,
+      JSON.stringify(uploadObject),
+      {
+        observe: "body",
+        params: new HttpParams().append(
+          "token",
+          JSON.parse(localStorage.getItem("user")).token
+        ), // TODO: get from store
+      }
+    );
   }
 
   public getSubGalleries(): SubGallery[] {
@@ -46,7 +51,7 @@ export class ImagesService {
   }
 
   deleteImage(id: string) {
-    return this.http.delete("/api/image/" + id, {
+    return this.http.delete(environment.baseUrl + "/api/image/" + id, {
       observe: "body",
       params: new HttpParams().append(
         "token",
@@ -61,7 +66,7 @@ export class ImagesService {
 
   createGallery(fi, en) {
     return this.http.post(
-      "/api/gallerys",
+      environment.baseUrl + "/api/gallerys",
       {
         en,
         fi,
@@ -77,7 +82,7 @@ export class ImagesService {
   }
 
   deleteGallery(id) {
-    return this.http.delete("/api/gallery/" + id, {
+    return this.http.delete(environment.baseUrl + "/api/gallery/" + id, {
       observe: "body",
       params: new HttpParams().append(
         "token",
@@ -89,7 +94,7 @@ export class ImagesService {
   saveOrder(images: Image[]) {
     this.http
       .post(
-        "/api/saveorder/",
+        environment.baseUrl + "/api/saveorder/",
         { images },
         {
           observe: "body",
@@ -117,7 +122,7 @@ export class ImagesService {
 
   updateSubGalleries(subGalleries: SubGallery[]) {
     return this.http.post(
-      "/api/galleries/update",
+      environment.baseUrl + "/api/galleries/update",
       { subGalleries },
       {
         observe: "body",

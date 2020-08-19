@@ -3,10 +3,10 @@ import { Router } from "@angular/router";
 import { HttpClient, HttpParams } from "@angular/common/http";
 
 import { BehaviorSubject } from "rxjs";
-import { tap } from "rxjs/operators";
 
 import { AuthenticationResponseData } from "./login/authentication-response-data";
 import { User } from "./user";
+import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root",
@@ -18,10 +18,13 @@ export class AuthenticationService {
   constructor(private http: HttpClient, private router: Router) {}
 
   login(username, password) {
-    return this.http.post<AuthenticationResponseData>("/api/auth/login", {
-      username,
-      password,
-    });
+    return this.http.post<AuthenticationResponseData>(
+      environment.baseUrl + "/api/auth/login",
+      {
+        username,
+        password,
+      }
+    );
   }
 
   // TODO: move logic to effects
@@ -35,9 +38,12 @@ export class AuthenticationService {
       this.loggedIn.next(true);
     }
 
-    return this.http.get<AuthenticationResponseData>("api/auth/status", {
-      observe: "body",
-      params: new HttpParams().append("token", loadedUser.token),
-    });
+    return this.http.get<AuthenticationResponseData>(
+      environment.baseUrl + "/api/auth/status",
+      {
+        observe: "body",
+        params: new HttpParams().append("token", loadedUser.token),
+      }
+    );
   }
 }
