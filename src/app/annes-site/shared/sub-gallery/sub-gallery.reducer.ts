@@ -1,7 +1,7 @@
+import { createEntityAdapter, EntityAdapter, EntityState } from "@ngrx/entity";
+import { SubGallery } from "src/app/annes-site/shared/sub-gallery/sub-gallery";
+import * as ImageActions from "../image/image.actions";
 import * as SubGalleryActions from "./sub-gallery.actions";
-import * as ImageActions from "../../../shared/images/images.actions";
-import { SubGallery } from "src/app/annes-site/shared/sub-gallery";
-import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 
 export interface State extends EntityState<SubGallery> {
   selectedSubGalleryId: string | null;

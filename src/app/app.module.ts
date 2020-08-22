@@ -13,10 +13,10 @@ import { AppComponent } from "./app.component";
 import { AppRoutingModule } from "./app-routing.module";
 import * as fromApp from "./app.reducer";
 import { AuthEffects } from "./annes-site/auth/store/auth.effects";
-import { SubGalleryEffects } from "./annes-site/public-site/sub-gallery/store/sub-gallery.effects";
+import { SubGalleryEffects } from "./annes-site/shared/sub-gallery/sub-gallery.effects";
 import { environment } from "src/environments/environment";
 import { CoreModule } from "./annes-site/core/core.module";
-import { ImageEffetcs } from "./annes-site/shared/images/images.effects";
+import { ImageEffetcs } from "./annes-site/shared/image/image.effects";
 
 @NgModule({
   declarations: [AppComponent],

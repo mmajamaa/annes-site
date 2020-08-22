@@ -2,10 +2,10 @@ import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { CdkDragDrop } from "@angular/cdk/drag-drop";
 
-import { Image } from "../../shared/image";
-import { SubGallery } from "src/app/annes-site/shared/sub-gallery";
+import { Image } from "../../shared/image/image";
+import { SubGallery } from "src/app/annes-site/shared/sub-gallery/sub-gallery";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
-import { FacadeService } from "../../shared/facade.service";
+import { FacadeService } from "../../shared/facade/facade.service";
 import { ImageDialogComponent } from "./image-dialog/image-dialog.component";
 import { BaseComponent } from "../../core/base/base.component";
 import { takeUntil } from "rxjs/operators";

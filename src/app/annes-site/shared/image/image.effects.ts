@@ -4,9 +4,9 @@ import { Actions, ofType, Effect } from "@ngrx/effects";
 import { of } from "rxjs";
 import { switchMap, catchError, map } from "rxjs/operators";
 
-import { SnackBarService } from "../snack-bar.service";
-import * as ImageActions from "./images.actions";
-import { ImagesService } from "../images.service";
+import { SnackBarService } from "../snack-bar/snack-bar.service";
+import * as ImageActions from "./image.actions";
+import { ImagesService } from "./image.service";
 
 @Injectable({ providedIn: "root" })
 export class ImageEffetcs {

@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Image } from "./image";
-import { SubGallery } from "./sub-gallery";
+import { SubGallery } from "../sub-gallery/sub-gallery";
 import { Observable, Subject, BehaviorSubject } from "rxjs";
-import { SnackBarService } from "./snack-bar.service";
+import { SnackBarService } from "../snack-bar/snack-bar.service";
 import { environment } from "src/environments/environment";
 
 @Injectable({

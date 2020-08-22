@@ -1,7 +1,7 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 import * as fromSubGallery from "./sub-gallery.reducer";
-import * as imageSelectors from "../../../shared/images/images.selectors";
+import * as imageSelectors from "../image/image.selectors";
 
 export const selectSubGalleryState = createFeatureSelector<
   fromSubGallery.State

@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 
 import { takeUntil } from "rxjs/operators";
 
-import { FacadeService } from "../../shared/facade.service";
+import { FacadeService } from "../../shared/facade/facade.service";
 import { BaseComponent } from "../../core/base/base.component";
 import { environment } from "src/environments/environment";
 

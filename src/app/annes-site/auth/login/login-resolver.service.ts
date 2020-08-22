@@ -7,7 +7,7 @@ import {
 import { AuthenticationService } from "../authentication.service";
 import { Injectable } from "@angular/core";
 
-import { FacadeService } from "../../shared/facade.service";
+import { FacadeService } from "../../shared/facade/facade.service";
 
 @Injectable({
   providedIn: "root",

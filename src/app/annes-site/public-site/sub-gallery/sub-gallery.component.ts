@@ -3,8 +3,8 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { takeUntil } from "rxjs/operators";
 
 import { TranslationsService } from "../translations.service";
-import { SubGallery } from "../../shared/sub-gallery";
-import { FacadeService } from "../../shared/facade.service";
+import { SubGallery } from "../../shared/sub-gallery/sub-gallery";
+import { FacadeService } from "../../shared/facade/facade.service";
 import { BaseComponent } from "../../core/base/base.component";
 
 @Component({

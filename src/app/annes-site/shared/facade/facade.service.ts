@@ -3,12 +3,12 @@ import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 
-import * as AuthActions from "../auth/store/auth.actions";
-import * as AuthSelectors from "../auth/store/auth.selectors";
-import * as SubGalleryActions from "../public-site/sub-gallery/store/sub-gallery.actions";
-import * as SubGallerySelectors from "../public-site/sub-gallery/store/sub-gallery.selectors";
-import * as ImageActions from "../shared/images/images.actions";
-import * as ImageSelectors from "../shared/images/images.selectors";
+import * as AuthActions from "../../auth/store/auth.actions";
+import * as AuthSelectors from "../../auth/store/auth.selectors";
+import * as SubGalleryActions from "../sub-gallery/sub-gallery.actions";
+import * as SubGallerySelectors from "../sub-gallery/sub-gallery.selectors";
+import * as ImageActions from "../image/image.actions";
+import * as ImageSelectors from "../image/image.selectors";
 
 @Injectable({ providedIn: "root" })
 export class FacadeService {

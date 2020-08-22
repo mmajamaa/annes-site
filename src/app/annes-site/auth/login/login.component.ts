@@ -3,7 +3,7 @@ import { NgForm } from "@angular/forms";
 
 import { Observable } from "rxjs";
 
-import { FacadeService } from "../../shared/facade.service";
+import { FacadeService } from "../../shared/facade/facade.service";
 import { AuthenticationResponseData } from "./authentication-response-data";
 
 @Component({

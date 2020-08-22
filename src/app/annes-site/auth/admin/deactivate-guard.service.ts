@@ -9,7 +9,7 @@ import { Observable } from "rxjs";
 import { map, take } from "rxjs/operators";
 
 import { AuthenticationService } from "../authentication.service";
-import { FacadeService } from "../../shared/facade.service";
+import { FacadeService } from "../../shared/facade/facade.service";
 
 export interface CanComponentDeactivate {
   canDeactivate: () => Observable<boolean> | Promise<boolean> | boolean;

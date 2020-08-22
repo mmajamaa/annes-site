@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 
-import * as fromImages from "./images.reducer";
+import * as fromImages from "./image.reducer";
 
 export const selectImageState = createFeatureSelector<fromImages.State>(
   "images"

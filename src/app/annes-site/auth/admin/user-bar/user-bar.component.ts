@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from "@angular/core";
 
-import { FacadeService } from "../../../shared/facade.service";
+import { FacadeService } from "../../../shared/facade/facade.service";
 import { AuthenticationService } from "../../authentication.service";
 
 @Component({

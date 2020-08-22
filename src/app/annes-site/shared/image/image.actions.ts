@@ -1,6 +1,6 @@
 import { Action } from "@ngrx/store";
 
-import { Image } from "../image";
+import { Image } from "./image";
 import { Update } from "@ngrx/entity";
 
 export const IMG_UPLOAD_REQUESTED = "[] Image upload requested.";

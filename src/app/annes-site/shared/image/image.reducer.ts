@@ -1,7 +1,7 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 
-import { Image } from "../image";
-import * as ImageActions from "./images.actions";
+import { Image } from "./image";
+import * as ImageActions from "./image.actions";
 
 export interface State extends EntityState<Image> {
   images: Image[];

@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
 import { HttpClient, HttpParams } from "@angular/common/http";
 
 import { BehaviorSubject } from "rxjs";
@@ -15,7 +14,7 @@ export class AuthenticationService {
   public loggedInStatus = false;
   public loggedIn = new BehaviorSubject<boolean>(false);
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient) {}
 
   login(username, password) {
     return this.http.post<AuthenticationResponseData>(

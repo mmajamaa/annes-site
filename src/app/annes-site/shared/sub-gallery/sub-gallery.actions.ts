@@ -1,7 +1,7 @@
 import { Action } from "@ngrx/store";
 import { Update } from "@ngrx/entity";
 
-import { SubGallery } from "../../../shared/sub-gallery";
+import { SubGallery } from "./sub-gallery";
 
 export const SUB_GALLERIES_REQUESTED =
   "[] Sub galleries requested from the API.";

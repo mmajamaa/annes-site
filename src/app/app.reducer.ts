@@ -1,8 +1,8 @@
 import { ActionReducerMap } from "@ngrx/store";
 
 import * as fromAuth from "./annes-site/auth/store/auth.reducer";
-import * as fromSubGalleries from "./annes-site/public-site/sub-gallery/store/sub-gallery.reducer";
-import * as fromImages from "./annes-site/shared/images/images.reducer";
+import * as fromSubGalleries from "./annes-site/shared/sub-gallery/sub-gallery.reducer";
+import * as fromImages from "./annes-site/shared/image/image.reducer";
 
 export interface AppState {
   auth: fromAuth.State;
