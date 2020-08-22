@@ -50,4 +50,4 @@ import { ImageModalComponent } from "./admin/image-modal/image-modal.component";
 
   entryComponents: [ImageDialogComponent, SpinnerOverlayComponent],
 })
-export class AdminModule {}
+export class AuthModule {}
