@@ -12,11 +12,11 @@ import { ServiceWorkerModule } from "@angular/service-worker";
 import { AppComponent } from "./app.component";
 import { AppRoutingModule } from "./app-routing.module";
 import * as fromApp from "./app.reducer";
-import { AuthEffects } from "./components/auth/store/auth.effects";
-import { SubGalleryEffects } from "./components/public/sub-gallery/store/sub-gallery.effects";
+import { AuthEffects } from "./annes-site/auth/store/auth.effects";
+import { SubGalleryEffects } from "./annes-site/public-site/sub-gallery/store/sub-gallery.effects";
 import { environment } from "src/environments/environment";
-import { CoreModule } from "./components/core/core.module";
-import { ImageEffetcs } from "./components/shared/images/images.effects";
+import { CoreModule } from "./annes-site/core/core.module";
+import { ImageEffetcs } from "./annes-site/shared/images/images.effects";
 
 @NgModule({
   declarations: [AppComponent],

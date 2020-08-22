@@ -3,7 +3,7 @@ import { NgForm } from "@angular/forms";
 import { CdkDragDrop } from "@angular/cdk/drag-drop";
 
 import { Image } from "../../shared/image";
-import { SubGallery } from "src/app/components/shared/sub-gallery";
+import { SubGallery } from "src/app/annes-site/shared/sub-gallery";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { FacadeService } from "../../shared/facade.service";
 import { ImageDialogComponent } from "./image-dialog/image-dialog.component";

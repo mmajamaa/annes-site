@@ -5,12 +5,12 @@ const routes: Routes = [
   {
     path: "auth",
     loadChildren: () =>
-      import("./components/auth/auth.module").then((m) => m.AuthModule),
+      import("./annes-site/auth/auth.module").then((m) => m.AuthModule),
   },
   {
     path: "",
     loadChildren: () =>
-      import("./components/public/main-page.module").then(
+      import("./annes-site/public-site/main-page.module").then(
         (m) => m.MainPageModule
       ),
   },

@@ -7,10 +7,10 @@ import { Store } from "@ngrx/store";
 
 import * as SubGalleryActions from "./sub-gallery.actions";
 import * as SubGallerySelectors from "./sub-gallery.selectors";
-import { ImagesService } from "src/app/components/shared/images.service";
+import { ImagesService } from "src/app/annes-site/shared/images.service";
 import { SubGallery } from "../../../shared/sub-gallery";
 import * as AuthSelectors from "../../../auth/store/auth.selectors";
-import { SnackBarService } from "src/app/components/shared/snack-bar.service";
+import { SnackBarService } from "src/app/annes-site/shared/snack-bar.service";
 import * as ImageActions from "../../../shared/images/images.actions";
 
 @Injectable({ providedIn: "root" })

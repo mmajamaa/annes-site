@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild, Input } from "@angular/core";
-import { ImagesService } from "src/app/components/shared/images.service";
+import { ImagesService } from "src/app/annes-site/shared/images.service";
 import { NgForm } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
 import { ImageDialogComponent } from "../image-dialog/image-dialog.component";
 import { NgxImageCompressService } from "ngx-image-compress";
 import { FacadeService } from "../../../shared/facade.service";
 import { takeUntil } from "rxjs/operators";
-import { BaseComponent } from "src/app/components/core/base/base.component";
+import { BaseComponent } from "src/app/annes-site/core/base/base.component";
 
 @Component({
   selector: "app-upload-component",
