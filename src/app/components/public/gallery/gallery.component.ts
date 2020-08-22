@@ -52,6 +52,13 @@ export class GalleryComponent extends BaseComponent implements OnInit {
             relativeTo: this.route,
           });
         }
+
+        if (
+          !selectedSubGallery &&
+          this.router.routerState.snapshot.url !== "/gallery"
+        ) {
+          this.router.navigate(["page-not-found"]);
+        }
       });
   }
 
