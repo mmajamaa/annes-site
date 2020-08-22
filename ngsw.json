@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1597836564628,
+  "timestamp": 1598075000218,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -90,7 +90,7 @@
     "/assets/ig.png": "6c9ac3cf3e7b0d1efd22d0f246a88c892b27e6da",
     "/assets/syli.ico": "c0f1fbf979b6f5bc7f7aeac50ef932a493de7d59",
     "/assets/uk.png": "0f52f02f3ef51193a448b2607d67b6c94b5489f9",
-    "/index.html": "e69274dd5cad08c25b7c15c57fc6e25f364096a7",
+    "/index.html": "9d6ba20f28e2f7d972cb193ef1038691526ba2f6",
     "/main-es2015.dbec9b75b5ec4c01f452.js": "47713ed89a3f2537d1d46901149b34033bee457f",
     "/main-es5.dbec9b75b5ec4c01f452.js": "7f6d95097ed80c63a66da87afce7ea7c553e2c8c",
     "/manifest.webmanifest": "06885be61ccd0df8689d2db0690e6eeccfcd1436",
