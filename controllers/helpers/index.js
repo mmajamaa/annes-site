@@ -1,6 +1,6 @@
-const jwt = require("jsonwebtoken");
-const cfsign = require("aws-cloudfront-sign");
-const aws = require("aws-sdk");
+const jwt = require("./node_modules/jsonwebtoken");
+const cfsign = require("./node_modules/aws-cloudfront-sign");
+const aws = require("./node_modules/aws-sdk");
 
 let config = { secret: "" };
 
