@@ -10,8 +10,8 @@ const routes: Routes = [
   {
     path: "",
     loadChildren: () =>
-      import("./annes-site/public-site/main-page.module").then(
-        (m) => m.MainPageModule
+      import("./annes-site/public-site/public-site.module").then(
+        (m) => m.PublicSiteModule
       ),
   },
   { path: "**", redirectTo: "page-not-found" },
