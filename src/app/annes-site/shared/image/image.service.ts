@@ -2,35 +2,18 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Image } from "./image";
 import { SubGallery } from "../sub-gallery/sub-gallery";
-import { Observable, Subject, BehaviorSubject } from "rxjs";
-import { SnackBarService } from "../snack-bar/snack-bar.service";
+import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class ImagesService {
-  private images: Image[] = [];
-  private subGalleries: SubGallery[] = [];
-  public imagesChange: BehaviorSubject<Image[]> = new BehaviorSubject([]);
-  public subGalleriesChange: BehaviorSubject<
-    SubGallery[]
-  > = new BehaviorSubject([]);
-  public uploadSuccesful: Subject<string> = new Subject();
-  public errorLoadingImages: Subject<boolean>;
-  public subGalleryCreationSuccessful: Subject<boolean> = new Subject();
-  public currentSubGallery: Subject<string> = new Subject();
-
-  constructor(
-    private http: HttpClient,
-    private snackBarService: SnackBarService
-  ) {}
+  constructor(private http: HttpClient) {}
 
   uploadImage(uploadObject, galleryId) {
-    const id = galleryId == null ? "" : galleryId;
-
     return this.http.post(
-      environment.baseUrl + "/api/images/" + id,
+      environment.baseUrl + "/api/images/" + galleryId,
       JSON.stringify(uploadObject),
       {
         observe: "body",
@@ -40,14 +23,6 @@ export class ImagesService {
         ), // TODO: get from store
       }
     );
-  }
-
-  public getSubGalleries(): SubGallery[] {
-    return this.subGalleries.slice();
-  }
-
-  public getImages() {
-    return this.images.slice();
   }
 
   deleteImage(id: string) {
@@ -91,33 +66,15 @@ export class ImagesService {
     });
   }
 
-  saveOrder(images: Image[]) {
-    this.http
-      .post(
-        environment.baseUrl + "/api/saveorder/",
-        { images },
-        {
-          observe: "body",
-          params: new HttpParams().append(
-            "token",
-            localStorage.getItem("token")
-          ),
-        }
-      )
-      .subscribe(
-        (images: Image[]) => {
-          this.snackBarService.openSnackBar(
-            "Muutokset tallennettiin onnistuneesti.",
-            "ok-snackbar"
-          );
-        },
-        (error) => {
-          this.snackBarService.openSnackBar(
-            "Virhe muutosten tallentamisessa. Yritä uudelleen.",
-            "warn-snackbar"
-          );
-        }
-      );
+  putImages(images: Image[]) {
+    this.http.put(
+      environment.baseUrl + "/api/images/",
+      { images },
+      {
+        observe: "body",
+        params: new HttpParams().append("token", localStorage.getItem("token")),
+      }
+    );
   }
 
   updateSubGalleries(subGalleries: SubGallery[]) {
