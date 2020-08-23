@@ -51,7 +51,7 @@ export class ImagesService {
   }
 
   deleteImage(id: string) {
-    return this.http.delete(environment.baseUrl + "/api/image/" + id, {
+    return this.http.delete(environment.baseUrl + "/api/images/" + id, {
       observe: "body",
       params: new HttpParams().append(
         "token",
@@ -66,7 +66,7 @@ export class ImagesService {
 
   createGallery(fi, en) {
     return this.http.post(
-      environment.baseUrl + "/api/gallerys",
+      environment.baseUrl + "/api/galleries",
       {
         en,
         fi,
@@ -82,7 +82,7 @@ export class ImagesService {
   }
 
   deleteGallery(id) {
-    return this.http.delete(environment.baseUrl + "/api/gallery/" + id, {
+    return this.http.delete(environment.baseUrl + "/api/galleries/" + id, {
       observe: "body",
       params: new HttpParams().append(
         "token",
@@ -121,8 +121,8 @@ export class ImagesService {
   }
 
   updateSubGalleries(subGalleries: SubGallery[]) {
-    return this.http.post(
-      environment.baseUrl + "/api/galleries/update",
+    return this.http.put(
+      environment.baseUrl + "/api/galleries",
       { subGalleries },
       {
         observe: "body",
