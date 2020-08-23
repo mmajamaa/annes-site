@@ -29,6 +29,12 @@ export const SUB_GALLERY_CREATE_CANCELLED = "[] Create sub gallery cancelled.";
 export const SUB_GALLERY_DELETE_REQUESTED = "[] Sub gallery delete requested.";
 export const SUB_GALLERY_DELETE_COMPLETED = "[] Sub gallery delete completed.";
 export const SUB_GALLERY_DELETE_CANCELLED = "[] Sub gallery delete cancelled.";
+export const SUB_GALLERIES_PUBLISH_REQUESTED =
+  "[] Sub galleries publish requested.";
+export const SUB_GALLERIES_PUBLISH_COMPLETED =
+  "[] Sub galleries publish completed.";
+export const SUB_GALLERIES_PUBLISH_CANCELLED =
+  "[] Sub galleries publish cancelled.";
 
 export class SubGalleriesRequested implements Action {
   public readonly type = SUB_GALLERIES_REQUESTED;
@@ -110,6 +116,17 @@ export class SubGalleryDeleteCancelled implements Action {
   public readonly type = SUB_GALLERY_DELETE_CANCELLED;
 }
 
+export class SubGalleriesPublishRequested implements Action {
+  public readonly type = SUB_GALLERIES_PUBLISH_REQUESTED;
+}
+
+export class SubGalleriesPublishCompleted implements Action {
+  public readonly type = SUB_GALLERIES_PUBLISH_COMPLETED;
+}
+export class SubGalleriesPublishCancelled implements Action {
+  public readonly type = SUB_GALLERIES_PUBLISH_CANCELLED;
+}
+
 export type SubGalleryActions =
   | SubGalleriesRequested
   | SubGalleriesLoaded
@@ -128,4 +145,7 @@ export type SubGalleryActions =
   | SubGalleryCreateCancelled
   | SubGalleryDeleteRequested
   | SubGalleryDeleteCompleted
-  | SubGalleryDeleteCancelled;
+  | SubGalleryDeleteCancelled
+  | SubGalleriesPublishRequested
+  | SubGalleriesPublishCompleted
+  | SubGalleriesPublishCancelled;

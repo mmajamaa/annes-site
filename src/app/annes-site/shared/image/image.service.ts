@@ -90,4 +90,18 @@ export class ImagesService {
       }
     );
   }
+
+  publishSubGalleries() {
+    return this.http.post(
+      environment.baseUrl + "/api/galleries/publish",
+      {},
+      {
+        observe: "body",
+        params: new HttpParams().append(
+          "token",
+          JSON.parse(localStorage.getItem("user")).token
+        ),
+      }
+    );
+  }
 }

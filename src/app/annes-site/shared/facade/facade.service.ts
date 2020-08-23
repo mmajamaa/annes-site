@@ -60,10 +60,8 @@ export class FacadeService {
     );
   }
 
-  subGalleriesUpdateToAPIRequested() {
-    this.store.dispatch(
-      new SubGalleryActions.SubGalleriesUpdateToAPIRequested()
-    );
+  subGalleriesPublishRequested() {
+    this.store.dispatch(new SubGalleryActions.SubGalleriesPublishRequested());
   }
 
   imgUploadRequested(uploadObject, subGalleryId) {

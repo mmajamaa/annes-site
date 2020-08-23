@@ -269,8 +269,8 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
     this.facade.subGalleriesUpdateToStoreRequested(clonedSubGalleries);
   }
 
-  onSaveChanges() {
-    this.facade.subGalleriesUpdateToAPIRequested();
+  onPublishChanges() {
+    this.facade.subGalleriesPublishRequested();
   }
 
   onAddSubGallery(form: NgForm) {

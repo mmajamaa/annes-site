@@ -152,6 +152,29 @@ export class SubGalleryEffects {
     })
   );
 
+  @Effect()
+  SubGalleriesPublishRequested = this.actions$.pipe(
+    ofType(SubGalleryActions.SUB_GALLERIES_PUBLISH_REQUESTED),
+    switchMap((actionData: SubGalleryActions.SubGalleriesPublishRequested) => {
+      return this.img.publishSubGalleries().pipe(
+        map((res) => {
+          this.snackBarService.openSnackBar(
+            "Muutokset julkaistiin onnistuneesti.",
+            "ok-snackbar"
+          );
+          return new SubGalleryActions.SubGalleriesPublishCompleted();
+        }),
+        catchError((erroRes) => {
+          this.snackBarService.openSnackBar(
+            "Virhe muutosten julkaisemisessa. Yritä uudelleen.",
+            "warn-snackbar"
+          );
+          return of(new SubGalleryActions.SubGalleriesPublishCancelled());
+        })
+      );
+    })
+  );
+
   constructor(
     private img: ImagesService,
     private actions$: Actions,

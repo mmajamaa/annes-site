@@ -14,7 +14,7 @@ export const initialState: State = {
   authError: null,
   loading: false,
   isLoggedIn: true,
-  quickSave: false, // TODO: later this should come from user settings
+  quickSave: true, // TODO: later this should come from user settings
 };
 
 export function authReducer(
