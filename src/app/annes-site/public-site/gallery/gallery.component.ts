@@ -1,12 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { TranslationsService } from "../translations.service";
-import { ActivatedRoute, Router } from "@angular/router";
+import { environment } from "src/environments/environment";
 
 import { takeUntil } from "rxjs/operators";
 
+import { TranslationsService } from "../translations.service";
 import { FacadeService } from "../../shared/facade/facade.service";
 import { BaseComponent } from "../../core/base/base.component";
-import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-gallery",
@@ -21,8 +20,6 @@ export class GalleryComponent extends BaseComponent implements OnInit {
 
   constructor(
     private translationsService: TranslationsService,
-    private route: ActivatedRoute,
-    private router: Router,
     private facade: FacadeService
   ) {
     super();
@@ -41,28 +38,9 @@ export class GalleryComponent extends BaseComponent implements OnInit {
       .subscribe((r) => {
         this.language = r;
       });
-    this.selectedSubGallery$
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((selectedSubGallery) => {
-        if (
-          selectedSubGallery &&
-          this.router.routerState.snapshot.url === "/gallery"
-        ) {
-          this.router.navigate([selectedSubGallery.en.toLowerCase()], {
-            relativeTo: this.route,
-          });
-        }
-
-        if (
-          !selectedSubGallery &&
-          this.router.routerState.snapshot.url !== "/gallery"
-        ) {
-          this.router.navigate(["page-not-found"]);
-        }
-      });
   }
 
-  onSubGallerySelected(subGalleryId) {
-    this.facade.selectSubGallery(subGalleryId);
+  onSubGallerySelected(subGalleryName) {
+    this.facade.selectSubGallery(subGalleryName);
   }
 }

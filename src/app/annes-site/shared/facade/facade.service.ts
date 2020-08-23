@@ -42,9 +42,9 @@ export class FacadeService {
     return this.store.select(SubGallerySelectors.selectAllSubGalleries);
   }
 
-  selectSubGallery(selectedSubGalleryId: string) {
+  selectSubGallery(selectedSubGalleryName: string) {
     this.store.dispatch(
-      new SubGalleryActions.SubGallerySelected({ selectedSubGalleryId })
+      new SubGalleryActions.SubGallerySelected({ selectedSubGalleryName })
     );
   }
 

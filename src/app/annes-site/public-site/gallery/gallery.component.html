@@ -1,14 +1,22 @@
 <h1>{{ I18n.gallery }}</h1>
-<h2>{{ (selectedSubGallery$ | async) ? (selectedSubGallery$ | async)[language] : "" }}</h2>
+<h2>
+  {{
+    (selectedSubGallery$ | async) ? (selectedSubGallery$ | async)[language] : ""
+  }}
+</h2>
 <div fxLayout="row wrap">
   <div fxFlex.xs="100" fxLayoutAlign.xs="center" class="sub-gallery-nav">
     <div fxLayout="column">
-      <a [routerLink]="subGallery.en.toLowerCase()" *ngFor="let subGallery of subGalleries$ | async"
+      <a
+        [routerLink]="subGallery.en.toLowerCase()"
+        *ngFor="let subGallery of subGalleries$ | async"
         routerLinkActive="active"
-        (click)="onSubGallerySelected(subGallery._id)">{{ language === 'fi' ? subGallery.fi : subGallery.en }}</a>
+        (click)="onSubGallerySelected(subGallery.en)"
+        >{{ language === "fi" ? subGallery.fi : subGallery.en }}</a
+      >
     </div>
   </div>
-  <div fxFlex=100>
+  <div fxFlex="100">
     <router-outlet></router-outlet>
   </div>
 </div>

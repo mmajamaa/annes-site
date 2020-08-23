@@ -12,6 +12,7 @@ import { SubGallery } from "./sub-gallery";
 import * as AuthSelectors from "../../auth/store/auth.selectors";
 import { SnackBarService } from "src/app/annes-site/shared/snack-bar/snack-bar.service";
 import * as ImageActions from "../image/image.actions";
+import { Router } from "@angular/router";
 
 @Injectable({ providedIn: "root" })
 export class SubGalleryEffects {
@@ -29,9 +30,6 @@ export class SubGalleryEffects {
             new SubGalleryActions.SubGalleriesLoaded({
               subGalleries: resData,
             }),
-            new SubGalleryActions.SubGallerySelected({
-              selectedSubGalleryId: resData[0]._id,
-            }),
           ];
         }),
         catchError((errorRes) => {
@@ -39,6 +37,58 @@ export class SubGalleryEffects {
         })
       );
     })
+  );
+
+  @Effect()
+  subGalleriesLoaded = this.actions$.pipe(
+    ofType(SubGalleryActions.SUB_GALLERIES_LOADED),
+    withLatestFrom(
+      this.store.select(SubGallerySelectors.selectCurrentSubGalleryName)
+    ),
+    map(
+      ([actionData, selectedSubGalleryName]: [
+        SubGalleryActions.SubGalleriesLoaded,
+        string
+      ]) => {
+        let url = this.router.routerState.snapshot.url;
+        let subGalleryToViewIdx: number = 0;
+
+        if (url === "/gallery" && !selectedSubGalleryName) {
+          this.router.navigate([
+            "/gallery/" +
+              actionData.payload.subGalleries[subGalleryToViewIdx].en,
+          ]);
+          return new SubGalleryActions.SubGallerySelected({
+            selectedSubGalleryName:
+              actionData.payload.subGalleries[subGalleryToViewIdx].en,
+          });
+        } else if (url === "/gallery" && selectedSubGalleryName) {
+          this.router.navigate([
+            "/gallery/" + selectedSubGalleryName.toLowerCase(),
+          ]);
+          return { type: "DUMMY" };
+        }
+
+        let subGalleryToViewName = "";
+
+        subGalleryToViewName = url.split("/")[2];
+        let subGalleryNames = actionData.payload.subGalleries.map((sg) =>
+          sg.en.toLowerCase()
+        );
+        subGalleryToViewIdx = subGalleryNames.indexOf(subGalleryToViewName);
+
+        if (subGalleryToViewIdx > -1) {
+          return new SubGalleryActions.SubGallerySelected({
+            selectedSubGalleryName:
+              actionData.payload.subGalleries[subGalleryToViewIdx].en,
+          });
+        }
+
+        this.router.navigate(["/page-not-found"]);
+
+        return { type: "DUMMY" };
+      }
+    )
   );
 
   @Effect()
@@ -179,6 +229,7 @@ export class SubGalleryEffects {
     private img: ImagesService,
     private actions$: Actions,
     private store: Store,
-    private snackBarService: SnackBarService
+    private snackBarService: SnackBarService,
+    private router: Router
   ) {}
 }

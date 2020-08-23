@@ -38,16 +38,24 @@ export const selectAllSubGalleries = createSelector(
   }
 );
 
-export const selectCurrentSubGalleryId = createSelector(
+export const selectCurrentSubGalleryName = createSelector(
   selectSubGalleryState,
-  fromSubGallery.getSelectedSubGalleryId
+  fromSubGallery.getSelectedSubGalleryName
 );
 
 export const selectCurrentSubGallery = createSelector(
   selectSubGalleryState,
-  selectCurrentSubGalleryId,
+  selectCurrentSubGalleryName,
   imageSelectors.selectAll,
-  (subGalleryEntities, subGalleryId, imgEntities) => {
+  (subGalleryEntities, subGalleryName, imgEntities) => {
+    let subGalleryId = "";
+
+    for (let key in subGalleryEntities.entities) {
+      if (subGalleryEntities.entities[key].en === subGalleryName) {
+        subGalleryId = subGalleryEntities.entities[key]._id;
+      }
+    }
+
     if (!subGalleryId) {
       return;
     }
