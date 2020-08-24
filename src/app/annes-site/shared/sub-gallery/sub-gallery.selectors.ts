@@ -83,3 +83,8 @@ export const isSubGalleryCreated = createSelector(
   selectSubGalleryState,
   fromSubGallery.getSubGalleryCreated
 );
+
+export const subGalleriesLoaded = createSelector(
+  selectSubGalleryState,
+  fromSubGallery.subGalleriesLoaded
+);

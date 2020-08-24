@@ -19,24 +19,33 @@ export class SubGalleryEffects {
   @Effect()
   subGalleriesRequested = this.actions$.pipe(
     ofType(SubGalleryActions.SUB_GALLERIES_REQUESTED),
-    switchMap((actionData: SubGalleryActions.SubGalleriesRequested) => {
-      return this.img.getSubGalleriesFromApi(actionData.payload.url).pipe(
-        switchMap((resData: SubGallery[]) => {
-          let images = [];
-          resData.map((sg) => (images = [...images, ...sg.images]));
-
-          return [
-            new ImageActions.ImgsLoaded({ images }),
-            new SubGalleryActions.SubGalleriesLoaded({
-              subGalleries: resData,
-            }),
-          ];
-        }),
-        catchError((errorRes) => {
+    withLatestFrom(this.store.select(SubGallerySelectors.subGalleriesLoaded)),
+    switchMap(
+      ([actionData, subGalleriesLoaded]: [
+        SubGalleryActions.SubGalleriesRequested,
+        boolean
+      ]) => {
+        if (subGalleriesLoaded) {
           return of(new SubGalleryActions.SubGalleriesCancelled());
-        })
-      );
-    })
+        }
+        return this.img.getSubGalleriesFromApi(actionData.payload.url).pipe(
+          switchMap((resData: SubGallery[]) => {
+            let images = [];
+            resData.map((sg) => (images = [...images, ...sg.images]));
+
+            return [
+              new ImageActions.ImgsLoaded({ images }),
+              new SubGalleryActions.SubGalleriesLoaded({
+                subGalleries: resData,
+              }),
+            ];
+          }),
+          catchError((errorRes) => {
+            return of(new SubGalleryActions.SubGalleriesCancelled());
+          })
+        );
+      }
+    )
   );
 
   @Effect()

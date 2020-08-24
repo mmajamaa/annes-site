@@ -7,7 +7,7 @@ export const SUB_GALLERIES_REQUESTED =
   "[] Sub galleries requested from the API.";
 export const SUB_GALLERIES_LOADED = "[] Sub galleries loaded from the API.";
 export const SUB_GALLERIES_CANCELLED =
-  "[] Loading sub galleries from the API failed.";
+  "[] Loading sub galleries from the API cancelled.";
 export const SUB_GALLERIES_SAVE_REQUESTED =
   "[Admin Component] Save sub galleries requested.";
 export const SUB_GALLERIES_SAVED = "[] Saving sub galleries succeeded.";
@@ -47,7 +47,7 @@ export class SubGalleriesLoaded implements Action {
 }
 
 export class SubGalleriesCancelled implements Action {
-  public readonly type = SUB_GALLERIES_SAVE_CANCELLED;
+  public readonly type = SUB_GALLERIES_CANCELLED;
 }
 
 export class SubGalleriesSaveRequested implements Action {

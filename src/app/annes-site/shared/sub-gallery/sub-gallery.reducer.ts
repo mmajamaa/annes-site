@@ -7,6 +7,7 @@ export interface State extends EntityState<SubGallery> {
   selectedSubGalleryId: string | null;
   subGalleries: SubGallery[];
   subGalleryCreated: boolean;
+  subGalleriesLoaded: boolean;
 }
 
 export function compareBySo(a, b) {
@@ -22,6 +23,7 @@ export const initialState: State = adapter.getInitialState({
   selectedSubGalleryId: null,
   subGalleries: [],
   subGalleryCreated: null,
+  subGalleriesLoaded: false,
 });
 
 export function subGalleryReducer(
@@ -35,6 +37,7 @@ export function subGalleryReducer(
       });
       return adapter.addAll(subGalleries, {
         ...state,
+        subGalleriesLoaded: true,
       });
     case SubGalleryActions.SUB_GALLERY_SELECTED:
       return {
@@ -79,5 +82,7 @@ export const getSelectedSubGalleryId = (state: State) =>
   state.selectedSubGalleryId;
 
 export const getSubGalleryCreated = (state: State) => state.subGalleryCreated;
+
+export const subGalleriesLoaded = (state: State) => state.subGalleriesLoaded;
 
 export const { selectAll } = adapter.getSelectors();
