@@ -64,7 +64,7 @@ export class SubGalleriesSaveCancelled implements Action {
 
 export class SubGallerySelected implements Action {
   public readonly type = SUB_GALLERY_SELECTED;
-  public constructor(public payload: { selectedSubGalleryName: string }) {}
+  public constructor(public payload: { selectedSubGalleryId: string }) {}
 }
 
 export class SubGalleriesUpdateToStoreRequested implements Action {

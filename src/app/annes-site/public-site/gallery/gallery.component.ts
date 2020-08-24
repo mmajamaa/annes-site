@@ -40,7 +40,7 @@ export class GalleryComponent extends BaseComponent implements OnInit {
       });
   }
 
-  onSubGallerySelected(subGalleryName) {
-    this.facade.selectSubGallery(subGalleryName);
+  onSubGallerySelected(subGalleryId) {
+    this.facade.selectSubGallery(subGalleryId);
   }
 }

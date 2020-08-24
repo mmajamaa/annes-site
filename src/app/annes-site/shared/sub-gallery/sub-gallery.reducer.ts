@@ -4,7 +4,7 @@ import * as ImageActions from "../image/image.actions";
 import * as SubGalleryActions from "./sub-gallery.actions";
 
 export interface State extends EntityState<SubGallery> {
-  selectedSubGalleryName: string | null;
+  selectedSubGalleryId: string | null;
   subGalleries: SubGallery[];
   subGalleryCreated: boolean;
 }
@@ -19,7 +19,7 @@ const adapter: EntityAdapter<SubGallery> = createEntityAdapter<SubGallery>({
 });
 
 export const initialState: State = adapter.getInitialState({
-  selectedSubGalleryName: null,
+  selectedSubGalleryId: null,
   subGalleries: [],
   subGalleryCreated: null,
 });
@@ -39,7 +39,7 @@ export function subGalleryReducer(
     case SubGalleryActions.SUB_GALLERY_SELECTED:
       return {
         ...state,
-        selectedSubGalleryName: action.payload.selectedSubGalleryName,
+        selectedSubGalleryId: action.payload.selectedSubGalleryId,
       };
     case SubGalleryActions.SUB_GALLERIES_UPDATE_TO_STORE_REQUESTED:
       return adapter.updateMany(action.payload.subGalleries, state);
@@ -75,8 +75,8 @@ export function subGalleryReducer(
   }
 }
 
-export const getSelectedSubGalleryName = (state: State) =>
-  state.selectedSubGalleryName;
+export const getSelectedSubGalleryId = (state: State) =>
+  state.selectedSubGalleryId;
 
 export const getSubGalleryCreated = (state: State) => state.subGalleryCreated;
 

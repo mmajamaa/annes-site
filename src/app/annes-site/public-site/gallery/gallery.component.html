@@ -11,7 +11,7 @@
         [routerLink]="subGallery.en.toLowerCase()"
         *ngFor="let subGallery of subGalleries$ | async"
         routerLinkActive="active"
-        (click)="onSubGallerySelected(subGallery.en)"
+        (click)="onSubGallerySelected(subGallery._id)"
         >{{ language === "fi" ? subGallery.fi : subGallery.en }}</a
       >
     </div>

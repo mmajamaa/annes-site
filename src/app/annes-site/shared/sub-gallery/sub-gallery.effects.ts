@@ -59,8 +59,8 @@ export class SubGalleryEffects {
               actionData.payload.subGalleries[subGalleryToViewIdx].en,
           ]);
           return new SubGalleryActions.SubGallerySelected({
-            selectedSubGalleryName:
-              actionData.payload.subGalleries[subGalleryToViewIdx].en,
+            selectedSubGalleryId:
+              actionData.payload.subGalleries[subGalleryToViewIdx]._id,
           });
         } else if (url === "/gallery" && selectedSubGalleryName) {
           this.router.navigate([
@@ -79,8 +79,8 @@ export class SubGalleryEffects {
 
         if (subGalleryToViewIdx > -1) {
           return new SubGalleryActions.SubGallerySelected({
-            selectedSubGalleryName:
-              actionData.payload.subGalleries[subGalleryToViewIdx].en,
+            selectedSubGalleryId:
+              actionData.payload.subGalleries[subGalleryToViewIdx]._id,
           });
         }
 

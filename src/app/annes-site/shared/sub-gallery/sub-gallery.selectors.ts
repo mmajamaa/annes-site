@@ -38,24 +38,27 @@ export const selectAllSubGalleries = createSelector(
   }
 );
 
+export const selectCurrentSubGalleryId = createSelector(
+  selectSubGalleryState,
+  fromSubGallery.getSelectedSubGalleryId
+);
+
 export const selectCurrentSubGalleryName = createSelector(
   selectSubGalleryState,
-  fromSubGallery.getSelectedSubGalleryName
+  selectCurrentSubGalleryId,
+  (subGalleryState, subGalleryId) => {
+    if (!subGalleryId) {
+      return;
+    }
+    return subGalleryState.entities[subGalleryId].en;
+  }
 );
 
 export const selectCurrentSubGallery = createSelector(
   selectSubGalleryState,
-  selectCurrentSubGalleryName,
+  selectCurrentSubGalleryId,
   imageSelectors.selectAll,
-  (subGalleryEntities, subGalleryName, imgEntities) => {
-    let subGalleryId = "";
-
-    for (let key in subGalleryEntities.entities) {
-      if (subGalleryEntities.entities[key].en === subGalleryName) {
-        subGalleryId = subGalleryEntities.entities[key]._id;
-      }
-    }
-
+  (subGalleryEntities, subGalleryId, imgEntities) => {
     if (!subGalleryId) {
       return;
     }
