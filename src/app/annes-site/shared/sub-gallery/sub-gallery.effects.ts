@@ -36,7 +36,7 @@ export class SubGalleryEffects {
           return of(new SubGalleryActions.SubGalleriesCancelled());
         }
         return this.subGalleryService
-          .getSubGalleriesFromApi(actionData.payload.url)
+          .getSubGalleries(actionData.payload.url)
           .pipe(
             switchMap((resData: SubGallery[]) => {
               let images = [];
@@ -130,7 +130,7 @@ export class SubGalleryEffects {
       this.store.select(SubGallerySelectors.selectAllSubGalleries)
     ),
     switchMap(([actionData, subGalleries]) => {
-      return this.subGalleryService.updateSubGalleries(subGalleries).pipe(
+      return this.subGalleryService.putSubGalleries(subGalleries).pipe(
         map((updatedSubGalleries: SubGallery[]) => {
           this.snackBarService.openSnackBar(
             "Muutokset tallennettiin onnistuneesti.",
@@ -174,7 +174,7 @@ export class SubGalleryEffects {
         }
 
         return this.subGalleryService
-          .createGallery(actionData.payload.fi, actionData.payload.en)
+          .postSubGallery(actionData.payload.fi, actionData.payload.en)
           .pipe(
             map((subGalleryData: any) => {
               this.snackBarService.openSnackBar(
@@ -202,7 +202,7 @@ export class SubGalleryEffects {
     ofType(SubGalleryActions.SUB_GALLERY_DELETE_REQUESTED),
     switchMap((actionData: SubGalleryActions.SubGalleryDeleteRequested) => {
       return this.subGalleryService
-        .deleteGallery(actionData.payload.subGalleryId)
+        .deleteSubGallery(actionData.payload.subGalleryId)
         .pipe(
           map((deletedSubGallery: SubGallery) => {
             this.snackBarService.openSnackBar(
