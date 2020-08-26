@@ -10,7 +10,7 @@ import { environment } from "src/environments/environment";
 export class ImagesService {
   constructor(private http: HttpClient) {}
 
-  uploadImage(uploadObject, galleryId) {
+  postImage(uploadObject, galleryId) {
     return this.http.post(
       environment.baseUrl + "/api/images/" + galleryId,
       JSON.stringify(uploadObject),

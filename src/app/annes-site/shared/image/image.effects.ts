@@ -15,7 +15,7 @@ export class ImageEffetcs {
     ofType(ImageActions.IMG_UPLOAD_REQUESTED),
     switchMap((actionData: ImageActions.ImgUploadRequested) => {
       return this.img
-        .uploadImage(
+        .postImage(
           actionData.payload.uploadObject,
           actionData.payload.subGalleryId
         )
