@@ -19,13 +19,20 @@ export class SubGalleryEffects {
   @Effect()
   subGalleriesRequested = this.actions$.pipe(
     ofType(SubGalleryActions.SUB_GALLERIES_REQUESTED),
-    withLatestFrom(this.store.select(SubGallerySelectors.subGalleriesLoaded)),
+    withLatestFrom(
+      this.store.select(SubGallerySelectors.subGalleriesLoaded),
+      this.store.select(SubGallerySelectors.selectCurrentSubGalleryName)
+    ),
     switchMap(
-      ([actionData, subGalleriesLoaded]: [
+      ([actionData, subGalleriesLoaded, selectedSubGalleryName]: [
         SubGalleryActions.SubGalleriesRequested,
-        boolean
+        boolean,
+        string
       ]) => {
         if (subGalleriesLoaded) {
+          this.router.navigate([
+            `/gallery/${selectedSubGalleryName.toLowerCase()}`,
+          ]);
           return of(new SubGalleryActions.SubGalleriesCancelled());
         }
         return this.subGalleryService
@@ -66,8 +73,9 @@ export class SubGalleryEffects {
 
         if (url === "/gallery" && !selectedSubGalleryName) {
           this.router.navigate([
-            "/gallery/" +
-              actionData.payload.subGalleries[subGalleryToViewIdx].en,
+            `/gallery/${actionData.payload.subGalleries[
+              subGalleryToViewIdx
+            ].en.toLowerCase()}`,
           ]);
           return new SubGalleryActions.SubGallerySelected({
             selectedSubGalleryId:
@@ -75,7 +83,7 @@ export class SubGalleryEffects {
           });
         } else if (url === "/gallery" && selectedSubGalleryName) {
           this.router.navigate([
-            "/gallery/" + selectedSubGalleryName.toLowerCase(),
+            `/gallery/${selectedSubGalleryName.toLowerCase()}`,
           ]);
           return { type: "DUMMY" };
         }
@@ -93,11 +101,12 @@ export class SubGalleryEffects {
             selectedSubGalleryId:
               actionData.payload.subGalleries[subGalleryToViewIdx]._id,
           });
+        } else {
+          this.router.navigate(["/page-not-found"]);
+          return new SubGalleryActions.SubGallerySelected({
+            selectedSubGalleryId: actionData.payload.subGalleries[0]._id,
+          });
         }
-
-        this.router.navigate(["/page-not-found"]);
-
-        return { type: "DUMMY" };
       }
     )
   );
