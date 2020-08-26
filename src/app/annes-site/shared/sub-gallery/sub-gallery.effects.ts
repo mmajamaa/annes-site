@@ -7,7 +7,7 @@ import { Store } from "@ngrx/store";
 
 import * as SubGalleryActions from "./sub-gallery.actions";
 import * as SubGallerySelectors from "./sub-gallery.selectors";
-import { ImagesService } from "src/app/annes-site/shared/image/image.service";
+import { SubGalleryService } from "./sub-gallery.service";
 import { SubGallery } from "./sub-gallery";
 import * as AuthSelectors from "../../auth/store/auth.selectors";
 import { SnackBarService } from "src/app/annes-site/shared/snack-bar/snack-bar.service";
@@ -28,22 +28,24 @@ export class SubGalleryEffects {
         if (subGalleriesLoaded) {
           return of(new SubGalleryActions.SubGalleriesCancelled());
         }
-        return this.img.getSubGalleriesFromApi(actionData.payload.url).pipe(
-          switchMap((resData: SubGallery[]) => {
-            let images = [];
-            resData.map((sg) => (images = [...images, ...sg.images]));
+        return this.subGalleryService
+          .getSubGalleriesFromApi(actionData.payload.url)
+          .pipe(
+            switchMap((resData: SubGallery[]) => {
+              let images = [];
+              resData.map((sg) => (images = [...images, ...sg.images]));
 
-            return [
-              new ImageActions.ImgsLoaded({ images }),
-              new SubGalleryActions.SubGalleriesLoaded({
-                subGalleries: resData,
-              }),
-            ];
-          }),
-          catchError((errorRes) => {
-            return of(new SubGalleryActions.SubGalleriesCancelled());
-          })
-        );
+              return [
+                new ImageActions.ImgsLoaded({ images }),
+                new SubGalleryActions.SubGalleriesLoaded({
+                  subGalleries: resData,
+                }),
+              ];
+            }),
+            catchError((errorRes) => {
+              return of(new SubGalleryActions.SubGalleriesCancelled());
+            })
+          );
       }
     )
   );
@@ -119,7 +121,7 @@ export class SubGalleryEffects {
       this.store.select(SubGallerySelectors.selectAllSubGalleries)
     ),
     switchMap(([actionData, subGalleries]) => {
-      return this.img.updateSubGalleries(subGalleries).pipe(
+      return this.subGalleryService.updateSubGalleries(subGalleries).pipe(
         map((updatedSubGalleries: SubGallery[]) => {
           this.snackBarService.openSnackBar(
             "Muutokset tallennettiin onnistuneesti.",
@@ -162,7 +164,7 @@ export class SubGalleryEffects {
           }
         }
 
-        return this.img
+        return this.subGalleryService
           .createGallery(actionData.payload.fi, actionData.payload.en)
           .pipe(
             map((subGalleryData: any) => {
@@ -190,24 +192,26 @@ export class SubGalleryEffects {
   SubGalleryDeleteRequested = this.actions$.pipe(
     ofType(SubGalleryActions.SUB_GALLERY_DELETE_REQUESTED),
     switchMap((actionData: SubGalleryActions.SubGalleryDeleteRequested) => {
-      return this.img.deleteGallery(actionData.payload.subGalleryId).pipe(
-        map((deletedSubGallery: SubGallery) => {
-          this.snackBarService.openSnackBar(
-            "Galleria poistettiin onnistuneesti.",
-            "ok-snackbar"
-          );
-          return new SubGalleryActions.SubGalleryDeleteCompleted({
-            subGalleryId: deletedSubGallery._id,
-          });
-        }),
-        catchError((erroRes) => {
-          this.snackBarService.openSnackBar(
-            "Virhe gallerien poistamisessa. Yritä uudelleen.",
-            "warn-snackbar"
-          );
-          return of(new SubGalleryActions.SubGalleryDeleteCancelled());
-        })
-      );
+      return this.subGalleryService
+        .deleteGallery(actionData.payload.subGalleryId)
+        .pipe(
+          map((deletedSubGallery: SubGallery) => {
+            this.snackBarService.openSnackBar(
+              "Galleria poistettiin onnistuneesti.",
+              "ok-snackbar"
+            );
+            return new SubGalleryActions.SubGalleryDeleteCompleted({
+              subGalleryId: deletedSubGallery._id,
+            });
+          }),
+          catchError((erroRes) => {
+            this.snackBarService.openSnackBar(
+              "Virhe gallerien poistamisessa. Yritä uudelleen.",
+              "warn-snackbar"
+            );
+            return of(new SubGalleryActions.SubGalleryDeleteCancelled());
+          })
+        );
     })
   );
 
@@ -215,7 +219,7 @@ export class SubGalleryEffects {
   SubGalleriesPublishRequested = this.actions$.pipe(
     ofType(SubGalleryActions.SUB_GALLERIES_PUBLISH_REQUESTED),
     switchMap((actionData: SubGalleryActions.SubGalleriesPublishRequested) => {
-      return this.img.publishSubGalleries().pipe(
+      return this.subGalleryService.publishSubGalleries().pipe(
         map((res) => {
           this.snackBarService.openSnackBar(
             "Muutokset julkaistiin onnistuneesti.",
@@ -235,10 +239,10 @@ export class SubGalleryEffects {
   );
 
   constructor(
-    private img: ImagesService,
     private actions$: Actions,
     private store: Store,
     private snackBarService: SnackBarService,
-    private router: Router
+    private router: Router,
+    private subGalleryService: SubGalleryService
   ) {}
 }
