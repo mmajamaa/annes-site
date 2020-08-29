@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 
-import { of } from "rxjs";
+import { of, Observable } from "rxjs";
 import { Actions, ofType, Effect } from "@ngrx/effects";
 import { switchMap, catchError, withLatestFrom, map } from "rxjs/operators";
 import { Store } from "@ngrx/store";
@@ -15,10 +15,14 @@ import * as ImageActions from "../image/image.actions";
 import { Router } from "@angular/router";
 import { ImageStoreObj } from "../image/image";
 
-@Injectable({ providedIn: "root" })
+@Injectable({ "providedIn": "root" })
 export class SubGalleryEffects {
   @Effect()
-  subGalleriesRequested = this.actions$.pipe(
+  public subGalleriesRequested: Observable<
+    | SubGalleryActions.SubGalleriesLoaded
+    | ImageActions.ImgsLoaded
+    | SubGalleryActions.SubGalleriesCancelled
+  > = this.actions$.pipe(
     ofType(SubGalleryActions.SUB_GALLERIES_REQUESTED),
     withLatestFrom(
       this.store.select(SubGallerySelectors.subGalleriesLoaded),

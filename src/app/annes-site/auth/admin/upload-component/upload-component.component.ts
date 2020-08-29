@@ -9,16 +9,16 @@ import { takeUntil } from "rxjs/operators";
 import { BaseComponent } from "src/app/annes-site/core/base/base.component";
 
 @Component({
-  selector: "app-upload-component",
-  templateUrl: "./upload-component.component.html",
-  styleUrls: ["./upload-component.component.css"],
+  "selector": "app-upload-component",
+  "templateUrl": "./upload-component.component.html",
+  "styleUrls": ["./upload-component.component.css"],
 })
 export class UploadComponentComponent extends BaseComponent implements OnInit {
   public file: File = null;
   public imgUrl: string;
-  public disabled = true;
-  public loading = false;
-  @ViewChild("uploadForm") uploadForm;
+  public disabled: boolean = true;
+  public loading: boolean = false;
+  @ViewChild("uploadForm") private readonly uploadForm: HTMLFormElement;
   @Input() galleryId: string;
 
   constructor(

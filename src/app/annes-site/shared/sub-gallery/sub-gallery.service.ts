@@ -8,7 +8,7 @@ import { environment } from "src/environments/environment";
   "providedIn": "root",
 })
 export class SubGalleryService {
-  public constructor(private readonly http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   public getSubGalleries(url: string): Observable<SubGalleryImportObj[]> {
     return this.http.get<SubGalleryImportObj[]>(url);

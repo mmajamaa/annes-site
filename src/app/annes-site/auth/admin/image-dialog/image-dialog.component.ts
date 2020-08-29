@@ -3,23 +3,23 @@ import { MatDialogRef } from "@angular/material/dialog";
 import { BreakpointObserver, BreakpointState } from "@angular/cdk/layout";
 
 @Component({
-  selector: "app-image-dialog",
-  templateUrl: "./image-dialog.component.html",
-  styleUrls: ["./image-dialog.component.css"]
+  "selector": "app-image-dialog",
+  "templateUrl": "./image-dialog.component.html",
+  "styleUrls": ["./image-dialog.component.css"],
 })
 export class ImageDialogComponent implements OnInit {
   public galleryId: string;
 
-  constructor(
+  public constructor(
     public dialogRef: MatDialogRef<ImageDialogComponent>,
     public breakpointObserver: BreakpointObserver
   ) {}
 
-  onNoClick(): void {
+  public onNoClick(): void {
     this.dialogRef.close();
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.breakpointObserver
       .observe(["(min-width: 600px)"])
       .subscribe((state: BreakpointState) => {
