@@ -9,29 +9,18 @@
     "component-class-suffix": true,
     "contextual-lifecycle": true,
     "directive-class-suffix": true,
-    "directive-selector": [
-      true,
-      "attribute",
-      "app",
-      "camelCase"
-    ],
-    "component-selector": [
-      true,
-      "element",
-      "app",
-      "kebab-case"
-    ],
-    "import-blacklist": [
-      true,
-      "rxjs/Rx"
-    ],
+    "directive-selector": [true, "attribute", "app", "camelCase"],
+    "component-selector": [true, "element", "app", "kebab-case"],
+    "import-blacklist": [true, "rxjs/Rx"],
     "interface-name": false,
     "max-classes-per-file": false,
-    "max-line-length": [
+    "max-line-length": [true, 140],
+    "member-access": [
       true,
-      140
+      "check-accessor",
+      "check-constructor",
+      "check-parameter-property"
     ],
-    "member-access": false,
     "member-ordering": [
       true,
       {
@@ -44,34 +33,18 @@
       }
     ],
     "no-consecutive-blank-lines": false,
-    "no-console": [
-      true,
-      "debug",
-      "info",
-      "time",
-      "timeEnd",
-      "trace"
-    ],
+    "no-console": [true, "debug", "info", "time", "timeEnd", "trace"],
     "no-empty": false,
-    "no-inferrable-types": [
-      true,
-      "ignore-params"
-    ],
+    "no-inferrable-types": [true, "ignore-params"],
     "no-non-null-assertion": true,
     "no-redundant-jsdoc": true,
     "no-switch-case-fall-through": true,
     "no-use-before-declare": true,
     "no-var-requires": false,
-    "object-literal-key-quotes": [
-      true,
-      "as-needed"
-    ],
+    "object-literal-key-quotes": [true, "always"],
     "object-literal-sort-keys": false,
     "ordered-imports": false,
-    "quotemark": [
-      true,
-      "single"
-    ],
+    "quotemark": [true, "double"],
     "trailing-comma": false,
     "no-conflicting-lifecycle": true,
     "no-host-metadata-property": true,
@@ -84,9 +57,23 @@
     "template-banana-in-box": true,
     "template-no-negated-async": true,
     "use-lifecycle-interface": true,
-    "use-pipe-transform-interface": true
+    "use-pipe-transform-interface": true,
+    "semicolon": [true, "always"],
+    "no-any": true,
+    "typedef": [
+      true,
+      "call-signature",
+      "arrow-call-signature",
+      "parameter",
+      "parameter-arrow",
+      "property-declaration",
+      "variable-declaration",
+      "member-variable-declaration"
+    ]
   },
-  "rulesDirectory": [
-    "codelyzer"
-  ]
+  "rulesDirectory": ["codelyzer"],
+  "newline-before-return": true,
+  "prefer-template": true,
+  "no-unused-expression": true,
+  "no-floating-promises": [true, "router"]
 }
