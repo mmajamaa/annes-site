@@ -8,11 +8,12 @@ import { Store } from "@ngrx/store";
 import * as SubGalleryActions from "./sub-gallery.actions";
 import * as SubGallerySelectors from "./sub-gallery.selectors";
 import { SubGalleryService } from "./sub-gallery.service";
-import { SubGallery } from "./sub-gallery";
+import { SubGalleryImportObj, SubGalleryStoreObj } from "./sub-gallery";
 import * as AuthSelectors from "../../auth/store/auth.selectors";
 import { SnackBarService } from "src/app/annes-site/shared/snack-bar/snack-bar.service";
 import * as ImageActions from "../image/image.actions";
 import { Router } from "@angular/router";
+import { ImageStoreObj } from "../image/image";
 
 @Injectable({ providedIn: "root" })
 export class SubGalleryEffects {
@@ -38,18 +39,21 @@ export class SubGalleryEffects {
         return this.subGalleryService
           .getSubGalleries(actionData.payload.url)
           .pipe(
-            switchMap((resData: SubGallery[]) => {
-              let images = [];
-              resData.map((sg) => (images = [...images, ...sg.images]));
+            switchMap((resData: SubGalleryImportObj[]) => {
+              let images: ImageStoreObj[] = [];
+              resData.map(
+                (sg: SubGalleryImportObj) =>
+                  (images = [...images, ...sg.images])
+              );
 
               return [
                 new ImageActions.ImgsLoaded({ images }),
                 new SubGalleryActions.SubGalleriesLoaded({
-                  subGalleries: resData,
+                  "subGalleries": resData,
                 }),
               ];
             }),
-            catchError((errorRes) => {
+            catchError((errorRes: Error) => {
               return of(new SubGalleryActions.SubGalleriesCancelled());
             })
           );
@@ -68,7 +72,7 @@ export class SubGalleryEffects {
         SubGalleryActions.SubGalleriesLoaded,
         string
       ]) => {
-        let url = this.router.routerState.snapshot.url;
+        const url: string = this.router.routerState.snapshot.url;
         let subGalleryToViewIdx: number = 0;
 
         if (url === "/gallery" && !selectedSubGalleryName) {
@@ -115,12 +119,18 @@ export class SubGalleryEffects {
   subGalleriesUpdateToStoreRequested = this.actions$.pipe(
     ofType(SubGalleryActions.SUB_GALLERIES_UPDATE_TO_STORE_REQUESTED),
     withLatestFrom(this.store.select(AuthSelectors.isQuickSave)),
-    map(([actionData, isQuickSave]) => {
-      if (isQuickSave) {
-        return new SubGalleryActions.SubGalleriesUpdateToAPIRequested();
+    map(
+      ([actionData, isQuickSave]: [
+        SubGalleryActions.SubGalleriesUpdateToStoreRequested,
+        boolean
+      ]) => {
+        if (isQuickSave) {
+          return new SubGalleryActions.SubGalleriesUpdateToAPIRequested();
+        }
+
+        return { "type": "DUMMY" };
       }
-      return { type: "DUMMY" };
-    })
+    )
   );
 
   @Effect()
@@ -129,24 +139,31 @@ export class SubGalleryEffects {
     withLatestFrom(
       this.store.select(SubGallerySelectors.selectAllSubGalleries)
     ),
-    switchMap(([actionData, subGalleries]) => {
-      return this.subGalleryService.putSubGalleries(subGalleries).pipe(
-        map((updatedSubGalleries: SubGallery[]) => {
-          this.snackBarService.openSnackBar(
-            "Muutokset tallennettiin onnistuneesti.",
-            "ok-snackbar"
-          );
-          return new SubGalleryActions.SubGalleriesUpdateToAPICompleted();
-        }),
-        catchError((errorRes) => {
-          this.snackBarService.openSnackBar(
-            "Virhe muutosten tallentamisessa. Yritä uudelleen.",
-            "warn-snackbar"
-          );
-          return of(new SubGalleryActions.SubGalleriesUpdateToAPICancelled());
-        })
-      );
-    })
+    switchMap(
+      ([actionData, subGalleries]: [
+        SubGalleryActions.SubGalleriesUpdateToStoreRequested,
+        SubGalleryImportObj[]
+      ]) => {
+        return this.subGalleryService.putSubGalleries(subGalleries).pipe(
+          map((updatedSubGalleries: SubGalleryImportObj[]) => {
+            this.snackBarService.openSnackBar(
+              "Muutokset tallennettiin onnistuneesti.",
+              "ok-snackbar"
+            );
+
+            return new SubGalleryActions.SubGalleriesUpdateToAPICompleted();
+          }),
+          catchError((errorRes: Error) => {
+            this.snackBarService.openSnackBar(
+              "Virhe muutosten tallentamisessa. Yritä uudelleen.",
+              "warn-snackbar"
+            );
+
+            return of(new SubGalleryActions.SubGalleriesUpdateToAPICancelled());
+          })
+        );
+      }
+    )
   );
 
   @Effect()
@@ -158,7 +175,7 @@ export class SubGalleryEffects {
     switchMap(
       ([actionData, subGalleries]: [
         SubGalleryActions.SubGalleryCreateRequested,
-        any[]
+        SubGalleryImportObj[]
       ]) => {
         for (let i = 0; i < subGalleries.length; i++) {
           if (
@@ -169,6 +186,7 @@ export class SubGalleryEffects {
               "Virhe gallerien luomisessa. Saman niminen galleria on jo olemassa.",
               "warn-snackbar"
             );
+
             return of(new SubGalleryActions.SubGalleryCreateCancelled());
           }
         }
@@ -176,20 +194,22 @@ export class SubGalleryEffects {
         return this.subGalleryService
           .postSubGallery(actionData.payload.fi, actionData.payload.en)
           .pipe(
-            map((subGalleryData: any) => {
+            map((subGalleryData: SubGalleryStoreObj) => {
               this.snackBarService.openSnackBar(
                 "Galleria luotiin onnistuneesti.",
                 "ok-snackbar"
               );
+
               return new SubGalleryActions.SubGalleryCreateCompleted({
-                subGallery: subGalleryData,
+                "subGallery": subGalleryData,
               });
             }),
-            catchError((errorRes) => {
+            catchError(() => {
               this.snackBarService.openSnackBar(
                 "Virhe gallerien luomisessa.",
                 "warn-snackbar"
               );
+
               return of(new SubGalleryActions.SubGalleryCreateCancelled());
             })
           );
@@ -204,20 +224,22 @@ export class SubGalleryEffects {
       return this.subGalleryService
         .deleteSubGallery(actionData.payload.subGalleryId)
         .pipe(
-          map((deletedSubGallery: SubGallery) => {
+          map((deletedSubGallery: SubGalleryStoreObj) => {
             this.snackBarService.openSnackBar(
               "Galleria poistettiin onnistuneesti.",
               "ok-snackbar"
             );
+
             return new SubGalleryActions.SubGalleryDeleteCompleted({
-              subGalleryId: deletedSubGallery._id,
+              "subGalleryId": deletedSubGallery._id,
             });
           }),
-          catchError((erroRes) => {
+          catchError(() => {
             this.snackBarService.openSnackBar(
               "Virhe gallerien poistamisessa. Yritä uudelleen.",
               "warn-snackbar"
             );
+
             return of(new SubGalleryActions.SubGalleryDeleteCancelled());
           })
         );
@@ -227,31 +249,33 @@ export class SubGalleryEffects {
   @Effect()
   SubGalleriesPublishRequested = this.actions$.pipe(
     ofType(SubGalleryActions.SUB_GALLERIES_PUBLISH_REQUESTED),
-    switchMap((actionData: SubGalleryActions.SubGalleriesPublishRequested) => {
+    switchMap(() => {
       return this.subGalleryService.publishSubGalleries().pipe(
-        map((res) => {
+        map(() => {
           this.snackBarService.openSnackBar(
             "Muutokset julkaistiin onnistuneesti.",
             "ok-snackbar"
           );
+
           return new SubGalleryActions.SubGalleriesPublishCompleted();
         }),
-        catchError((erroRes) => {
+        catchError(() => {
           this.snackBarService.openSnackBar(
             "Virhe muutosten julkaisemisessa. Yritä uudelleen.",
             "warn-snackbar"
           );
+
           return of(new SubGalleryActions.SubGalleriesPublishCancelled());
         })
       );
     })
   );
 
-  constructor(
-    private actions$: Actions,
-    private store: Store,
-    private snackBarService: SnackBarService,
-    private router: Router,
-    private subGalleryService: SubGalleryService
+  public constructor(
+    private readonly actions$: Actions,
+    private readonly store: Store,
+    private readonly snackBarService: SnackBarService,
+    private readonly router: Router,
+    private readonly subGalleryService: SubGalleryService
   ) {}
 }

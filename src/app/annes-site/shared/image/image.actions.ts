@@ -1,6 +1,6 @@
 import { Action } from "@ngrx/store";
 
-import { Image } from "./image";
+import { ImageUploadObj, ImageStoreObj } from "./image";
 import { Update } from "@ngrx/entity";
 
 export const IMG_UPLOAD_REQUESTED = "[] Image upload requested.";
@@ -17,13 +17,13 @@ export const IMGS_UPDATE_TO_STORE_REQUESTED =
 export class ImgUploadRequested implements Action {
   public readonly type = IMG_UPLOAD_REQUESTED;
   public constructor(
-    public payload: { uploadObject: any; subGalleryId: string }
+    public payload: { uploadObject: ImageUploadObj; subGalleryId: string }
   ) {}
 }
 
 export class ImgUploadCompleted implements Action {
   public readonly type = IMG_UPLOAD_COMPLETED;
-  public constructor(public payload: { imgData: any }) {}
+  public constructor(public payload: { imgData: ImageStoreObj }) {}
 }
 
 export class ImgUploadCancelled implements Action {
@@ -50,12 +50,12 @@ export class ImgDeleteCancelled implements Action {
 
 export class ImgsLoaded implements Action {
   public readonly type = IMGS_LOADED;
-  public constructor(public payload: { images: Image[] }) {}
+  public constructor(public payload: { images: ImageStoreObj[] }) {}
 }
 
 export class ImgsUpdateToStoreRequested implements Action {
   public readonly type = IMGS_UPDATE_TO_STORE_REQUESTED;
-  public constructor(public payload: { images: Update<Image>[] }) {}
+  public constructor(public payload: { images: Update<ImageStoreObj>[] }) {}
 }
 
 export type ImageActions =

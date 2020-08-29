@@ -1,7 +1,7 @@
 import { Action } from "@ngrx/store";
 import { Update } from "@ngrx/entity";
 
-import { SubGallery } from "./sub-gallery";
+import { SubGalleryStoreObj, SubGalleryImportObj } from "./sub-gallery";
 
 export const SUB_GALLERIES_REQUESTED =
   "[] Sub galleries requested from the API.";
@@ -43,7 +43,7 @@ export class SubGalleriesRequested implements Action {
 
 export class SubGalleriesLoaded implements Action {
   public readonly type = SUB_GALLERIES_LOADED;
-  constructor(public payload: { subGalleries: SubGallery[] }) {}
+  constructor(public payload: { subGalleries: SubGalleryImportObj[] }) {}
 }
 
 export class SubGalleriesCancelled implements Action {
@@ -69,7 +69,9 @@ export class SubGallerySelected implements Action {
 
 export class SubGalleriesUpdateToStoreRequested implements Action {
   public readonly type = SUB_GALLERIES_UPDATE_TO_STORE_REQUESTED;
-  public constructor(public payload: { subGalleries: Update<SubGallery>[] }) {}
+  public constructor(
+    public payload: { subGalleries: Update<SubGalleryStoreObj>[] }
+  ) {}
 }
 
 export class SubGalleriesUpdateToStoreCompleted implements Action {
@@ -95,7 +97,7 @@ export class SubGalleryCreateRequested implements Action {
 
 export class SubGalleryCreateCompleted implements Action {
   public readonly type = SUB_GALLERY_CREATE_COMPLETED;
-  public constructor(public payload: { subGallery: SubGallery }) {}
+  public constructor(public payload: { subGallery: SubGalleryStoreObj }) {}
 }
 
 export class SubGalleryCreateCancelled implements Action {

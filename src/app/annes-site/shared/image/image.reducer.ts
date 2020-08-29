@@ -1,10 +1,10 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
 
-import { Image } from "./image";
+import { ImageStoreObj } from "./image";
 import * as ImageActions from "./image.actions";
 
-export interface State extends EntityState<Image> {
-  images: Image[];
+export interface State extends EntityState<ImageStoreObj> {
+  images: ImageStoreObj[];
   uploadingImgStatus: string;
 }
 
@@ -12,8 +12,10 @@ export function compareBySo(a, b) {
   return a.so - b.so;
 }
 
-export const adapter: EntityAdapter<Image> = createEntityAdapter<Image>({
-  selectId: (image) => image._id,
+export const adapter: EntityAdapter<ImageStoreObj> = createEntityAdapter<
+  ImageStoreObj
+>({
+  selectId: (image: ImageStoreObj) => image._id,
   sortComparer: compareBySo,
 });
 

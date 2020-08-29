@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { CdkDragDrop } from "@angular/cdk/drag-drop";
 
-import { Image } from "../../shared/image/image";
-import { SubGallery } from "src/app/annes-site/shared/sub-gallery/sub-gallery";
+import { ImageStoreObj } from "../../shared/image/image";
+import { SubGalleryImportObj } from "src/app/annes-site/shared/sub-gallery/sub-gallery";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { FacadeService } from "../../shared/facade/facade.service";
 import { ImageDialogComponent } from "./image-dialog/image-dialog.component";
@@ -11,6 +11,7 @@ import { BaseComponent } from "../../core/base/base.component";
 import { takeUntil } from "rxjs/operators";
 import { ImageModalComponent } from "./image-modal/image-modal.component";
 import { environment } from "src/environments/environment";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-admin",
@@ -18,27 +19,32 @@ import { environment } from "src/environments/environment";
   styleUrls: ["./admin.component.css"],
 })
 export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
-  public flagIcons = [
-    { src: "./assets/fi.png", alt: "fi" },
-    { src: "./assets/uk.png", alt: "uk" },
+  public flagIcons: { "src": string; "alt": string }[] = [
+    { "src": "./assets/fi.png", "alt": "fi" },
+    { "src": "./assets/uk.png", "alt": "uk" },
   ];
-  public subGalleries: SubGallery[] = [];
-  public imagesDropList = [];
-  public subGalleries$ = this.facade.selectSubGalleries();
-  @ViewChild("f") newSubGalleryForm;
-  @ViewChild("subGalleryForm") subGalleryForm;
+  public subGalleries: SubGalleryImportObj[] = [];
+  public imagesDropList: string[] = [];
+  public subGalleries$: Observable<
+    SubGalleryImportObj[]
+  > = this.facade.selectSubGalleries();
+  @ViewChild("f") private readonly newSubGalleryForm: HTMLFormElement;
+  @ViewChild("subGalleryForm") private readonly subGalleryForm: HTMLFormElement;
   @ViewChild(ImageModalComponent) imageModal: ImageModalComponent;
 
-  constructor(private dialog: MatDialog, private facade: FacadeService) {
+  constructor(
+    private readonly dialog: MatDialog,
+    private facade: FacadeService
+  ) {
     super();
   }
 
   ngOnInit() {
-    this.facade.subGalleriesRequested(environment.baseUrl + "/api/galleries");
+    this.facade.subGalleriesRequested(`${environment.baseUrl}/api/galleries`);
 
     this.subGalleries$
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((subGalleries) => {
+      .subscribe((subGalleries: SubGalleryImportObj[]) => {
         this.subGalleries = subGalleries;
         this.updateDropList();
         console.log(subGalleries);
@@ -64,7 +70,7 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
   }
 
   deleteImage(imgId: string, subGalleryId: string) {
-    if (confirm("Haluatko varmasti poistaa kuvan?") == false) {
+    if (!confirm("Haluatko varmasti poistaa kuvan?")) {
       return;
     }
 
@@ -187,7 +193,7 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
     return imageChanges;
   }
 
-  drop(event: CdkDragDrop<string[]>, subGallery: SubGallery) {
+  drop(event: CdkDragDrop<string[]>, subGallery: SubGalleryImportObj) {
     var toGalleryIdx = this.subGalleries.indexOf(subGallery);
 
     let subGalleriesChanges = [];
@@ -286,7 +292,7 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
     }
   }
 
-  onDeleteSubGallery(subGallery: SubGallery) {
+  onDeleteSubGallery(subGallery: SubGalleryImportObj) {
     if (
       confirm(
         `Haluatko varmasti poistaa gallerian '${subGallery.fi}' ja kaikki sen sisältämät kuvat?`
@@ -296,7 +302,7 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
     }
   }
 
-  onAddImage(subGallery: SubGallery) {
+  onAddImage(subGallery: SubGalleryImportObj) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = "custom-dialog-container";
 
