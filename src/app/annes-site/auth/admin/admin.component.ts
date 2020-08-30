@@ -313,7 +313,7 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
   public onFocusOutSubGallery(subGalleryId: string, field: string): void {
     const subGalleriesChanges: SubGalleryChanges[] = [];
 
-    for (const key of this.subGalleryForm.form.controls) {
+    for (const key of Object.keys(this.subGalleryForm.form.controls)) {
       // new value
       const val: string = this.subGalleryForm.form.controls[key].value;
       // to identify sub gallery/image and where is the value associated (alt_fin/alt_en)
@@ -350,7 +350,7 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
   ): void {
     const imagesChanges: ImageChanges[] = [];
 
-    for (const key of this.subGalleryForm.form.controls) {
+    for (const key of Object.keys(this.subGalleryForm.form.controls)) {
       // new value
       const val: string = this.subGalleryForm.form.controls[key].value;
       // to identify sub gallery/image and where is the value associated (alt_fin/alt_en)
