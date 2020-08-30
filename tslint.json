@@ -33,7 +33,7 @@
       }
     ],
     "no-consecutive-blank-lines": false,
-    "no-console": [true, "debug", "info", "time", "timeEnd", "trace"],
+    "no-console": true,
     "no-empty": false,
     "no-inferrable-types": false,
     "no-non-null-assertion": true,
@@ -63,6 +63,7 @@
     "typedef": [
       true,
       "call-signature",
+      "arrow-parameter",
       "arrow-call-signature",
       "parameter",
       "parameter-arrow",
