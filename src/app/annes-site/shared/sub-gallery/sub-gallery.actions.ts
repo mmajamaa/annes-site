@@ -1,7 +1,11 @@
 import { Action } from "@ngrx/store";
 import { Update } from "@ngrx/entity";
 
-import { SubGalleryStoreObj, SubGalleryImportObj } from "./sub-gallery";
+import {
+  SubGalleryStoreObj,
+  SubGalleryImportObj,
+  SubGalleryChanges,
+} from "./sub-gallery";
 
 export const SUB_GALLERIES_REQUESTED =
   "[] Sub galleries requested from the API.";
@@ -80,6 +84,7 @@ export class SubGalleriesUpdateToStoreCompleted implements Action {
 
 export class SubGalleriesUpdateToAPIRequested implements Action {
   public readonly type = SUB_GALLERIES_UPDATE_TO_API_REQUESTED;
+  public constructor(public payload: { subGalleries: SubGalleryChanges[] }) {}
 }
 
 export class SubGalleriesUpdateToAPICompleted implements Action {

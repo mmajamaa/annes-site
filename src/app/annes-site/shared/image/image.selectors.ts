@@ -11,6 +11,13 @@ export const selectAll = createSelector(
   (imgs) => imgs.entities
 );
 
+export const selectAllAsArray = createSelector(
+  selectAll,
+  (imgStoreEntities) => {
+    return Object.values(imgStoreEntities);
+  }
+);
+
 export const isUploadingImg = createSelector(
   selectImageState,
   fromImages.getUploadingImgStatus

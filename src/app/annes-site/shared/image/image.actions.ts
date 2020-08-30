@@ -1,7 +1,7 @@
 import { Action } from "@ngrx/store";
-
-import { ImageUploadObj, ImageStoreObj } from "./image";
 import { Update } from "@ngrx/entity";
+
+import { ImageUploadObj, ImageStoreObj, ImageChanges } from "./image";
 
 export const IMG_UPLOAD_REQUESTED = "[] Image upload requested.";
 export const IMG_UPLOAD_COMPLETED = "[] Image upload completed.";
@@ -12,7 +12,13 @@ export const IMG_DELETE_COMPLETED = "[] Image delete completed.";
 export const IMG_DELETE_CANCELLED = "[] Image delete cancelled.";
 export const IMGS_LOADED = "[] Images loaded";
 export const IMGS_UPDATE_TO_STORE_REQUESTED =
-  "[] Image update to store requested";
+  "[] Images update to store requested";
+export const IMGS_UPDATE_TO_API_REQUESTED =
+  "[Admin Component] Images update requested";
+export const IMGS_UPDATE_TO_API_COMPLETED =
+  "[Admin Component] Images update completed";
+export const IMGS_UPDATE_TO_API_CANCELLED =
+  "[Admin Component] Images update cancelled";
 
 export class ImgUploadRequested implements Action {
   public readonly type = IMG_UPLOAD_REQUESTED;
@@ -58,6 +64,20 @@ export class ImgsUpdateToStoreRequested implements Action {
   public constructor(public payload: { images: Update<ImageStoreObj>[] }) {}
 }
 
+// TODO: use this after renaming to ImagesUpdateRequested
+export class ImgsUpdateToAPIRequested implements Action {
+  public readonly type = IMGS_UPDATE_TO_API_REQUESTED;
+  public constructor(public paylaod: { images: ImageChanges[] }) {}
+}
+
+export class ImgsUpdateToAPICompleted implements Action {
+  public readonly type = IMGS_UPDATE_TO_API_COMPLETED;
+}
+
+export class ImgsUpdateToAPICancelled implements Action {
+  public readonly type = IMGS_UPDATE_TO_API_CANCELLED;
+}
+
 export type ImageActions =
   | ImgUploadRequested
   | ImgUploadCompleted
@@ -67,4 +87,7 @@ export type ImageActions =
   | ImgDeleteCompleted
   | ImgDeleteCancelled
   | ImgsLoaded
-  | ImgsUpdateToStoreRequested;
+  | ImgsUpdateToStoreRequested
+  | ImgsUpdateToAPIRequested
+  | ImgsUpdateToAPICompleted
+  | ImgsUpdateToAPICancelled;

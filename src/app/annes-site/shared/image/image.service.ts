@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { ImageStoreObj, ImageUploadObj } from "./image";
+import { ImageStoreObj, ImageUploadObj, ImageChanges } from "./image";
 import { Observable } from "rxjs";
 import { environment } from "../../../../environments/environment";
 
@@ -40,15 +40,15 @@ export class ImagesService {
     );
   }
 
-  public putImages(images: ImageStoreObj[]): Observable<ImageStoreObj> {
-    return this.http.put<ImageStoreObj>(
+  public putImages(images: ImageChanges[]): Observable<void> {
+    return this.http.put<void>(
       `${environment.baseUrl}` + "/api/images/",
-      images,
+      { images },
       {
         "observe": "body",
         "params": new HttpParams().append(
           "token",
-          localStorage.getItem("token")
+          JSON.parse(localStorage.getItem("user")).token
         ),
       }
     );

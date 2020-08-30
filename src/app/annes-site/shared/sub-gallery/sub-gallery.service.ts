@@ -1,6 +1,10 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { SubGalleryImportObj, SubGalleryStoreObj } from "./sub-gallery";
+import {
+  SubGalleryImportObj,
+  SubGalleryStoreObj,
+  SubGalleryChanges,
+} from "./sub-gallery";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 
@@ -47,10 +51,8 @@ export class SubGalleryService {
     );
   }
 
-  public putSubGalleries(
-    subGalleries: SubGalleryImportObj[]
-  ): Observable<SubGalleryImportObj[]> {
-    return this.http.put<SubGalleryImportObj[]>(
+  public putSubGalleries(subGalleries: SubGalleryChanges[]): Observable<void> {
+    return this.http.put<void>(
       `${environment.baseUrl}/api/galleries`,
       { subGalleries },
       {

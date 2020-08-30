@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 
 import { of, Observable } from "rxjs";
 import { Actions, ofType, Effect } from "@ngrx/effects";
@@ -8,11 +9,14 @@ import { Store } from "@ngrx/store";
 import * as SubGalleryActions from "./sub-gallery.actions";
 import * as SubGallerySelectors from "./sub-gallery.selectors";
 import { SubGalleryService } from "./sub-gallery.service";
-import { SubGalleryImportObj, SubGalleryStoreObj } from "./sub-gallery";
+import {
+  SubGalleryImportObj,
+  SubGalleryStoreObj,
+  SubGalleryChanges,
+} from "./sub-gallery";
 import * as AuthSelectors from "../../auth/store/auth.selectors";
 import { SnackBarService } from "src/app/annes-site/shared/snack-bar/snack-bar.service";
 import * as ImageActions from "../image/image.actions";
-import { Router } from "@angular/router";
 import { ImageStoreObj } from "../image/image";
 
 @Injectable({ "providedIn": "root" })
@@ -129,7 +133,10 @@ export class SubGalleryEffects {
         boolean
       ]) => {
         if (isQuickSave) {
-          return new SubGalleryActions.SubGalleriesUpdateToAPIRequested();
+          return new SubGalleryActions.SubGalleriesUpdateToAPIRequested({
+            "subGalleries": actionData.payload
+              .subGalleries as SubGalleryChanges[],
+          });
         }
 
         return { "type": "DUMMY" };
@@ -139,6 +146,7 @@ export class SubGalleryEffects {
 
   @Effect()
   subGalleriesLoadedToStore = this.actions$.pipe(
+    // TODO: RENAME
     ofType(SubGalleryActions.SUB_GALLERIES_UPDATE_TO_API_REQUESTED),
     withLatestFrom(
       this.store.select(SubGallerySelectors.selectAllSubGalleries)
@@ -148,24 +156,30 @@ export class SubGalleryEffects {
         SubGalleryActions.SubGalleriesUpdateToStoreRequested,
         SubGalleryImportObj[]
       ]) => {
-        return this.subGalleryService.putSubGalleries(subGalleries).pipe(
-          map((updatedSubGalleries: SubGalleryImportObj[]) => {
-            this.snackBarService.openSnackBar(
-              "Muutokset tallennettiin onnistuneesti.",
-              "ok-snackbar"
-            );
+        return this.subGalleryService
+          .putSubGalleries(
+            actionData.payload.subGalleries as SubGalleryChanges[]
+          )
+          .pipe(
+            map((res) => {
+              this.snackBarService.openSnackBar(
+                "Muutokset tallennettiin onnistuneesti.",
+                "ok-snackbar"
+              );
 
-            return new SubGalleryActions.SubGalleriesUpdateToAPICompleted();
-          }),
-          catchError((errorRes: Error) => {
-            this.snackBarService.openSnackBar(
-              "Virhe muutosten tallentamisessa. Yritä uudelleen.",
-              "warn-snackbar"
-            );
+              return new SubGalleryActions.SubGalleriesUpdateToAPICompleted();
+            }),
+            catchError((errorRes: Error) => {
+              this.snackBarService.openSnackBar(
+                "Virhe muutosten tallentamisessa. Yritä uudelleen.",
+                "warn-snackbar"
+              );
 
-            return of(new SubGalleryActions.SubGalleriesUpdateToAPICancelled());
-          })
-        );
+              return of(
+                new SubGalleryActions.SubGalleriesUpdateToAPICancelled()
+              );
+            })
+          );
       }
     )
   );
