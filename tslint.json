@@ -76,5 +76,6 @@
   "newline-before-return": true,
   "prefer-template": true,
   "no-unused-expression": true,
-  "no-floating-promises": [true, "router"]
+  "no-floating-promises": [true, "router"],
+  "prefer-readonly": true
 }
