@@ -2,9 +2,12 @@ import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { CdkDragDrop } from "@angular/cdk/drag-drop";
 
-import { ImageStoreObj } from "../../shared/image/image";
 import { SubGalleryImportObj } from "src/app/annes-site/shared/sub-gallery/sub-gallery";
-import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef,
+} from "@angular/material/dialog";
 import { FacadeService } from "../../shared/facade/facade.service";
 import { ImageDialogComponent } from "./image-dialog/image-dialog.component";
 import { BaseComponent } from "../../core/base/base.component";
@@ -12,11 +15,22 @@ import { takeUntil } from "rxjs/operators";
 import { ImageModalComponent } from "./image-modal/image-modal.component";
 import { environment } from "src/environments/environment";
 import { Observable } from "rxjs";
+import { ImageStoreObj } from "../../shared/image/image";
+
+interface SubGalleryChanges {
+  "id": string;
+  "changes": { "so"?: number; "images"?: string[] };
+}
+
+interface ImageChanges {
+  "id": string;
+  "changes": { "gallery"?: string; "so"?: number };
+}
 
 @Component({
-  selector: "app-admin",
-  templateUrl: "./admin.component.html",
-  styleUrls: ["./admin.component.css"],
+  "selector": "app-admin",
+  "templateUrl": "./admin.component.html",
+  "styleUrls": ["./admin.component.css"],
 })
 export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
   public flagIcons: { "src": string; "alt": string }[] = [
@@ -30,16 +44,17 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
   > = this.facade.selectSubGalleries();
   @ViewChild("f") private readonly newSubGalleryForm: HTMLFormElement;
   @ViewChild("subGalleryForm") private readonly subGalleryForm: HTMLFormElement;
-  @ViewChild(ImageModalComponent) imageModal: ImageModalComponent;
+  @ViewChild(ImageModalComponent)
+  private readonly imageModal: ImageModalComponent;
 
-  constructor(
+  public constructor(
     private readonly dialog: MatDialog,
     private facade: FacadeService
   ) {
     super();
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.facade.subGalleriesRequested(`${environment.baseUrl}/api/galleries`);
 
     this.subGalleries$
@@ -62,88 +77,90 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
       });
   }
 
-  updateDropList() {
+  public updateDropList(): void {
     this.imagesDropList = [];
-    for (let subGallery of this.subGalleries) {
+    for (const subGallery of this.subGalleries) {
       this.imagesDropList.push(subGallery._id);
     }
   }
 
-  deleteImage(imgId: string, subGalleryId: string) {
-    if (!confirm("Haluatko varmasti poistaa kuvan?")) {
-      return;
+  public deleteImage(imgId: string, subGalleryId: string): void {
+    if (confirm("Haluatko varmasti poistaa kuvan?")) {
+      this.facade.deleteImgRequested(imgId, subGalleryId);
     }
-
-    this.facade.deleteImgRequested(imgId, subGalleryId);
   }
 
-  imgMovedBetweenSubGalleries(
-    fromSubGalleryId,
-    toGalleryIdx,
-    imgsCurrentIdx,
-    imgsPreviousIdx
-  ) {
-    let imageChanges = [];
-    let subGalleriesChanges = [];
+  private imgMovedBetweenSubGalleries(
+    fromSubGalleryId: string,
+    toGalleryIdx: number,
+    imgsCurrentIdx: number,
+    imgsPreviousIdx: number
+  ): (ImageChanges[] | SubGalleryChanges[])[] {
+    let imagesChanges: ImageChanges[];
+    const subGalleriesChanges: SubGalleryChanges[] = [];
 
-    var fromGalleryIdx: number = this.subGalleries.findIndex(
-      (sg) => sg._id === fromSubGalleryId
+    const fromGalleryIdx: number = this.subGalleries.findIndex(
+      (sg: SubGalleryImportObj) => sg._id === fromSubGalleryId
     );
 
     // imgs that already existed in the sub gallery where img was moved
-    imageChanges = [
-      ...imageChanges,
-      ...this.subGalleries[toGalleryIdx].images.map((img, i) => {
-        return {
-          id: img._id,
-          changes: {
-            so: i < imgsCurrentIdx ? img.so : img.so + 1,
-          },
-        };
-      }),
+    imagesChanges = [
+      ...this.subGalleries[toGalleryIdx].images.map(
+        (img: ImageStoreObj, i: number) => {
+          return {
+            "id": img._id,
+            "changes": {
+              "so": i < imgsCurrentIdx ? img.so : img.so + 1,
+            },
+          };
+        }
+      ),
     ];
     // img that was moved to sub gallery
-    imageChanges.push({
-      id: this.subGalleries[fromGalleryIdx].images[imgsPreviousIdx]._id,
-      changes: {
-        gallery: this.subGalleries[toGalleryIdx]._id,
-        so: imgsCurrentIdx,
+    imagesChanges.push({
+      "id": this.subGalleries[fromGalleryIdx].images[imgsPreviousIdx]._id,
+      "changes": {
+        "gallery": this.subGalleries[toGalleryIdx]._id,
+        "so": imgsCurrentIdx,
       },
     });
 
-    let temp = this.subGalleries[toGalleryIdx].images.map((img) => img._id);
-    temp.push(this.subGalleries[fromGalleryIdx].images[imgsPreviousIdx]._id);
+    const toGalleryImgIds: string[] = this.subGalleries[
+      toGalleryIdx
+    ].images.map((img: ImageStoreObj) => img._id);
+    toGalleryImgIds.push(
+      this.subGalleries[fromGalleryIdx].images[imgsPreviousIdx]._id
+    );
 
-    let clonedToGallery = {
-      id: this.subGalleries[toGalleryIdx]._id,
-      changes: {
-        images: temp,
+    const clonedToGallery: SubGalleryChanges = {
+      "id": this.subGalleries[toGalleryIdx]._id,
+      "changes": {
+        "images": toGalleryImgIds,
       },
     };
 
-    imageChanges = [
-      ...imageChanges,
-      this.subGalleries[fromGalleryIdx].images.map((img, i) => {
-        if (i === imgsPreviousIdx) {
-          return;
-        }
-        return {
-          id: img._id,
-          changes: {
-            so: i < imgsPreviousIdx ? img.so : img.so - 1,
-          },
-        };
-      }),
+    imagesChanges = [
+      ...imagesChanges,
+      ...this.subGalleries[fromGalleryIdx].images
+        .filter((img: ImageStoreObj, i: number) => i !== imgsPreviousIdx)
+        .map((img: ImageStoreObj, i: number) => {
+          return {
+            "id": img._id,
+            "changes": {
+              "so": i < imgsPreviousIdx ? img.so : img.so - 1,
+            },
+          };
+        }),
     ];
 
-    let clonedFromGallery = {
-      id: this.subGalleries[fromGalleryIdx]._id,
-      changes: {
-        images: this.subGalleries[fromGalleryIdx].images
-          .map((img) => img._id)
+    const clonedFromGallery: SubGalleryChanges = {
+      "id": this.subGalleries[fromGalleryIdx]._id,
+      "changes": {
+        "images": this.subGalleries[fromGalleryIdx].images
+          .map((img: ImageStoreObj) => img._id)
           .filter(
-            (img) =>
-              img !==
+            (imgId: string) =>
+              imgId !==
               this.subGalleries[fromGalleryIdx].images[imgsPreviousIdx]._id
           ),
       },
@@ -152,52 +169,55 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
     subGalleriesChanges.push(clonedToGallery);
     subGalleriesChanges.push(clonedFromGallery);
 
-    return [imageChanges, subGalleriesChanges];
+    return [imagesChanges, subGalleriesChanges];
   }
 
-  imgMovedInsideSubGallery(
-    difference,
-    imgsCurrentIdx,
-    imgsPreviousIdx,
-    subGalleryIdx
-  ) {
-    let imageChanges = [];
+  private imgMovedInsideSubGallery(
+    difference: number,
+    imgsCurrentIdx: number,
+    imgsPreviousIdx: number,
+    subGalleryIdx: number
+  ): ImageChanges[] {
+    const imagesChanges: ImageChanges[] = [];
 
     if (difference < 0) {
       // moved down in list
       // copy the image and images that follow
       for (
-        let i = imgsCurrentIdx;
+        let i: number = imgsCurrentIdx;
         i < this.subGalleries[subGalleryIdx].images.length;
         i++
       ) {
-        imageChanges.push({
-          id: this.subGalleries[subGalleryIdx].images[
+        imagesChanges.push({
+          "id": this.subGalleries[subGalleryIdx].images[
             i === imgsCurrentIdx ? imgsPreviousIdx : i - 1
           ]._id,
-          changes: { so: i },
+          "changes": { "so": i },
         });
       }
     } else if (difference > 0) {
       // moved up in list
-      for (let i = imgsCurrentIdx; i >= 0; i--) {
-        imageChanges.push({
-          id: this.subGalleries[subGalleryIdx].images[
+      for (let i: number = imgsCurrentIdx; i >= 0; i--) {
+        imagesChanges.push({
+          "id": this.subGalleries[subGalleryIdx].images[
             i === imgsCurrentIdx ? imgsPreviousIdx : i + 1
           ]._id,
-          changes: { so: i },
+          "changes": { "so": i },
         });
       }
     }
 
-    return imageChanges;
+    return imagesChanges;
   }
 
-  drop(event: CdkDragDrop<string[]>, subGallery: SubGalleryImportObj) {
-    var toGalleryIdx = this.subGalleries.indexOf(subGallery);
+  public drop(
+    event: CdkDragDrop<string[]>,
+    subGallery: SubGalleryImportObj
+  ): void {
+    const toGalleryIdx: number = this.subGalleries.indexOf(subGallery);
 
-    let subGalleriesChanges = [];
-    let values = [];
+    let subGalleriesChanges: SubGalleryChanges[] = [];
+    let values: (ImageChanges[] | SubGalleryChanges[])[] = [];
 
     // img's location didn't change
     if (
@@ -207,11 +227,11 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
       return;
     }
 
-    let imageChanges = [];
+    let imagesChanges: ImageChanges[] = [];
 
     if (event.previousContainer === event.container) {
-      let difference = event.currentIndex - event.previousIndex;
-      imageChanges = this.imgMovedInsideSubGallery(
+      const difference: number = event.currentIndex - event.previousIndex;
+      imagesChanges = this.imgMovedInsideSubGallery(
         difference,
         event.currentIndex,
         event.previousIndex,
@@ -225,49 +245,49 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
         event.previousIndex
       );
 
-      imageChanges = values[0];
+      imagesChanges = values[0];
       subGalleriesChanges = values[1];
     }
 
-    this.facade.imagesUpdateToStoreRequested(imageChanges);
+    this.facade.imagesUpdateToStoreRequested(imagesChanges);
     this.facade.subGalleriesUpdateToStoreRequested(subGalleriesChanges);
   }
 
-  dropSubGallery(event: CdkDragDrop<string[]>) {
+  public dropSubGallery(event: CdkDragDrop<string[]>): void {
     // sub gallery's location didn't change
     if (event.previousIndex === event.currentIndex) {
       return;
     }
 
-    let clonedSubGalleries = [];
-    let difference = event.currentIndex - event.previousIndex;
+    const clonedSubGalleries: SubGalleryChanges[] = [];
+    const difference: number = event.currentIndex - event.previousIndex;
 
     if (difference < 0) {
       // moved down in list
       for (
-        let i = event.currentIndex;
+        let i: number = event.currentIndex;
         i <= event.currentIndex - difference;
         i++
       ) {
         clonedSubGalleries.push({
-          id: this.subGalleries[
+          "id": this.subGalleries[
             i === event.currentIndex ? event.previousIndex : i - 1
           ]._id,
-          changes: { so: i },
+          "changes": { "so": i },
         });
       }
     } else if (difference > 0) {
       // moved up in list
       for (
-        let i = event.currentIndex;
+        let i: number = event.currentIndex;
         i >= event.currentIndex - difference;
         i--
       ) {
         clonedSubGalleries.push({
-          id: this.subGalleries[
+          "id": this.subGalleries[
             i === event.currentIndex ? event.previousIndex : i + 1
           ]._id,
-          changes: { so: i },
+          "changes": { "so": i },
         });
       }
     }
@@ -275,11 +295,7 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
     this.facade.subGalleriesUpdateToStoreRequested(clonedSubGalleries);
   }
 
-  onPublishChanges() {
-    this.facade.subGalleriesPublishRequested();
-  }
-
-  onAddSubGallery(form: NgForm) {
+  public onAddSubGallery(form: NgForm): void {
     if (
       confirm(
         `Haluatko varmasti luoda gallerian nimeltä '${form.value.galleryFi}'?`
@@ -292,7 +308,7 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
     }
   }
 
-  onDeleteSubGallery(subGallery: SubGalleryImportObj) {
+  public onDeleteSubGallery(subGallery: SubGalleryImportObj): void {
     if (
       confirm(
         `Haluatko varmasti poistaa gallerian '${subGallery.fi}' ja kaikki sen sisältämät kuvat?`
@@ -302,28 +318,31 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
     }
   }
 
-  onAddImage(subGallery: SubGalleryImportObj) {
-    const dialogConfig = new MatDialogConfig();
+  public onAddImage(subGallery: SubGalleryImportObj): void {
+    const dialogConfig: MatDialogConfig = new MatDialogConfig();
     dialogConfig.panelClass = "custom-dialog-container";
 
-    const dialogRef = this.dialog.open(ImageDialogComponent, dialogConfig);
+    const dialogRef: MatDialogRef<ImageDialogComponent> = this.dialog.open(
+      ImageDialogComponent,
+      dialogConfig
+    );
     dialogRef.componentInstance.galleryId = subGallery._id;
   }
 
-  openImage(event) {
+  public openImage(event: HTMLImageElement): void {
     this.imageModal.openImage(event);
   }
 
-  onFocusOutSubGallery(subGalleryId, field) {
-    let subGalleriesChanges = [];
+  public onFocusOutSubGallery(subGalleryId: string, field: string): void {
+    const subGalleriesChanges: SubGalleryChanges[] = [];
 
-    for (let key in this.subGalleryForm.form.controls) {
+    for (const key of this.subGalleryForm.form.controls) {
       // new value
-      let val = this.subGalleryForm.form.controls[key].value;
+      const val: string = this.subGalleryForm.form.controls[key].value;
       // to identify sub gallery/image and where is the value associated (alt_fin/alt_en)
-      let identifiers = key.split(" ");
-      let subGalleryIdForm = "";
-      let fieldToUpdate = "";
+      const identifiers: string[] = key.split(" ");
+      let subGalleryIdForm: string;
+      let fieldToUpdate: string;
 
       subGalleryIdForm = identifiers[0].split(":")[1];
 
@@ -332,12 +351,14 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
       }
 
       fieldToUpdate = identifiers[1];
+
       if (fieldToUpdate !== field) {
         continue;
       }
+
       subGalleriesChanges.push({
-        id: subGalleryId,
-        changes: {
+        "id": subGalleryId,
+        "changes": {
           [fieldToUpdate]: val,
         },
       });
@@ -345,17 +366,21 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
     }
   }
 
-  onFocusOutImg(subGalleryId, field, imgId) {
-    let imgChanges = [];
+  public onFocusOutImg(
+    subGalleryId: string,
+    field: string,
+    imgId: string
+  ): void {
+    const imagesChanges: ImageChanges[] = [];
 
-    for (let key in this.subGalleryForm.form.controls) {
+    for (const key of this.subGalleryForm.form.controls) {
       // new value
-      let val = this.subGalleryForm.form.controls[key].value;
+      const val: string = this.subGalleryForm.form.controls[key].value;
       // to identify sub gallery/image and where is the value associated (alt_fin/alt_en)
-      let identifiers = key.split(" ");
-      let subGalleryIdForm = "";
-      let imgIdForm = "";
-      let fieldToUpdate = "";
+      const identifiers: string[] = key.split(" ");
+      let subGalleryIdForm: string;
+      let imgIdForm: string;
+      let fieldToUpdate: string;
 
       subGalleryIdForm = identifiers[0].split(":")[1];
       imgIdForm = identifiers[1].split(":")[1];
@@ -374,9 +399,9 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
         continue;
       }
 
-      imgChanges.push({ id: imgId, changes: { [fieldToUpdate]: val } });
+      imagesChanges.push({ "id": imgId, "changes": { [fieldToUpdate]: val } });
 
-      this.facade.imagesUpdateToStoreRequested(imgChanges);
+      this.facade.imagesUpdateToStoreRequested(imagesChanges);
     }
   }
 }
