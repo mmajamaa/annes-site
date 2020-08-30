@@ -183,67 +183,7 @@
         </div>
       </div>
       <!-- new subgallery -->
-      <div
-        class="new-sub-gallery-main-container"
-        fxLayout="column"
-        fxLayoutAlign="start center"
-      >
-        <div
-          class="new-sub-gallery-container"
-          fxLayout="row"
-          fxLayoutAlign="center center"
-        >
-          <form
-            #f="ngForm"
-            fxFlex="nogrow"
-            fxLayout="column"
-            fxLayoutAlign="none center"
-            ngNativeValidate
-          >
-            <!-- Finnish -->
-            <span fxFlex="nogrow" fxLayout="row" fxLayoutAlign="none center">
-              <img
-                class="flag-icon"
-                fxFlex="nogrow"
-                [src]="flagIcons[0].src"
-                alt="flagIcons[0].src"
-              />
-              <input
-                class="card-input"
-                type="text"
-                name="galleryFi"
-                placeholder="Uuden gallerian nimi"
-                ngModel
-                required
-              />
-            </span>
-            <!-- English -->
-            <span fxFlex="nogrow" fxLayout="row" fxLayoutAlign="none center">
-              <img
-                class="flag-icon"
-                fxFlex="nogrow"
-                [src]="flagIcons[1].src"
-                alt="flagIcons[1].src"
-              />
-              <input
-                class="card-input"
-                type="text"
-                name="galleryEn"
-                placeholder="Uuden gallerian nimi"
-                ngModel
-                required
-              />
-            </span>
-          </form>
-          <button
-            (click)="onAddSubGallery(f)"
-            fxFlex="nogrow"
-            [disabled]="!f.valid"
-          >
-            +
-          </button>
-        </div>
-      </div>
+      <app-new-sub-gallery-form></app-new-sub-gallery-form>
     </div>
   </form>
 </div>

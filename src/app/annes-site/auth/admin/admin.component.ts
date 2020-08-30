@@ -42,7 +42,6 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
   public subGalleries$: Observable<
     SubGalleryImportObj[]
   > = this.facade.selectSubGalleries();
-  @ViewChild("f") private readonly newSubGalleryForm: HTMLFormElement;
   @ViewChild("subGalleryForm") private readonly subGalleryForm: HTMLFormElement;
   @ViewChild(ImageModalComponent)
   private readonly imageModal: ImageModalComponent;
@@ -66,15 +65,6 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
       });
 
     this.facade.autoLogin();
-
-    this.facade
-      .getIsSubGalleryCreated()
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe((res: boolean) => {
-        if (res) {
-          this.newSubGalleryForm.reset();
-        }
-      });
   }
 
   public updateDropList(): void {
@@ -293,19 +283,6 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
     }
 
     this.facade.subGalleriesUpdateToStoreRequested(clonedSubGalleries);
-  }
-
-  public onAddSubGallery(form: NgForm): void {
-    if (
-      confirm(
-        `Haluatko varmasti luoda gallerian nimeltä '${form.value.galleryFi}'?`
-      )
-    ) {
-      this.facade.createSubGalleryRequested(
-        form.value.galleryFi,
-        form.value.galleryEn
-      );
-    }
   }
 
   public onDeleteSubGallery(subGallery: SubGalleryImportObj): void {

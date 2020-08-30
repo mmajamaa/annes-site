@@ -16,9 +16,10 @@ import { DeactivateGuardService } from "./admin/deactivate-guard.service";
 import { AuthGuard } from "./auth-guard.service";
 import { SharedModule } from "../shared/shared.module";
 import { ImageModalComponent } from "./admin/image-modal/image-modal.component";
+import { NewSubGalleryFormComponent } from "./admin/new-sub-gallery-form/new-sub-gallery-form.component";
 
 @NgModule({
-  declarations: [
+  "declarations": [
     AdminComponent,
     LoginComponent,
     UserBarComponent,
@@ -26,28 +27,29 @@ import { ImageModalComponent } from "./admin/image-modal/image-modal.component";
     ImageDialogComponent,
     SpinnerOverlayComponent,
     ImageModalComponent,
+    NewSubGalleryFormComponent,
   ],
-  imports: [
+  "imports": [
     RouterModule.forChild([
-      { path: "", redirectTo: "admin", pathMatch: "full" },
+      { "path": "", "redirectTo": "admin", "pathMatch": "full" },
       {
-        path: "admin",
-        component: AdminComponent,
-        canActivate: [AuthGuard],
-        canDeactivate: [DeactivateGuardService],
+        "path": "admin",
+        "component": AdminComponent,
+        "canActivate": [AuthGuard],
+        "canDeactivate": [DeactivateGuardService],
       },
       {
-        path: "login",
-        component: LoginComponent,
-        resolve: { authResolver: LoginResolver },
+        "path": "login",
+        "component": LoginComponent,
+        "resolve": { "authResolver": LoginResolver },
       },
     ]),
     FormsModule,
     SharedModule,
     CommonModule,
   ],
-  providers: [NgxImageCompressService],
+  "providers": [NgxImageCompressService],
 
-  entryComponents: [ImageDialogComponent, SpinnerOverlayComponent],
+  "entryComponents": [ImageDialogComponent, SpinnerOverlayComponent],
 })
 export class AuthModule {}

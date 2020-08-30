@@ -1,0 +1,36 @@
+.new-sub-gallery-container {
+  background-color: antiquewhite;
+  margin: 16px;
+  border-radius: 8px;
+  width: 250px;
+}
+
+@media screen and (max-width: 600px) {
+  .new-sub-gallery-container {
+    width: 70vw;
+  }
+
+  .new-sub-gallery-container {
+    scroll-snap-align: center;
+  }
+}
+
+/* TODO: These are used in admin.component.css too, move to some common css-file. */
+.card-input {
+  width: calc(100% - 30px);
+  margin: 8px;
+  border: none;
+  background-color: inherit;
+  font-weight: bolder;
+  height: 20px;
+}
+
+.card-input:hover {
+  cursor: pointer;
+}
+
+.flag-icon {
+  height: 10px;
+  width: auto;
+  margin: 8px 0px;
+}

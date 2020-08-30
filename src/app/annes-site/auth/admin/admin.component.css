@@ -9,13 +9,6 @@
   width: 250px;
 }
 
-.new-sub-gallery-container {
-  background-color: antiquewhite;
-  margin: 16px;
-  border-radius: 8px;
-  width: 250px;
-}
-
 .sub-galleries-container {
   overflow: auto;
 }
@@ -74,7 +67,6 @@ input[type="submit"]:hover {
 #myImg:hover {
   opacity: 0.7;
 }
-
 
 .row > .column {
   padding: 0 8px;
@@ -184,19 +176,16 @@ select {
 }
 
 @media screen and (max-width: 600px) {
-  .image-card, .sub-gallery-top-container, .new-sub-gallery-container {
+  .image-card,
+  .sub-gallery-top-container {
     width: 70vw;
   }
 
   .sub-galleries-container {
     scroll-snap-type: x mandatory;
   }
-  
-  .sub-gallery-container {
-    scroll-snap-align: center;
-  }
 
-  .new-sub-gallery-container {
+  .sub-gallery-container {
     scroll-snap-align: center;
   }
 }
