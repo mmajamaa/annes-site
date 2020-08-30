@@ -2,7 +2,10 @@ import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
 import { CdkDragDrop } from "@angular/cdk/drag-drop";
 
-import { SubGalleryImportObj } from "src/app/annes-site/shared/sub-gallery/sub-gallery";
+import {
+  SubGalleryImportObj,
+  SubGalleryChanges,
+} from "src/app/annes-site/shared/sub-gallery/sub-gallery";
 import {
   MatDialog,
   MatDialogConfig,
@@ -15,17 +18,7 @@ import { takeUntil } from "rxjs/operators";
 import { ImageModalComponent } from "./image-modal/image-modal.component";
 import { environment } from "src/environments/environment";
 import { Observable } from "rxjs";
-import { ImageStoreObj } from "../../shared/image/image";
-
-interface SubGalleryChanges {
-  "id": string;
-  "changes": { "so"?: number; "images"?: string[] };
-}
-
-interface ImageChanges {
-  "id": string;
-  "changes": { "gallery"?: string; "so"?: number };
-}
+import { ImageStoreObj, ImageChanges } from "../../shared/image/image";
 
 @Component({
   "selector": "app-admin",
