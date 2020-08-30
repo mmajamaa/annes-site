@@ -1,12 +1,14 @@
-import { Component, OnInit, ViewChild, Input } from "@angular/core";
-import { ImagesService } from "src/app/annes-site/shared/image/image.service";
 import { NgForm } from "@angular/forms";
+import { Component, OnInit, ViewChild, Input } from "@angular/core";
+
 import { MatDialogRef } from "@angular/material/dialog";
-import { ImageDialogComponent } from "../image-dialog/image-dialog.component";
-import { NgxImageCompressService } from "ngx-image-compress";
-import { FacadeService } from "../../../shared/facade/facade.service";
 import { takeUntil } from "rxjs/operators";
+import { NgxImageCompressService, DOC_ORIENTATION } from "ngx-image-compress";
+
+import { ImageDialogComponent } from "../image-dialog/image-dialog.component";
+import { FacadeService } from "../../../shared/facade/facade.service";
 import { BaseComponent } from "src/app/annes-site/core/base/base.component";
+import { ImageUploadObj } from "src/app/annes-site/shared/image/image";
 
 @Component({
   "selector": "app-upload-component",
@@ -19,10 +21,9 @@ export class UploadComponentComponent extends BaseComponent implements OnInit {
   public disabled: boolean = true;
   public loading: boolean = false;
   @ViewChild("uploadForm") private readonly uploadForm: HTMLFormElement;
-  @Input() galleryId: string;
+  @Input() private readonly galleryId: string;
 
-  constructor(
-    private img: ImagesService,
+  public constructor(
     public dialogRef: MatDialogRef<ImageDialogComponent>,
     private imageCompress: NgxImageCompressService,
     private facade: FacadeService
@@ -30,7 +31,7 @@ export class UploadComponentComponent extends BaseComponent implements OnInit {
     super();
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.facade
       .getIsUploadingImg()
       .pipe(takeUntil(this.ngUnsubscribe))
@@ -46,43 +47,51 @@ export class UploadComponentComponent extends BaseComponent implements OnInit {
       });
   }
 
-  uploadFile(form: NgForm) {
-    if (confirm("Haluatko varmasti ladata kuvan?") == false) {
-      return;
+  public uploadFile(form: NgForm): void {
+    if (confirm("Haluatko varmasti ladata kuvan?")) {
+      this.loading = true;
+
+      const uploadObject: ImageUploadObj = {
+        "alt_fi": form.value.alt_fi,
+        "alt_en": form.value.alt_en,
+        "image": this.imgUrl,
+      };
+
+      this.facade.imgUploadRequested(uploadObject, this.galleryId);
     }
-
-    this.loading = true;
-
-    const uploadObject = {
-      alt_fi: form.value.alt_fi,
-      alt_en: form.value.alt_en,
-      image: this.imgUrl,
-    };
-
-    this.facade.imgUploadRequested(uploadObject, this.galleryId);
   }
 
-  public cancelUpload() {
+  public cancelUpload(): void {
     this.dialogRef.close();
   }
 
-  compressFile() {
-    this.imageCompress.uploadFile().then(({ image, orientation }) => {
-      this.loading = true;
+  public compressFile(): void {
+    this.imageCompress
+      .uploadFile()
+      .then(
+        ({
+          image,
+          orientation,
+        }: {
+          image: string;
+          orientation: DOC_ORIENTATION;
+        }) => {
+          this.loading = true;
 
-      const quality =
-        this.imageCompress.byteCount(image) > 1500000
-          ? (1500000 / this.imageCompress.byteCount(image)) * 100
-          : 100;
+          const quality: number =
+            this.imageCompress.byteCount(image) > 1500000
+              ? (1500000 / this.imageCompress.byteCount(image)) * 100
+              : 100;
 
-      this.imageCompress
-        .compressFile(image, orientation, 100, quality)
-        .then((result) => {
-          this.imgUrl = result;
-          this.disabled = false;
+          this.imageCompress
+            .compressFile(image, orientation, 100, quality)
+            .then((result: string) => {
+              this.imgUrl = result;
+              this.disabled = false;
 
-          this.loading = false;
-        });
-    });
+              this.loading = false;
+            });
+        }
+      );
   }
 }
