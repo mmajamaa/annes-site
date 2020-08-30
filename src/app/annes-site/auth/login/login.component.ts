@@ -1,28 +1,21 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import { NgForm } from "@angular/forms";
 
-import { Observable } from "rxjs";
-
 import { FacadeService } from "../../shared/facade/facade.service";
-import { AuthenticationResponseData } from "./authentication-response-data";
 
 @Component({
-  selector: "app-login",
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.css"],
+  "selector": "app-login",
+  "templateUrl": "./login.component.html",
+  "styleUrls": ["./login.component.css"],
 })
-export class LoginComponent implements OnInit {
-  private authObs: Observable<AuthenticationResponseData>;
-
-  constructor(private facade: FacadeService) {
+export class LoginComponent {
+  public constructor(private facade: FacadeService) {
     this.facade.autoLogin();
   }
 
-  ngOnInit() {}
-
-  loginUser(form) {
-    const username = form.value.username;
-    const password = form.value.password;
+  public loginUser(form): void {
+    const username: string = form.value.username;
+    const password: string = form.value.password;
 
     this.facade.loginStart(username, password);
   }

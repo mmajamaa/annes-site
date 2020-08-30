@@ -6,31 +6,31 @@ import {
 } from "@angular/router";
 
 import { Observable } from "rxjs";
-import { map, take } from "rxjs/operators";
+import { map, takeUntil } from "rxjs/operators";
 
-import { AuthenticationService } from "../authentication.service";
 import { FacadeService } from "../../shared/facade/facade.service";
+import { BaseComponent } from "../../core/base/base.component";
 
 export interface CanComponentDeactivate {
   canDeactivate: () => Observable<boolean> | Promise<boolean> | boolean;
 }
 
-@Injectable({ providedIn: "root" })
+@Injectable({ "providedIn": "root" })
 export class DeactivateGuardService
+  extends BaseComponent
   implements CanDeactivate<CanComponentDeactivate> {
-  constructor(
-    private authenticationService: AuthenticationService,
-    private facade: FacadeService
-  ) {}
+  public constructor(private facade: FacadeService) {
+    super();
+  }
 
-  canDeactivate(
+  public canDeactivate(
     component: CanComponentDeactivate,
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ) {
+  ): Observable<boolean> {
     return this.facade.isLoggedIn().pipe(
-      take(1),
-      map((loggedIn) => {
+      takeUntil(this.ngUnsubscribe),
+      map((loggedIn: boolean) => {
         return !loggedIn;
       })
     );

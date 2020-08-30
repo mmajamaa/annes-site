@@ -183,8 +183,8 @@ export class SubGalleryEffects {
       ]) => {
         for (let i = 0; i < subGalleries.length; i++) {
           if (
-            subGalleries[i].fi == actionData.payload.fi ||
-            subGalleries[i].en == actionData.payload.en
+            subGalleries[i].fi === actionData.payload.fi ||
+            subGalleries[i].en === actionData.payload.en
           ) {
             this.snackBarService.openSnackBar(
               "Virhe gallerien luomisessa. Saman niminen galleria on jo olemassa.",
