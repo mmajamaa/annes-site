@@ -1,24 +1,26 @@
 import { Component, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { NgForm } from "@angular/forms";
-import { CdkDragDrop } from "@angular/cdk/drag-drop";
-
-import {
-  SubGalleryImportObj,
-  SubGalleryChanges,
-} from "src/app/annes-site/shared/sub-gallery/sub-gallery";
 import {
   MatDialog,
   MatDialogConfig,
   MatDialogRef,
 } from "@angular/material/dialog";
+import { CdkDragDrop } from "@angular/cdk/drag-drop";
+import { environment } from "src/environments/environment";
+
+import { Observable } from "rxjs";
+import { takeUntil } from "rxjs/operators";
+
+import {
+  SubGalleryImportObj,
+  SubGalleryChanges,
+} from "src/app/annes-site/shared/sub-gallery/sub-gallery";
+import { ImageStoreObj, ImageChanges } from "../../shared/image/image";
+import { FlagIcon } from "../../shared/flag-icon/flag-icon";
 import { FacadeService } from "../../shared/facade/facade.service";
 import { ImageDialogComponent } from "./image-dialog/image-dialog.component";
 import { BaseComponent } from "../../core/base/base.component";
-import { takeUntil } from "rxjs/operators";
 import { ImageModalComponent } from "./image-modal/image-modal.component";
-import { environment } from "src/environments/environment";
-import { Observable } from "rxjs";
-import { ImageStoreObj, ImageChanges } from "../../shared/image/image";
 
 @Component({
   "selector": "app-admin",
@@ -26,7 +28,7 @@ import { ImageStoreObj, ImageChanges } from "../../shared/image/image";
   "styleUrls": ["./admin.component.css"],
 })
 export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
-  public flagIcons: { "src": string; "alt": string }[] = [
+  public flagIcons: FlagIcon[] = [
     { "src": "./assets/fi.png", "alt": "fi" },
     { "src": "./assets/uk.png", "alt": "uk" },
   ];

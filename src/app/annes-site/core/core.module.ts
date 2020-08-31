@@ -1,11 +1,8 @@
-import { NgModule } from '@angular/core';
+import { NgModule } from "@angular/core";
 
-import { BaseComponent } from './base/base.component';
+import { BaseComponent } from "./base/base.component";
 
 @NgModule({
-    declarations: [
-        BaseComponent,
-    ]
+  "declarations": [BaseComponent],
 })
-
-export class CoreModule { }
+export class CoreModule {}

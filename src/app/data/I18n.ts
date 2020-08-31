@@ -1,3 +1,8 @@
+// TODO: implement
+/*export interface translation {
+  [key]: string;
+}*/
+
 export const fi = {
   home: "ETUSIVU",
   cv: "CV",
@@ -11,10 +16,10 @@ export const fi = {
   home_content:
     "Hei! Tervetuloa kotisivuilleni. Täältä löydät taidettani sekä muuta. -Anne :)",
   gallery_content: "Täällä näet pian taidettani...",
-  page_not_found: 'Sivua ei löytynyt.',
-  go_home: 'Mene etusivulle.',
-  gallery_empty: 'Tämä alagalleria on tyhjä.'
-}
+  page_not_found: "Sivua ei löytynyt.",
+  go_home: "Mene etusivulle.",
+  gallery_empty: "Tämä alagalleria on tyhjä.",
+};
 
 export const en = {
   home: "HOME",
@@ -25,13 +30,11 @@ export const en = {
   implementation: "Implementation",
   email: "Email",
   some: "Social media",
-  cv_content:
-    "Soon to be updated in English. Thank you for your patience.",
+  cv_content: "Soon to be updated in English. Thank you for your patience.",
   home_content:
     "Hi! Welcome to my website. Here you can find my art and more. -Anne :)",
   gallery_content: "Here you will see my art. Soon.",
-  page_not_found: 'Page not found.',
-  go_home: 'Go to homepage',
-  gallery_empty: 'This sub-gallery is empty.'
-
-}
+  page_not_found: "Page not found.",
+  go_home: "Go to homepage",
+  gallery_empty: "This sub-gallery is empty.",
+};

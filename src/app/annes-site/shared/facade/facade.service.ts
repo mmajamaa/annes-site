@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
+import { Update } from "@ngrx/entity";
 
 import * as AuthActions from "../../auth/store/auth.actions";
 import * as AuthSelectors from "../../auth/store/auth.selectors";
@@ -9,62 +10,70 @@ import * as SubGalleryActions from "../sub-gallery/sub-gallery.actions";
 import * as SubGallerySelectors from "../sub-gallery/sub-gallery.selectors";
 import * as ImageActions from "../image/image.actions";
 import * as ImageSelectors from "../image/image.selectors";
+import {
+  SubGalleryImportObj,
+  SubGalleryStoreObj,
+} from "../sub-gallery/sub-gallery";
+import { ImageUploadObj, ImageStoreObj } from "../image/image";
 
-@Injectable({ providedIn: "root" })
+@Injectable({ "providedIn": "root" })
 export class FacadeService {
-  constructor(private store: Store) {}
+  public constructor(private readonly store: Store) {}
 
-  autoLogin() {
+  public autoLogin(): void {
     this.store.dispatch(new AuthActions.AutoLogin());
   }
 
-  loginStart(username: string, password: string) {
-    this.store.dispatch(
-      new AuthActions.LoginStart({ username: username, password: password })
-    );
+  public loginStart(username: string, password: string): void {
+    this.store.dispatch(new AuthActions.LoginStart({ username, password }));
   }
 
-  logoutRequested() {
+  public logoutRequested(): void {
     this.store.dispatch(new AuthActions.LogoutRequested());
   }
 
-  isLoggedIn(): Observable<boolean> {
+  public isLoggedIn(): Observable<boolean> {
     return this.store.select(AuthSelectors.isLoggedIn);
   }
 
-  subGalleriesRequested(url: string) {
+  public subGalleriesRequested(url: string): void {
     return this.store.dispatch(
       new SubGalleryActions.SubGalleriesRequested({ url })
     );
   }
 
-  selectSubGalleries() {
+  public selectSubGalleries(): Observable<SubGalleryImportObj[]> {
     return this.store.select(SubGallerySelectors.selectAllSubGalleries);
   }
 
-  selectSubGallery(selectedSubGalleryId: string) {
+  public selectSubGallery(selectedSubGalleryId: string): void {
     this.store.dispatch(
       new SubGalleryActions.SubGallerySelected({ selectedSubGalleryId })
     );
   }
 
-  getSelectedSubGallery() {
+  public getSelectedSubGallery(): Observable<SubGalleryImportObj> {
     return this.store.select(SubGallerySelectors.selectCurrentSubGallery);
   }
 
-  subGalleriesUpdateToStoreRequested(subGalleries) {
+  public subGalleriesUpdateToStoreRequested(
+    subGalleries: Update<SubGalleryStoreObj>[]
+  ): void {
     this.store.dispatch(
       new SubGalleryActions.SubGalleriesUpdateToStoreRequested({
-        subGalleries: subGalleries,
+        subGalleries,
       })
     );
   }
 
-  subGalleriesPublishRequested() {
+  public subGalleriesPublishRequested(): void {
     this.store.dispatch(new SubGalleryActions.SubGalleriesPublishRequested());
   }
 
-  imgUploadRequested(uploadObject, subGalleryId) {
+  public imgUploadRequested(
+    uploadObject: ImageUploadObj,
+    subGalleryId: string
+  ): void {
     this.store.dispatch(
       new ImageActions.ImgUploadRequested({
         uploadObject,
@@ -73,33 +82,34 @@ export class FacadeService {
     );
   }
 
-  getIsUploadingImg() {
+  // TODO: rename/change state's field's type
+  public getIsUploadingImg(): Observable<string> {
     return this.store.select(ImageSelectors.isUploadingImg);
   }
 
-  deleteImgRequested(imgId, subGalleryId) {
+  public deleteImgRequested(imgId: string, subGalleryId: string): void {
     this.store.dispatch(
       new ImageActions.ImgDeleteRequested({ imgId, subGalleryId })
     );
   }
 
-  createSubGalleryRequested(fi: string, en: string) {
+  public createSubGalleryRequested(fi: string, en: string): void {
     this.store.dispatch(
       new SubGalleryActions.SubGalleryCreateRequested({ fi, en })
     );
   }
 
-  subGalleryDeleteRequested(subGalleryId: string) {
+  public subGalleryDeleteRequested(subGalleryId: string): void {
     this.store.dispatch(
       new SubGalleryActions.SubGalleryDeleteRequested({ subGalleryId })
     );
   }
 
-  getIsSubGalleryCreated() {
+  public getIsSubGalleryCreated(): Observable<boolean> {
     return this.store.select(SubGallerySelectors.isSubGalleryCreated);
   }
 
-  imagesUpdateToStoreRequested(images) {
+  public imagesUpdateToStoreRequested(images: Update<ImageStoreObj>[]): void {
     return this.store.dispatch(
       new ImageActions.ImgsUpdateToStoreRequested({ images })
     );

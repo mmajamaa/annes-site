@@ -1,25 +1,29 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { of, BehaviorSubject, Observable } from "rxjs";
-import * as I18n from '../../data/I18n';
+
+import { BehaviorSubject } from "rxjs";
+
+import * as I18n from "../../data/I18n";
 
 @Injectable({
-  providedIn: "root"
+  "providedIn": "root",
 })
 export class TranslationsService {
-  public I18n = new BehaviorSubject<any>(I18n.fi);
-  public language = "fi";
-  public lang = new BehaviorSubject<any>(this.language);
+  public I18n: BehaviorSubject<any> = new BehaviorSubject<any>(I18n.fi);
+  public language: string = "fi";
+  public lang: BehaviorSubject<string> = new BehaviorSubject<string>(
+    this.language
+  );
 
-  constructor(private http: HttpClient) { }
+  public constructor(private http: HttpClient) {}
 
-  toggleLanguage() {
-    this.I18n.next(this.language == "fi" ? I18n.en : I18n.fi);
-    this.language = this.language == "fi" ? "en" : "fi";
+  public toggleLanguage(): void {
+    this.I18n.next(this.language === "fi" ? I18n.en : I18n.fi);
+    this.language = this.language === "fi" ? "en" : "fi";
     this.lang.next(this.language);
   }
 
-  getLanguage() {
+  public getLanguage(): string {
     return this.language;
   }
 }

@@ -1,25 +1,27 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
+
+import { takeUntil } from "rxjs/operators";
+
 import { TranslationsService } from "../translations.service";
-import { Subscription } from "rxjs";
+import { BaseComponent } from "../../core/base/base.component";
 
 @Component({
-  selector: "app-home",
-  templateUrl: "./home.component.html",
-  styleUrls: ["./home.component.css"],
+  "selector": "app-home",
+  "templateUrl": "./home.component.html",
+  "styleUrls": ["./home.component.css"],
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent extends BaseComponent implements OnInit, OnDestroy {
   public I18n: any;
-  private I18nSubscription: Subscription;
 
-  constructor(private translationsService: TranslationsService) {}
-
-  ngOnInit() {
-    this.I18nSubscription = this.translationsService.I18n.subscribe((r) => {
-      this.I18n = r;
-    });
+  public constructor(private translationsService: TranslationsService) {
+    super();
   }
 
-  ngOnDestroy() {
-    this.I18nSubscription.unsubscribe();
+  public ngOnInit(): void {
+    this.translationsService.I18n.pipe(takeUntil(this.ngUnsubscribe)).subscribe(
+      (r) => {
+        this.I18n = r;
+      }
+    );
   }
 }

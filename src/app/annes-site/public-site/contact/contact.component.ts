@@ -1,32 +1,39 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { TranslationsService } from '../translations.service';
-import { RedirectService } from '../redirect.service';
-import { Subscription } from 'rxjs';
+import { Component, OnInit } from "@angular/core";
+
+import { takeUntil } from "rxjs/operators";
+
+import { TranslationsService } from "../translations.service";
+import { RedirectService } from "../redirect.service";
+import { BaseComponent } from "../../core/base/base.component";
 
 @Component({
-  selector: 'app-contact',
-  templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.css']
+  "selector": "app-contact",
+  "templateUrl": "./contact.component.html",
+  "styleUrls": ["./contact.component.css"],
 })
-export class ContactComponent implements OnInit, OnDestroy {
+export class ContactComponent extends BaseComponent implements OnInit {
   public I18n: any;
-  private I18nSubscription: Subscription;
 
-  constructor(private translationsService: TranslationsService, private redirectService: RedirectService) { }
-
-  ngOnInit() {
-    this.I18nSubscription = this.translationsService.I18n.subscribe(r => { this.I18n = r });
+  public constructor(
+    private translationsService: TranslationsService,
+    private redirectService: RedirectService
+  ) {
+    super();
   }
 
-  openIg() {
+  public ngOnInit(): void {
+    this.translationsService.I18n.pipe(takeUntil(this.ngUnsubscribe)).subscribe(
+      (r) => {
+        this.I18n = r;
+      }
+    );
+  }
+
+  public openIg(): void {
     this.redirectService.openIg();
   }
 
-  mail() {
-    window.location.href = 'mailto:anne';
-  }
-
-  ngOnDestroy() {
-    this.I18nSubscription.unsubscribe();
+  public mail(): void {
+    window.location.href = "mailto:anne";
   }
 }

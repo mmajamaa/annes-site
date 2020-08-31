@@ -2,6 +2,7 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 import * as fromSubGallery from "./sub-gallery.reducer";
 import * as imageSelectors from "../image/image.selectors";
+import { SubGalleryImportObj } from "./sub-gallery";
 
 export const selectSubGalleryState = createFeatureSelector<
   fromSubGallery.State
@@ -15,7 +16,7 @@ export const selectAll = createSelector(
 export const selectAllSubGalleries = createSelector(
   selectAll,
   imageSelectors.selectAll,
-  (subGalleries, imgEntities) => {
+  (subGalleries, imgEntities): SubGalleryImportObj[] => {
     let sgs = [];
     for (let sgId in subGalleries) {
       let sgsImgs = [];

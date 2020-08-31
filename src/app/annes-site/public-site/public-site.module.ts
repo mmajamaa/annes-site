@@ -14,7 +14,7 @@ import { NotFoundComponent } from "../shared/not-found/not-found.component";
 import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
-  declarations: [
+  "declarations": [
     HomeComponent,
     ContactComponent,
     CvComponent,
@@ -25,37 +25,37 @@ import { SharedModule } from "../shared/shared.module";
     SubGalleryComponent,
     NotFoundComponent,
   ],
-  imports: [
+  "imports": [
     RouterModule.forChild([
       {
-        path: "",
-        component: LayoutComponent,
-        children: [
+        "path": "",
+        "component": LayoutComponent,
+        "children": [
           {
-            path: "",
-            pathMatch: "full",
-            redirectTo: "home",
+            "path": "",
+            "pathMatch": "full",
+            "redirectTo": "home",
           },
           {
-            path: "home",
-            component: HomeComponent,
+            "path": "home",
+            "component": HomeComponent,
           },
           {
-            path: "contact",
-            component: ContactComponent,
+            "path": "contact",
+            "component": ContactComponent,
           },
           {
-            path: "cv",
-            component: CvComponent,
+            "path": "cv",
+            "component": CvComponent,
           },
           {
-            path: "gallery",
-            component: GalleryComponent,
-            children: [{ path: ":en", component: SubGalleryComponent }],
+            "path": "gallery",
+            "component": GalleryComponent,
+            "children": [{ "path": ":en", "component": SubGalleryComponent }],
           },
           {
-            path: "page-not-found",
-            component: NotFoundComponent,
+            "path": "page-not-found",
+            "component": NotFoundComponent,
           },
         ],
       },

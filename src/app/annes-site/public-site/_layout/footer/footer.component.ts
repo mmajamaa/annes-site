@@ -1,38 +1,41 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
-import { TranslationsService } from '../../translations.service';
-import { RedirectService } from '../../redirect.service';
-import { Subscription } from 'rxjs';
-import { mainEmail, devEmail } from '../../../../data/variables';
+import { Component, OnInit, Inject } from "@angular/core";
+
+import { takeUntil } from "rxjs/operators";
+
+import { TranslationsService } from "../../translations.service";
+import { RedirectService } from "../../redirect.service";
+import { mainEmail, devEmail } from "../../../../data/variables";
+import { BaseComponent } from "src/app/annes-site/core/base/base.component";
 
 @Component({
-  selector: 'app-footer',
-  templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.css']
+  "selector": "app-footer",
+  "templateUrl": "./footer.component.html",
+  "styleUrls": ["./footer.component.css"],
 })
-export class FooterComponent implements OnInit, OnDestroy {
+export class FooterComponent extends BaseComponent implements OnInit {
   public I18n: any;
-  private I18nSubscription: Subscription;
   public url: string;
   public mainEmail: string = mainEmail;
   public devEmail: string = devEmail;
 
-  constructor(
+  public constructor(
     private translationsService: TranslationsService,
     private redirectService: RedirectService,
     @Inject(Window) private window: Window
+  ) {
+    super();
+  }
 
-  ) { }
-
-  ngOnInit() {
-    this.I18nSubscription = this.translationsService.I18n.subscribe(r => { this.I18n = r });
+  public ngOnInit(): void {
+    this.translationsService.I18n.pipe(takeUntil(this.ngUnsubscribe)).subscribe(
+      (r) => {
+        this.I18n = r;
+      }
+    );
     this.url = this.window.location.hostname;
   }
 
-  openIg() {
+  public openIg(): void {
     this.redirectService.openIg();
-  }
-
-  ngOnDestroy() {
-    this.I18nSubscription.unsubscribe();
   }
 }

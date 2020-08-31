@@ -1,15 +1,12 @@
+// TODO: Remove this service?
 import { Injectable } from "@angular/core";
-import { instagramLink } from '../../data/variables';
+import { instagramLink } from "../../data/variables";
 
 @Injectable({
-  providedIn: "root"
+  "providedIn": "root",
 })
 export class RedirectService {
-  private instagramLink: string = instagramLink;
-
-  constructor() { }
-
-  openIg() {
-    window.open(instagramLink, '_blank');
+  public openIg(): void {
+    window.open(instagramLink, "_blank");
   }
 }
