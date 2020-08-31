@@ -1,27 +1,34 @@
+import { Injectable } from "@angular/core";
 import {
   Resolve,
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   Router,
 } from "@angular/router";
+
+import { Subscription } from "rxjs";
+
 import { AuthenticationService } from "./authentication.service";
-import { Injectable } from "@angular/core";
+import { AuthenticationResponseData } from "./login/authentication-response-data";
 
 @Injectable({
-  providedIn: "root",
+  "providedIn": "root",
 })
-export class AuthResolver implements Resolve<any> {
-  constructor(
+export class AuthResolver implements Resolve<Subscription> {
+  public constructor(
     private authenticationService: AuthenticationService,
     private router: Router
   ) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  public resolve(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Subscription {
     return this.authenticationService.authStatus().subscribe(
-      (data) => {
+      (data: AuthenticationResponseData) => {
         return data;
       },
-      (error) => {
+      () => {
         this.router.navigate(["/auth/login"]);
       }
     );

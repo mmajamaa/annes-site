@@ -6,10 +6,12 @@ export const selectAuthState = createFeatureSelector<fromAuth.State>("auth");
 
 export const isLoggedIn = createSelector(
   selectAuthState,
-  (state) => state.isLoggedIn
+  (state: fromAuth.State) => state.isLoggedIn
 );
 
 export const isQuickSave = createSelector(
   selectAuthState,
-  (state) => state.quickSave
+  (state: fromAuth.State) => state.quickSave
 );
+
+// TODO: finish typing

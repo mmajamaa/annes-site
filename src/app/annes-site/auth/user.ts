@@ -1,3 +1,4 @@
+// TODO: Replace with an interface?
 export class User {
-  constructor(public username: string, public token: string) {}
+  public constructor(public username: string, public token: string) {}
 }

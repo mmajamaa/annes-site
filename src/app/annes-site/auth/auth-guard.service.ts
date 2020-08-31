@@ -1,22 +1,38 @@
-import { Injectable } from '@angular/core'
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, UrlTree, ActivatedRoute } from '@angular/router';
-import { Observable, throwError, of } from 'rxjs';
-import { AuthenticationService } from './authentication.service';
-import { map, take, catchError } from 'rxjs/operators';
+import { Injectable } from "@angular/core";
+import {
+  CanActivate,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+  Router,
+  ActivatedRoute,
+} from "@angular/router";
 
-@Injectable({ providedIn: 'root' })
+import { Observable, of } from "rxjs";
+import { map, catchError } from "rxjs/operators";
+
+import { AuthenticationService } from "./authentication.service";
+import { AuthenticationResponseData } from "./login/authentication-response-data";
+
+@Injectable({ "providedIn": "root" })
 export class AuthGuard implements CanActivate {
-    constructor(private authenticationService: AuthenticationService, private router: Router, private route: ActivatedRoute) { }
+  public constructor(
+    private authenticationService: AuthenticationService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.authenticationService.authStatus().pipe(map(
-            data => {
-                return true;
-            }
-        ), catchError(error => {
-            this.router.navigate(['/auth/login']);
-            return of(error)
-        })
-        );
-    }
-} 
+  public canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> {
+    return this.authenticationService.authStatus().pipe(
+      map((data: AuthenticationResponseData) => {
+        return true;
+      }),
+      catchError(() => {
+        this.router.navigate(["/auth/login"]);
+        return of(false);
+      })
+    );
+  }
+}
