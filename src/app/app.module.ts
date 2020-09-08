@@ -19,8 +19,8 @@ import { CoreModule } from "./annes-site/core/core.module";
 import { ImageEffetcs } from "./annes-site/shared/image/image.effects";
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [
+  "declarations": [AppComponent],
+  "imports": [
     CoreModule,
     MatSnackBarModule,
     BrowserModule,
@@ -29,12 +29,12 @@ import { ImageEffetcs } from "./annes-site/shared/image/image.effects";
     BrowserAnimationsModule,
     StoreModule.forRoot(fromApp.appReducer),
     EffectsModule.forRoot([AuthEffects, SubGalleryEffects, ImageEffetcs]),
-    StoreDevtoolsModule.instrument({ logOnly: environment.production }),
+    StoreDevtoolsModule.instrument({ "logOnly": environment.production }),
     ServiceWorkerModule.register("ngsw-worker.js", {
-      enabled: environment.production,
+      "enabled": environment.production,
     }),
   ],
-  providers: [{ provide: Window, useValue: window }],
-  bootstrap: [AppComponent],
+  "providers": [{ "provide": Window, "useValue": window }],
+  "bootstrap": [AppComponent],
 })
 export class AppModule {}
