@@ -101,7 +101,7 @@
                     </div>
                     <img
                       fxFlex="nogrow"
-                      src="{{ img.url }}"
+                      [src]="domSanitizer.bypassSecurityTrustUrl(img.url)"
                       alt="{{ img.alt_fi }}"
                       id="myImg"
                       class="image"

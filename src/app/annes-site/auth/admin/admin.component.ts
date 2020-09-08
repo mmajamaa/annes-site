@@ -7,6 +7,7 @@ import {
 } from "@angular/material/dialog";
 import { CdkDragDrop } from "@angular/cdk/drag-drop";
 import { environment } from "src/environments/environment";
+import { DomSanitizer } from "@angular/platform-browser";
 
 import { Observable } from "rxjs";
 import { takeUntil } from "rxjs/operators";
@@ -43,7 +44,8 @@ export class AdminComponent extends BaseComponent implements OnInit, OnDestroy {
 
   public constructor(
     private readonly dialog: MatDialog,
-    private facade: FacadeService
+    private facade: FacadeService,
+    public domSanitizer: DomSanitizer
   ) {
     super();
   }

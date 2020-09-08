@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
+import { DomSanitizer } from "@angular/platform-browser";
 
 import { takeUntil } from "rxjs/operators";
 import { Observable } from "rxjs";
@@ -24,7 +25,8 @@ export class SubGalleryComponent
 
   public constructor(
     private readonly translationsService: TranslationsService,
-    private readonly facade: FacadeService
+    private readonly facade: FacadeService,
+    public domSanitizer: DomSanitizer
   ) {
     super();
   }
