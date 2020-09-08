@@ -65,6 +65,7 @@ export class UploadComponentComponent extends BaseComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  // NOTE: not in use
   public compressFile(): void {
     this.imageCompress
       .uploadFile()
