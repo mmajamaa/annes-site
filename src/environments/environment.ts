@@ -1,13 +1,11 @@
-const secretUrl = localStorage.getItem("secretUrl");
-
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  subGalleryUrl: secretUrl,
-  baseUrl: "http://localhost:4201",
+  "production": false,
+  "subGalleryUrl": "http://localhost:4201/sub_gallery_data.json",
+  "baseUrl": "http://localhost:4201",
 };
 
 /*
