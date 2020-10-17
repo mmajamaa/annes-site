@@ -4,6 +4,7 @@ import { takeUntil } from "rxjs/operators";
 
 import { TranslationsService } from "../translations.service";
 import { BaseComponent } from "../../core/base/base.component";
+import * as vars from "../../../data/variables";
 
 @Component({
   "selector": "app-home",
@@ -12,6 +13,7 @@ import { BaseComponent } from "../../core/base/base.component";
 })
 export class HomeComponent extends BaseComponent implements OnInit, OnDestroy {
   public I18n: any;
+  public vars = vars;
 
   public constructor(private translationsService: TranslationsService) {
     super();
