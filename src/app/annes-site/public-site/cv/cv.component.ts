@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 
-import { Subscription } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 
 import { TranslationsService } from "../translations.service";
@@ -14,8 +13,6 @@ import { BaseComponent } from "../../core/base/base.component";
 export class CvComponent extends BaseComponent implements OnInit {
   public I18n: any;
   public language: string;
-  private I18nSubscription: Subscription;
-  private langSubscription: Subscription;
 
   public constructor(private translationsService: TranslationsService) {
     super();
